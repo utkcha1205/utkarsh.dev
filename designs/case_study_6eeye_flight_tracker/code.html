@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#adc6ff",
+                    "primary-fixed": "#d8e2ff",
+                    "secondary": "#d2bbff",
+                    "primary-container": "#4d8eff",
+                    "inverse-surface": "#e1e2ec",
+                    "on-tertiary": "#502400",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-tertiary-container": "#461f00",
+                    "inverse-on-surface": "#2e3038",
+                    "surface": "#10131a",
+                    "surface-container-lowest": "#0b0e15",
+                    "on-surface-variant": "#c2c6d6",
+                    "surface-bright": "#363941",
+                    "on-primary": "#002e6a",
+                    "error-container": "#93000a",
+                    "on-primary-container": "#00285d",
+                    "surface-variant": "#32353c",
+                    "secondary-fixed-dim": "#d2bbff",
+                    "outline": "#8c909f",
+                    "on-secondary": "#3f008e",
+                    "on-background": "#e1e2ec",
+                    "primary": "#adc6ff",
+                    "secondary-container": "#6001d1",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "on-secondary-fixed": "#25005a",
+                    "background": "#10131a",
+                    "surface-container-highest": "#32353c",
+                    "outline-variant": "#424754",
+                    "on-primary-fixed-variant": "#004395",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "surface-container-high": "#272a31",
+                    "surface-dim": "#10131a",
+                    "surface-container": "#1d2027",
+                    "tertiary-fixed": "#ffdcc6",
+                    "on-tertiary-fixed": "#311400",
+                    "on-surface": "#e1e2ec",
+                    "tertiary": "#ffb786",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "tertiary-container": "#df7412",
+                    "secondary-fixed": "#eaddff",
+                    "inverse-primary": "#005ac2",
+                    "surface-container-low": "#191b23",
+                    "on-error": "#690005",
+                    "on-error-container": "#ffdad6",
+                    "on-primary-fixed": "#001a42",
+                    "error": "#ffb4ab",
+                    "on-secondary-container": "#c9aeff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "section-gap": "160px",
+                    "gutter": "24px",
+                    "margin-safe": "32px",
+                    "container-max": "1200px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-hero": ["Inter"],
+                    "mono-label": ["Space Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["64px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-hero": ["80px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "mono-label": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .inner-glow {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .bloom-hover:hover {
+            box-shadow: 0 0 40px -10px rgba(77, 142, 255, 0.3);
+            border-color: #4d8eff;
+        }
+        .horizontal-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(241, 245, 249, 0.2) 50%, transparent 100%);
+        }
+        .radar-sweep {
+            background: conic-gradient(from 0deg, transparent 0deg, rgba(77, 142, 255, 0.15) 90deg, transparent 180deg);
+            animation: rotate 4s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-xl border-b border-white/10">
+<div class="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
+<div class="text-xl font-bold tracking-tighter text-slate-50 dark:text-slate-50 font-headline-md">
+                UC / LEAD
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-400 font-medium hover:text-slate-100 transition-colors font-mono-label text-mono-label" href="#">Projects</a>
+<a class="text-blue-500 font-semibold border-b border-blue-500 pb-1 font-mono-label text-mono-label" href="#">Experience</a>
+<a class="text-slate-400 font-medium hover:text-slate-100 transition-colors font-mono-label text-mono-label" href="#">Leadership</a>
+<a class="text-slate-400 font-medium hover:text-slate-100 transition-colors font-mono-label text-mono-label" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">terminal</span>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-lg font-medium text-sm transition-all hover:opacity-90 inner-glow">
+                    Get in Touch
+                </button>
+</div>
+</div>
+</nav>
+<main class="pt-16">
+<!-- Section 1: Hero -->
+<header class="relative min-h-[921px] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background to-background"></div>
+<div class="absolute inset-0 opacity-20 radar-sweep"></div>
+<img class="w-full h-full object-cover grayscale opacity-40" data-alt="Technical dark map of India with flight paths and glowing data nodes, aviation radar aesthetic, blue and slate tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO_Bl90XJKO656Lmagrg-DNljUmieL8Uq2N20T2IKqKUUPy9HE7PU1OxCoLYdguKEeLDgI0lamf78QOm_oqg-R2cO6kqlPyLoAuTmtQkQXhlJ6sB2UsMXq_HmPhqlyRiYqK68p2TjbAnJOlurhqBQ-C-EX_pKT0_j5PQF5YYlihhlDHAQ4fpZuwIRD_wvFVTmFwfOKHzOYZ0lYPxlhwVZmcxM0t6-HZLSU_4XKWIReXMBYO6MvO8bl3nChs1jgn10MOEuLpHZHBNs"/>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-8 w-full text-center">
+<div class="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/10 border border-primary-container/20">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-mono-label text-mono-label text-primary">Case Study: 6eEye</span>
+</div>
+<h1 class="font-display-hero text-display-hero text-on-surface mb-6">
+                    Aviation at <span class="text-primary-container">Scale.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
+                    Lead Architect for Indigo Airlines' mission-critical flight tracking ecosystem, managing real-time data for over 300 active aircraft simultaneously.
+                </p>
+<div class="flex flex-wrap justify-center gap-4">
+<div class="glass-panel px-6 py-3 rounded-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">architecture</span>
+<span class="font-mono-label text-mono-label text-on-surface">Lead Architect</span>
+</div>
+<div class="glass-panel px-6 py-3 rounded-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="font-mono-label text-mono-label text-on-surface">18 Month Deployment</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2">
+<div class="w-px h-20 bg-gradient-to-b from-primary to-transparent"></div>
+</div>
+</header>
+<!-- Section 2: The Challenge -->
+<section class="max-w-7xl mx-auto px-8 py-section-gap">
+<div class="grid md:grid-columns-12 grid-cols-1 gap-12 items-center">
+<div class="md:col-span-5">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-8">The Challenge.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
+                        Legacy systems suffered from high latency and inconsistent data synchronization. The objective was to build a low-latency, resilient architecture capable of rendering 1000+ data points per second with zero drift.
+                    </p>
+<ul class="space-y-4">
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-1">warning</span>
+<span class="text-on-surface-variant">Synchronizing global aviation API feeds with sub-second precision.</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-1">warning</span>
+<span class="text-on-surface-variant">Rendering complex map geometries without sacrificing UI responsiveness.</span>
+</li>
+</ul>
+</div>
+<div class="md:col-span-7">
+<div class="glass-panel p-8 rounded-2xl relative overflow-hidden">
+<img class="w-full h-[400px] object-cover rounded-xl border border-white/5" data-alt="Digital representation of complex network data nodes connecting globally, glowing blue filaments on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeN7Dm5aq1mc-5xWcjziP5-_yFoGlq4yoUygld4lXdG_K-O4EGPds-sl8-_EK3hnbc99H49BOEl_-5CuvkLwGoubptl5PUYtSJJKH6t7XpbYtHQ0bRyQrZQPYB9fbGyzo4BXQ9GjCirtuFVFpDxwiXWwgyiLR_UNNy3ljHok6aKPC8qV1syxU4VzlJhN6O-lLElSeYZtHkQN8WVuRTIm63h7urlNO_vM3O6sO-NmmZknbe3kf65Thfz0pmJFD15ALns5Qd3U3NfdA"/>
+<div class="absolute top-12 right-12 bg-surface p-4 rounded-lg border border-primary-container/30 shadow-2xl">
+<div class="text-mono-label font-mono-label text-primary mb-1">LATENCY REDUCTION</div>
+<div class="text-headline-md font-headline-md text-on-surface">-4.2s</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="horizontal-divider"></div>
+<!-- Section 3: Technical Stack -->
+<section class="max-w-7xl mx-auto px-8 py-section-gap">
+<div class="text-center mb-16">
+<h2 class="font-headline-md text-headline-md text-on-surface">Engineered for Performance.</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">A modular stack designed for vertical scalability.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="glass-panel p-8 rounded-2xl text-center bloom-hover transition-all flex flex-col items-center gap-4">
+<img class="w-12 h-12 grayscale brightness-200" data-alt="React logo icon in high definition glass style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCDjI0k58sHM2g3au0qh4693TnhqU2W6uHvztxRI8FwO7KFcHvD1QvECiI61m52iMQNHj7cn6LU3nSl3l5FtTiABXUhVomMLphefIXxdDzuujpnsCmXyGbm3GVnttiOpnRnZOCmk4u92mwncSBfiAlLOcHM9UyXOqMJ274dJj8DGzU6LVMV5lQtmGX1E-TveZnT2d29TzVQR8fAD-YaCvtBBFHtyQRxKgnD1ACXM25Xm7uG4WtWjkQAhHeXPS925RlqvSUbKBKGpk"/>
+<span class="font-mono-label text-mono-label text-secondary">React 18</span>
+</div>
+<div class="glass-panel p-8 rounded-2xl text-center bloom-hover transition-all flex flex-col items-center gap-4">
+<img class="w-12 h-12 grayscale brightness-200" data-alt="Node.js logo stylized in neon green and slate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6jHsYaS711lFHPghM964-81iSebehxSG_QhoAyFy7rb07k5Wkp-yzFo-PLR48R82UWM2XJBj87GS0mzgVLnkWsu7DWkCmdDCuaFD6FqSHPpSkZ7hvywuda_P0U6UERfVO2h6GsXixLMVxvJFooNhtFS6FIq8K1KhztX16u0_kgDVLmU1KPiK42kdGX9WbXHKwgnC1VEiLAsExD68oOkhijsYaxZZPnDqm8pi2AU5kXH_vq_EEQe1kmdjGdzDWa0e3yKc_EJ3k8dw"/>
+<span class="font-mono-label text-mono-label text-secondary">Node.js</span>
+</div>
+<div class="glass-panel p-8 rounded-2xl text-center bloom-hover transition-all flex flex-col items-center gap-4">
+<img class="w-12 h-12 grayscale brightness-200" data-alt="Database icon symbol in metallic silver" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgqD0NRSZyfYLaJFDIf7U6nPJR_2w9u4btYGFjaO27p6bXLrmYF6BCRcIfX53nbgOtE2Lo4Z2SvFNldO4Sz68zvrMMOLi-r1Fg6XHZG1j4i1586D7cU1hwE0R-jeA573BDuVY_i9GTOxBqGySz3Y7IC5tBBg1QtW-VKJSAs5_lX6dZtTFLd3zH1OJeFn9pJ7zQqlrNe5OchqHjQknnDKtJFepfmrfidE9Erphy5Tm0mtLJMujfcb2KCp5ksrteZmljJI01QNQKxVc"/>
+<span class="font-mono-label text-mono-label text-secondary">MongoDB</span>
+</div>
+<div class="glass-panel p-8 rounded-2xl text-center bloom-hover transition-all flex flex-col items-center gap-4">
+<img class="w-12 h-12 grayscale brightness-200" data-alt="Digital map pin icon with glowing vector lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaelJ8FPgYox0EKvVWgtDDE53JCDolGKBq6B6thV_hlb5_X-1MxX9W3LDO6T2TJPTzlSGNZCSSRsVCYBMzQPGBLaFvUtsCdzPagWLCYBq_u1QBXrqdXiQK_4s4soHQDkrCt1ZBBUd-nPCDl98cW9kWt-dYID1eHCJMVVHuy5wZYE4-ffBEibvVbLiVuDOiXgArn9DTZXYV896UYF9UIUj8eY82YIRTwZoPAew9FbvbHmR3lfurLIwceP3KNliL1GiKo9xzSGCxvzc"/>
+<span class="font-mono-label text-mono-label text-secondary">Mapbox GL</span>
+</div>
+<div class="glass-panel p-8 rounded-2xl text-center bloom-hover transition-all flex flex-col items-center gap-4">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant">bolt</span>
+<span class="font-mono-label text-mono-label text-secondary">WebSockets</span>
+</div>
+</div>
+</section>
+<!-- Section 4: Key Features (Bento Grid) -->
+<section class="max-w-7xl mx-auto px-8 py-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-6 h-auto md:h-[600px]">
+<div class="md:col-span-2 glass-panel p-10 rounded-3xl relative overflow-hidden group">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-primary text-4xl mb-4">public</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Live Map Rendering</h3>
+<p class="text-on-surface-variant font-body-md max-w-md">Implemented vector-tile rendering for fluid zooming across 20+ zoom levels with 0fps drop.</p>
+</div>
+<div class="absolute bottom-0 right-0 w-1/2 h-1/2 opacity-20 group-hover:opacity-40 transition-opacity">
+<img class="w-full h-full object-cover rounded-tl-3xl border-l border-t border-primary/20" data-alt="Satellite map view of city lights at night from space, high detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlpLfVZG38gz2FkGufw9iRiS2GNI2vCWf5x_U5TJAV22yN2X-S3ZLk_hZPDhSaYn3VrbMri0_mLgtXlNyvknEG8G7QlK8JF2OWxzJEYePMUqSQxhr2Wh1jJ4TMOYOM0UXT_Ti6Mr7gkiUSd1UbPrNM1u6Ovf8srVtGMrbWdQzOiiruUMQGq9p99BqeMDqpMfLV-NErWGofTQ8mZXFS0dmiXWVqk7SUoUEyOndmkX22FwiPfkMChtYysK4R3F5rQQIclNeMD6mM63I"/>
+</div>
+</div>
+<div class="glass-panel p-10 rounded-3xl flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-primary text-4xl mb-4">api</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">API Fabric</h3>
+</div>
+<p class="text-on-surface-variant font-body-md">Seamless integration with global aviation feeds, processing JSON payloads at 5ms intervals.</p>
+</div>
+<div class="glass-panel p-10 rounded-3xl flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-primary text-4xl mb-4">speed</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">50% Boost</h3>
+</div>
+<p class="text-on-surface-variant font-body-md">Optimized WebGL buffer management to reduce memory overhead by half.</p>
+</div>
+<div class="md:col-span-2 glass-panel p-10 rounded-3xl relative flex items-center">
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Real-time Telemetry</h3>
+<p class="text-on-surface-variant font-body-md">WebSocket clusters handling concurrent connections for the entire operations team.</p>
+</div>
+<div class="flex-1 flex justify-end gap-2">
+<div class="w-1 bg-primary/20 h-24 rounded-full relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full bg-primary h-3/4 animate-pulse"></div>
+</div>
+<div class="w-1 bg-primary/20 h-32 rounded-full relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full bg-primary h-1/2 animate-pulse"></div>
+</div>
+<div class="w-1 bg-primary/20 h-28 rounded-full relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full bg-primary h-4/5 animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Results & Impact -->
+<section class="bg-surface-container-low py-section-gap">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid md:grid-cols-2 gap-20 items-center">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-8">Precision Results.</h2>
+<div class="space-y-12">
+<div class="flex items-center gap-8">
+<div class="text-headline-lg font-headline-lg text-primary">3s</div>
+<div>
+<div class="font-mono-label text-mono-label text-secondary mb-1">TIME TO INTERACTIVE</div>
+<div class="text-on-surface-variant font-body-md">Reduced from 6s through lazy-loading modules and SVG sprite optimization.</div>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-headline-lg font-headline-lg text-primary">0</div>
+<div>
+<div class="font-mono-label text-mono-label text-secondary mb-1">DOWNTIME LOGGED</div>
+<div class="text-on-surface-variant font-body-md">Achieved 99.99% availability during peak flight windows using AWS failover.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -inset-4 bg-primary/10 blur-3xl rounded-full"></div>
+<div class="glass-panel p-2 rounded-2xl border-white/10 relative z-10">
+<img class="w-full rounded-xl shadow-2xl" data-alt="Modern high-tech dashboard displaying financial graphs and data trends with a premium dark blue interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH2jj83bp56_J8WCpYD4ZDf_aasDDH0S-iP9L7AoEZGPbwMajLJ3kYA_yOxPGVLAUsaigpmgREtE4OPMN8OX9c4yeUhAqyxtcfbFk-1ulRDnaSIkG5gJO9auFVdf-3dBKTSs3_cR-QcYxqCocH16eBa55vaDCWtB0Kp9N-UVRCJ0XpVsBvjisIa-CIf5z5_U9CdZnR7_12vCORJc7pK3LX-w7W1Abmep4-i7oAG19YLgIE5OrwX9Djg4X17jr9wBBX2l54lPrlVeo"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Next Project -->
+<section class="max-w-7xl mx-auto px-8 py-section-gap text-center">
+<div class="horizontal-divider mb-section-gap"></div>
+<div class="font-mono-label text-mono-label text-on-surface-variant mb-4">UP NEXT</div>
+<a class="group block" href="#">
+<h2 class="font-headline-lg text-headline-lg text-on-surface group-hover:text-primary transition-colors mb-4">Neural Infrastructure →</h2>
+<p class="text-on-surface-variant font-body-lg max-w-xl mx-auto">Scalable backend architecture for AI-driven logistics.</p>
+</a>
+<div class="mt-20">
+<a class="text-primary-container font-mono-label text-mono-label hover:underline flex items-center justify-center gap-2" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+                    Back to Portfolio
+                </a>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-20 mt-40 border-t border-gradient-to-r from-transparent via-white/20 to-transparent bg-slate-950">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="font-bold text-slate-200 font-headline-md">
+                UC / LEAD
+            </div>
+<div class="flex gap-8">
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-slate-200 transition-colors" href="#">Architecture</a>
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-slate-200 transition-colors" href="#">Systems</a>
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-slate-200 transition-colors" href="#">Methodology</a>
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-slate-200 transition-colors" href="#">Contact</a>
+</div>
+<div class="font-inter text-xs uppercase tracking-widest text-slate-500">
+                © 2024 UTKARSH CHATURVEDI. ENGINEERED FOR PRECISION.
+            </div>
+</div>
+</footer>
+</body></html>

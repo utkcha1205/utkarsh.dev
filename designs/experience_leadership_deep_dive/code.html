@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#adc6ff",
+                    "primary-fixed": "#d8e2ff",
+                    "secondary": "#d2bbff",
+                    "primary-container": "#4d8eff",
+                    "inverse-surface": "#e1e2ec",
+                    "on-tertiary": "#502400",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-tertiary-container": "#461f00",
+                    "inverse-on-surface": "#2e3038",
+                    "surface": "#10131a",
+                    "surface-container-lowest": "#0b0e15",
+                    "on-surface-variant": "#c2c6d6",
+                    "surface-bright": "#363941",
+                    "on-primary": "#002e6a",
+                    "error-container": "#93000a",
+                    "on-primary-container": "#00285d",
+                    "surface-variant": "#32353c",
+                    "secondary-fixed-dim": "#d2bbff",
+                    "outline": "#8c909f",
+                    "on-secondary": "#3f008e",
+                    "on-background": "#e1e2ec",
+                    "primary": "#adc6ff",
+                    "secondary-container": "#6001d1",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "on-secondary-fixed": "#25005a",
+                    "background": "#10131a",
+                    "surface-container-highest": "#32353c",
+                    "outline-variant": "#424754",
+                    "on-primary-fixed-variant": "#004395",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "surface-container-high": "#272a31",
+                    "surface-dim": "#10131a",
+                    "surface-container": "#1d2027",
+                    "tertiary-fixed": "#ffdcc6",
+                    "on-tertiary-fixed": "#311400",
+                    "on-surface": "#e1e2ec",
+                    "tertiary": "#ffb786",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "tertiary-container": "#df7412",
+                    "secondary-fixed": "#eaddff",
+                    "inverse-primary": "#005ac2",
+                    "surface-container-low": "#191b23",
+                    "on-error": "#690005",
+                    "on-error-container": "#ffdad6",
+                    "on-primary-fixed": "#001a42",
+                    "error": "#ffb4ab",
+                    "on-secondary-container": "#c9aeff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "section-gap": "160px",
+                    "gutter": "24px",
+                    "margin-safe": "32px",
+                    "container-max": "1200px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-hero": ["Inter"],
+                    "mono-label": ["Space Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["64px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-hero": ["80px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "mono-label": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: #4d8eff;
+            box-shadow: 0 0 30px rgba(77, 142, 255, 0.1);
+        }
+        .inner-glow {
+            border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+            border-left: 0.5px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(241, 245, 249, 0.2) 50%, transparent 100%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tech-chip {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #d2bbff;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-xl border-b border-white/10 shadow-none">
+<div class="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
+<div class="text-xl font-bold tracking-tighter text-slate-50 dark:text-slate-50">UC / LEAD</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-400 font-medium hover:text-slate-100 transition-colors font-inter tracking-tight" href="#">Projects</a>
+<a class="text-blue-500 font-semibold border-b border-blue-500 pb-1 font-inter tracking-tight" href="#">Experience</a>
+<a class="text-slate-400 font-medium hover:text-slate-100 transition-colors font-inter tracking-tight" href="#">Leadership</a>
+<a class="text-slate-400 font-medium hover:text-slate-100 transition-colors font-inter tracking-tight" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-slate-400 hover:text-white transition-colors">terminal</button>
+<button class="bg-primary-container text-on-primary-container px-5 py-2 rounded-lg font-inter text-sm font-semibold inner-glow hover:bg-opacity-90 transition-all">Get in Touch</button>
+</div>
+</div>
+</nav>
+<main class="pt-32">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 mb-40 text-center">
+<div class="inline-block px-4 py-1 mb-6 rounded-full border border-primary/20 bg-primary/5 text-primary font-mono-label text-mono-label uppercase">Architecture &amp; Impact</div>
+<h1 class="font-display-hero text-display-hero text-slate-50 max-w-4xl mx-auto mb-8">The Journey: Scaling Systems &amp; Teams</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Bridging the gap between complex architectural requirements and high-performing engineering squads. Expert in modernizing legacy workflows for global scale.</p>
+</section>
+<div class="custom-divider mb-40"></div>
+<!-- Section 2: Statusneo / Indigo -->
+<section class="max-w-7xl mx-auto px-8 mb-40">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<div class="lg:col-span-5">
+<div class="sticky top-32">
+<span class="font-mono-label text-mono-label text-primary uppercase mb-2 block">Present Engagement</span>
+<h2 class="font-headline-lg text-headline-lg text-slate-50 mb-6">Statusneo / Indigo Airlines</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 leading-relaxed">May 2022 – Present. Leading the engineering evolution for India's premier carrier, focusing on design-system-driven scalability and squad velocity.</p>
+<div class="flex flex-wrap gap-3">
+<span class="tech-chip px-3 py-1 rounded font-mono-label text-xs">React Ecosystem</span>
+<span class="tech-chip px-3 py-1 rounded font-mono-label text-xs">Design Systems</span>
+<span class="tech-chip px-3 py-1 rounded font-mono-label text-xs">Agile Leadership</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7 space-y-6">
+<div class="glass-card p-8 rounded-xl inner-glow">
+<div class="flex items-center gap-4 mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">groups</span>
+<h3 class="font-headline-md text-headline-md text-slate-50">Team Leadership</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Directed a high-impact 14-member cross-functional team, fostering a culture of technical excellence and rapid delivery. Implemented mentorship programs that reduced onboarding time by 40%.</p>
+<div class="bg-surface-container-low p-4 rounded-lg border border-white/5">
+<span class="text-xs font-mono-label text-slate-500 uppercase">Key KPI</span>
+<div class="text-2xl font-bold text-primary">150% Velocity Increase</div>
+</div>
+</div>
+<div class="glass-card p-8 rounded-xl inner-glow">
+<div class="flex items-center gap-4 mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">token</span>
+<h3 class="font-headline-md text-headline-md text-slate-50">Unified Design System</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Architected and spearheaded the implementation of a unified design system across digital platforms. This ensured brand consistency and drastically reduced UI debt, enabling sub-minute prototype-to-production cycles.</p>
+<img class="mt-8 rounded-lg w-full h-48 object-cover opacity-60" data-alt="high-tech diagram showing a unified design system architecture with interconnected nodes and glowing primary blue accents on a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn3gGZKNmUknpkrqQpaQ7Uh4ABT9O-zSDcvCcMmM1s3Ktw8XZWYh2vS8r7xA6oXUN25Tq1_0MrmFQbuzZgpbN06n2qU3OY5P1s3uOYXrMOU9L7HAWU8Pe6Gra-jCP5-wheoKLjzA2aa-lQWdfnok2RyPEwBuIkDV8zB7VrxupcwWwVM9gjwLdGMSTMtlVJ429dhAY2o07n7FzHEfv_FuiiWKOqBXVnORHBkha_ERw6jXfwzdbWMXzEMJy59BLxbyFEc_9pPyyKYzA"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Publicis Sapient -->
+<section class="max-w-7xl mx-auto px-8 mb-40">
+<div class="relative glass-card p-12 rounded-2xl overflow-hidden inner-glow">
+<div class="absolute top-0 right-0 p-8 opacity-20">
+<span class="material-symbols-outlined text-[120px] text-primary">accessible_forward</span>
+</div>
+<div class="relative z-10 max-w-2xl">
+<span class="font-mono-label text-mono-label text-secondary uppercase mb-2 block">Professional Legacy</span>
+<h2 class="font-headline-lg text-headline-lg text-slate-50 mb-6">Publicis Sapient</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">Aug 2021 – May 2022. Bridging premium automotive experiences with world-class engineering standards.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<h4 class="font-headline-md text-headline-md text-slate-100 text-xl mb-3">WCAG Accessibility</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Engineered enterprise-grade interfaces compliant with WCAG 2.1 standards, ensuring digital inclusivity for a global automotive audience.</p>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-slate-100 text-xl mb-3">Automotive Excellence</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Delivered high-fidelity interactive configurations for premium clients, optimizing 3D asset rendering for smooth browser performance.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: 83Incs -->
+<section class="max-w-7xl mx-auto px-8 mb-40">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div>
+<span class="font-mono-label text-mono-label text-primary-fixed uppercase mb-2 block">Early Foundations</span>
+<h2 class="font-headline-lg text-headline-lg text-slate-50 mb-6">83Incs</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 leading-relaxed">Mar 2020 – Aug 2021. Real-time data visualization and performance engineering at the edge.</p>
+<div class="space-y-4">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary-container">dashboard_customize</span>
+<div>
+<p class="font-body-md text-body-md text-slate-200 font-semibold">IoT Dashboards</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Designed low-latency dashboards for real-time sensor data telemetry.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary-container">speed</span>
+<div>
+<p class="font-body-md text-body-md text-slate-200 font-semibold">Core Optimization</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Reduced main-thread execution time by 30% through advanced tree-shaking and lazy loading strategies.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<img class="rounded-xl h-64 w-full object-cover" data-alt="sleek dark interface showing real-time data visualizations with neon lines and data points indicating performance metrics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqS-GMtaENoSvM3Pi-gFmIz7su_qlD6G88sAVrdUybnb8edEbTH__bMECrTZ0l9kH5k9kL6wKPhNmQhtSgyZ6aI-LgvqzvlQy5fi5BRs6y2JTxcgTeccLnUr28ZSxhU0NkC1QXQJAbPucwF_od1hGaezI0OiHRy-eSNkPVIjq2DPFlTqaL-QR8zeAjgBaV7EXzfVqUXDNhQeP3IuoJHUuz0-4YvOvbq07sRIbcUA25k8ZMA0ouOUCqslnu5qkfugKLfL9BnoBUEfM"/>
+<img class="rounded-xl h-64 w-full object-cover mt-8" data-alt="close up of optimized code snippets on a screen with subtle blue light reflection and bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUqfLTutHFlCDLSZfp0eF0UEOvmz-hOitZ7lNW0IaSNsXV9Fwx06sjj7_FW68KnCCAW962bj887Clhp9hxjPWUwoPJpqSuKBFf9Y1PbqLU-NGcNHeftqgLXFq7X4hKZuU0Mp9bHke2wEVGjaLBMOF-ePbMWumWsO324KqmOeokG0lia0dklIEtqI9BYZ_ITb9IlWGRuQ4Yo0YpCrbcwffoTFT9MVTluJcAARqvuAoJ5dNSAmXgH3F3DzsXhN7oSqjxCnMrXt6gQXc"/>
+</div>
+</div>
+</section>
+<!-- Section 5: Leadership Philosophy -->
+<section class="max-w-7xl mx-auto px-8 mb-40">
+<div class="text-center mb-20">
+<h2 class="font-headline-lg text-headline-lg text-slate-50 mb-4">Leadership Philosophy</h2>
+<div class="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="glass-card p-10 rounded-xl text-center">
+<span class="material-symbols-outlined text-5xl text-primary mb-6" data-weight="fill">psychology</span>
+<h3 class="font-headline-md text-headline-md text-slate-50 mb-4 text-2xl">Mentorship First</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Building autonomous teams by fostering radical transparency and continuous feedback loops.</p>
+</div>
+<div class="glass-card p-10 rounded-xl text-center border-primary/30 scale-105 shadow-2xl shadow-primary/10">
+<span class="material-symbols-outlined text-5xl text-primary mb-6" data-weight="fill">hub</span>
+<h3 class="font-headline-md text-headline-md text-slate-50 mb-4 text-2xl">Systems Thinking</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Designing for 10x growth by anticipating failures and building resilient, decoupled architectures.</p>
+</div>
+<div class="glass-card p-10 rounded-xl text-center">
+<span class="material-symbols-outlined text-5xl text-primary mb-6" data-weight="fill">verified</span>
+<h3 class="font-headline-md text-headline-md text-slate-50 mb-4 text-2xl">Agile Mastery</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Optimizing scrum cycles to balance technical debt with aggressive feature delivery roadmaps.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-20 bg-slate-950 border-t border-gradient-to-r from-transparent via-white/20 to-transparent">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="font-bold text-slate-200">UC / LEAD</div>
+<div class="flex gap-8">
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-slate-200 transition-colors" href="#">Architecture</a>
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-slate-200 transition-colors" href="#">Systems</a>
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-slate-200 transition-colors" href="#">Methodology</a>
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-slate-200 transition-colors" href="#">Contact</a>
+</div>
+<p class="font-inter text-xs uppercase tracking-widest text-slate-500">© 2024 UTKARSH CHATURVEDI. ENGINEERED FOR PRECISION.</p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#005ac2",
+                    "on-primary-fixed": "#001a42",
+                    "on-secondary": "#3f008e",
+                    "error-container": "#93000a",
+                    "secondary": "#d2bbff",
+                    "primary": "#adc6ff",
+                    "on-tertiary-container": "#461f00",
+                    "tertiary-container": "#df7412",
+                    "on-tertiary-fixed": "#311400",
+                    "surface-variant": "#32353c",
+                    "secondary-fixed-dim": "#d2bbff",
+                    "on-surface": "#e1e2ec",
+                    "on-secondary-fixed": "#25005a",
+                    "on-background": "#e1e2ec",
+                    "outline": "#8c909f",
+                    "secondary-container": "#6001d1",
+                    "on-primary-container": "#00285d",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "on-primary": "#002e6a",
+                    "inverse-on-surface": "#2e3038",
+                    "surface-container-highest": "#32353c",
+                    "on-primary-fixed-variant": "#004395",
+                    "error": "#ffb4ab",
+                    "primary-fixed": "#d8e2ff",
+                    "on-tertiary": "#502400",
+                    "inverse-surface": "#e1e2ec",
+                    "tertiary": "#ffb786",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0b0e15",
+                    "on-secondary-container": "#c9aeff",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "primary-container": "#4d8eff",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "surface": "#10131a",
+                    "surface-container": "#1d2027",
+                    "surface-container-low": "#191b23",
+                    "tertiary-fixed": "#ffdcc6",
+                    "surface-container-high": "#272a31",
+                    "primary-fixed-dim": "#adc6ff",
+                    "surface-bright": "#363941",
+                    "on-surface-variant": "#c2c6d6",
+                    "surface-dim": "#10131a",
+                    "surface-tint": "#adc6ff",
+                    "outline-variant": "#424754",
+                    "secondary-fixed": "#eaddff",
+                    "on-error": "#690005",
+                    "background": "#10131a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "section-gap": "160px",
+                    "margin-safe": "32px",
+                    "gutter": "24px",
+                    "container-max": "1200px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "mono-label": ["Space Grotesk"],
+                    "headline-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-hero": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "mono-label": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg": ["64px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "display-hero": ["80px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: #adc6ff;
+            box-shadow: 0 0 30px rgba(173, 198, 255, 0.1);
+        }
+        .inner-glow-border {
+            border-top: 0.5px solid rgba(255, 255, 255, 0.2);
+            border-left: 0.5px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(241, 245, 249, 0.2) 50%, transparent 100%);
+        }
+        .text-glow {
+            text-shadow: 0 0 12px rgba(173, 198, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-blue-500/5">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-xl font-bold tracking-tighter text-white uppercase">ENGINEER_LEAD</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-sans tracking-tight text-sm font-medium text-slate-400 hover:text-white transition-colors cursor-pointer active:scale-95" href="#">Leadership</a>
+<a class="font-sans tracking-tight text-sm font-medium text-slate-400 hover:text-white transition-colors cursor-pointer active:scale-95" href="#">Blog</a>
+<a class="font-sans tracking-tight text-sm font-medium text-blue-400 border-b-2 border-blue-500 pb-1 cursor-pointer active:scale-95" href="#">About</a>
+<a class="font-sans tracking-tight text-sm font-medium text-slate-400 hover:text-white transition-colors cursor-pointer active:scale-95" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-5 py-2 bg-primary text-on-primary font-sans text-sm font-medium rounded-lg inner-glow-border hover:brightness-110 active:scale-95 transition-all">Resume</button>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-white transition-colors">terminal</span>
+</div>
+</div>
+</nav>
+<main class="pt-40 pb-20 px-8 max-w-7xl mx-auto">
+<!-- Hero Section -->
+<section class="mb-32">
+<div class="flex flex-col lg:flex-row gap-16 items-center">
+<div class="lg:w-3/5">
+<span class="font-mono-label text-mono-label text-primary uppercase tracking-[0.2em] mb-6 block">Biography</span>
+<h1 class="font-display-hero text-display-hero text-white mb-8">Precision-Engineered Career.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        A Senior Engineering Leader focused on bridging the gap between high-level architectural strategy and granular, performance-driven implementation.
+                    </p>
+</div>
+<div class="lg:w-2/5 relative">
+<div class="aspect-[4/5] glass-card rounded-xl overflow-hidden relative">
+<img alt="Portrait of Utkarsh Chaturvedi" class="w-full h-full object-cover grayscale contrast-125 opacity-80" data-alt="Professional portrait of a male tech leader in a dark studio setting with soft blue rim lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjoVKK0a41V03qQBrH040kDcgCD22gr88_H82FNoJg28aMphYCQg7j8QzV6am60Tw6JVLLHubLBp1Ku8ZGDz4FPP7OiphTSiJ709s7SWl82IIPJH6i9I-L0iJjgdl0RhSme4M8xZcCE9Mg2GowIVlJ4ok80g-ezRJ93X3q6UsLpzeUv0_te6s9MVWdOTbx-idBoCkYwMpRpSsop3jdTxWxe0GAVR6-gt_NpUQ28CE9itIc6-uRyHS6BcgxTimxcFEB9kT58pfe03M"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+</div>
+<div class="absolute -bottom-6 -left-6 glass-card p-6 rounded-lg border-primary/20">
+<p class="font-headline-md text-headline-md text-primary">10+</p>
+<p class="font-mono-label text-mono-label text-on-surface-variant uppercase">Years Experience</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Gradient Divider -->
+<div class="gradient-divider mb-32"></div>
+<!-- Narrative Section (Two Column) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-32">
+<div class="lg:col-span-4">
+<h2 class="font-headline-md text-headline-md text-white sticky top-32">The Journey from Startup to Scale.</h2>
+</div>
+<div class="lg:col-span-8 space-y-8">
+<div class="glass-card p-8 rounded-xl">
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 leading-relaxed">
+                        My career began at <span class="text-primary font-semibold">83Incs</span>, where I honed the foundational skills of rapid prototyping and agile development. It was here that I realized software isn't just about code—it's about building resilient systems that solve human problems.
+                    </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 leading-relaxed">
+                        Transitioning to <span class="text-primary font-semibold">Statusneo</span> and subsequently leading major initiatives for <span class="text-primary font-semibold">Indigo</span>, I shifted focus toward industrial-grade scalability. Managing high-traffic aviation portals taught me the uncompromising necessity of 99.99% uptime and the art of distributed systems.
+                    </p>
+<div class="grid grid-cols-2 gap-4 mt-8">
+<div class="bg-surface-container p-4 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-tertiary mb-2">flight_takeoff</span>
+<p class="font-mono-label text-mono-label text-on-surface uppercase">Aviation Tech</p>
+</div>
+<div class="bg-surface-container p-4 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-secondary mb-2">hub</span>
+<p class="font-mono-label text-mono-label text-on-surface uppercase">Scalability Expert</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Core Values Grid -->
+<section class="mb-32">
+<div class="text-center mb-16">
+<span class="font-mono-label text-mono-label text-secondary uppercase tracking-widest block mb-4">Philosophy</span>
+<h2 class="font-headline-md text-headline-md text-white">Core Architectural Values</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Value 1 -->
+<div class="glass-card p-10 rounded-xl group">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-8 border border-primary/20 group-hover:bg-primary group-hover:text-on-primary transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<h3 class="font-headline-md text-[24px] text-white mb-4">Performance</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Optimizing critical paths to ensure sub-millisecond response times. Performance is not a feature; it's a requirement.
+                    </p>
+</div>
+<!-- Value 2 -->
+<div class="glass-card p-10 rounded-xl group">
+<div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-8 border border-secondary/20 group-hover:bg-secondary group-hover:text-on-secondary transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">accessibility</span>
+</div>
+<h3 class="font-headline-md text-[24px] text-white mb-4">Accessibility</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Ensuring technology is inclusive. Clean semantic code and WCAG compliance are fundamental to every build.
+                    </p>
+</div>
+<!-- Value 3 -->
+<div class="glass-card p-10 rounded-xl group">
+<div class="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center mb-8 border border-tertiary/20 group-hover:bg-tertiary group-hover:text-on-tertiary transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dynamic_form</span>
+</div>
+<h3 class="font-headline-md text-[24px] text-white mb-4">Scalability</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Designing systems that grow horizontally. Decoupled micro-frontends and robust CI/CD pipelines at the core.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Personal Interests / Bento Section -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<div class="md:col-span-8 glass-card p-12 rounded-xl flex flex-col justify-between overflow-hidden relative">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md text-white mb-6">Beyond the Terminal</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        When I'm not architecting web platforms, I'm analyzing the engineering marvels of the physical world. I'm deeply fascinated by <span class="text-tertiary">aviation dynamics</span> and <span class="text-secondary">automotive technology</span>—domains where safety and performance converge.
+                    </p>
+</div>
+<div class="absolute top-0 right-0 w-1/3 h-full opacity-10 blur-sm pointer-events-none">
+<span class="material-symbols-outlined text-[300px] text-white rotate-12">flight</span>
+</div>
+</div>
+<div class="md:col-span-4 space-y-8">
+<div class="bg-surface-container-high p-8 rounded-xl border border-white/5 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-4xl text-primary mb-4">settings_input_component</span>
+<p class="font-mono-label text-mono-label text-on-surface uppercase">Hardware Tech Enthusiast</p>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden border border-white/10">
+<img alt="Aerospace engineering detail" class="w-full h-full object-cover grayscale opacity-60 hover:opacity-100 transition-opacity" data-alt="Technical close-up of a jet turbine engine with complex wiring and metallic textures in a futuristic workshop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyuK__huijmz5PvZbrQqDrip4xkGdz37ExNC5k6AiOFfbJ5JBiGAj8DzrKNLE69VdnqcwpYSL3sKB1hnMXHzuhbHAN7i_hI-4hidpqcrOmCekJ6MeWvEI7xLmcb0nvyJ4Q_LBsaGRWez5Z23D5QUF934w9_w2c_Xk6-s6FvfrVBWlBqLh4S-JZnW4pTBecAMc1BSW3HsxOIx4rvLZ_yEBcBy_z3FG0ObhC0acfB2ApKzMHAO2huZZTpxZ0MXhLhxvXPDrb7BFEqlc"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-950 w-full py-16 border-t border-white/5">
+<div class="flex flex-col items-center gap-8 max-w-7xl mx-auto">
+<div class="gradient-divider w-full max-w-md"></div>
+<div class="flex gap-12">
+<a class="font-mono text-[10px] uppercase tracking-widest text-slate-600 hover:text-blue-400 transition-colors" href="#">Github</a>
+<a class="font-mono text-[10px] uppercase tracking-widest text-blue-400" href="#">LinkedIn</a>
+<a class="font-mono text-[10px] uppercase tracking-widest text-slate-600 hover:text-blue-400 transition-colors" href="#">RSS</a>
+</div>
+<p class="font-mono text-[10px] uppercase tracking-widest text-slate-600">© 2024 LEAD_FE_ENGINEER. BUILT WITH PRECISION.</p>
+</div>
+</footer>
+</body></html>

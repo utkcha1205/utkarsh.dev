@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-primary": "#005ac2",
+            "on-primary-fixed": "#001a42",
+            "on-secondary": "#3f008e",
+            "error-container": "#93000a",
+            "secondary": "#d2bbff",
+            "primary": "#adc6ff",
+            "on-tertiary-container": "#461f00",
+            "tertiary-container": "#df7412",
+            "on-tertiary-fixed": "#311400",
+            "surface-variant": "#32353c",
+            "secondary-fixed-dim": "#d2bbff",
+            "on-surface": "#e1e2ec",
+            "on-secondary-fixed": "#25005a",
+            "on-background": "#e1e2ec",
+            "outline": "#8c909f",
+            "secondary-container": "#6001d1",
+            "on-primary-container": "#00285d",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "on-primary": "#002e6a",
+            "inverse-on-surface": "#2e3038",
+            "surface-container-highest": "#32353c",
+            "on-primary-fixed-variant": "#004395",
+            "error": "#ffb4ab",
+            "primary-fixed": "#d8e2ff",
+            "on-tertiary": "#502400",
+            "inverse-surface": "#e1e2ec",
+            "tertiary": "#ffb786",
+            "on-error-container": "#ffdad6",
+            "surface-container-lowest": "#0b0e15",
+            "on-secondary-container": "#c9aeff",
+            "tertiary-fixed-dim": "#ffb786",
+            "primary-container": "#4d8eff",
+            "on-tertiary-fixed-variant": "#723600",
+            "surface": "#10131a",
+            "surface-container": "#1d2027",
+            "surface-container-low": "#191b23",
+            "tertiary-fixed": "#ffdcc6",
+            "surface-container-high": "#272a31",
+            "primary-fixed-dim": "#adc6ff",
+            "surface-bright": "#363941",
+            "on-surface-variant": "#c2c6d6",
+            "surface-dim": "#10131a",
+            "surface-tint": "#adc6ff",
+            "outline-variant": "#424754",
+            "secondary-fixed": "#eaddff",
+            "on-error": "#690005",
+            "background": "#10131a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "unit": "4px",
+            "section-gap": "160px",
+            "margin-safe": "32px",
+            "gutter": "24px",
+            "container-max": "1200px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "mono-label": ["Space Grotesk"],
+            "headline-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "display-hero": ["Inter"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "headline-md": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "mono-label": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+            "headline-lg": ["64px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+            "display-hero": ["80px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+            "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+      border-color: #4d8eff;
+      box-shadow: 0 0 40px -10px rgba(77, 142, 255, 0.15);
+    }
+    .horizontal-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(241, 245, 249, 0.1) 50%, transparent 100%);
+    }
+    .inner-glow {
+      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .text-gradient {
+      background: linear-gradient(180deg, #FFFFFF 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/30">
+<!-- TopNavBar Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-blue-500/5">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-xl font-bold tracking-tighter text-white uppercase font-headline-md">
+        ENGINEER_LEAD
+      </div>
+<div class="hidden md:flex items-center gap-8 font-sans tracking-tight text-sm font-medium">
+<a class="text-blue-400 border-b-2 border-blue-500 pb-1 cursor-pointer active:scale-95 transition-all" href="#">Leadership</a>
+<a class="text-slate-400 hover:text-white transition-colors cursor-pointer active:scale-95" href="#">Blog</a>
+<a class="text-slate-400 hover:text-white transition-colors cursor-pointer active:scale-95" href="#">About</a>
+<a class="text-slate-400 hover:text-white transition-colors cursor-pointer active:scale-95" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-slate-400 hover:text-white transition-colors" data-icon="terminal">terminal</button>
+<button class="bg-primary text-on-primary-container px-5 py-2 font-mono-label text-[12px] uppercase tracking-widest rounded-lg inner-glow transition-all hover:opacity-90 active:scale-95">
+          Resume
+        </button>
+</div>
+</div>
+</nav>
+<main class="relative pt-32">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 mb-40 text-center">
+<div class="inline-block px-4 py-1.5 mb-8 rounded-full border border-primary/20 bg-primary/5 font-mono-label text-primary uppercase tracking-[0.2em] text-[10px]">
+        Executive Engineering
+      </div>
+<h1 class="font-display-hero text-display-hero text-gradient mb-6">
+        Engineering Leadership &amp; Vision.
+      </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mx-auto">
+        Building high-performance squads and scalable architectural foundations through strategic technical oversight and human-centric mentorship.
+      </p>
+</section>
+<!-- Horizontal Divider -->
+<div class="horizontal-divider w-full"></div>
+<!-- Impact Metrics: Bento Grid -->
+<section class="max-w-7xl mx-auto px-8 py-40">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
+<!-- Core Growth Metric -->
+<div class="md:col-span-8 glass-card rounded-xl p-10 flex flex-col justify-between group">
+<div>
+<span class="material-symbols-outlined text-primary text-4xl mb-6" data-icon="groups">groups</span>
+<h3 class="font-headline-md text-headline-md mb-4 text-white">Scaling High-Performance Squads</h3>
+<p class="text-on-surface-variant text-body-md max-w-xl">
+              Architected a cross-functional engineering culture that scaled from a core team to 14 high-impact members across three time zones.
+            </p>
+</div>
+<div class="flex items-baseline gap-4 mt-8">
+<span class="text-8xl font-bold text-primary tracking-tighter">14</span>
+<span class="font-mono-label text-slate-500 uppercase">Engineers Managed</span>
+</div>
+</div>
+<!-- Design Systems Efficiency -->
+<div class="md:col-span-4 glass-card rounded-xl p-10 flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="architecture">architecture</span>
+<h4 class="font-headline-md text-[24px] text-white">Design Systems ROI</h4>
+</div>
+<div class="mt-8">
+<div class="text-6xl font-bold text-secondary mb-2">40%</div>
+<p class="text-on-surface-variant text-sm font-mono-label uppercase tracking-wider">Reduction in developer effort</p>
+</div>
+<div class="mt-8 border-t border-white/5 pt-6">
+<p class="text-xs text-slate-500">Implemented atomic design principles and component libraries to eliminate visual debt.</p>
+</div>
+</div>
+<!-- Rapid Onboarding -->
+<div class="md:col-span-4 glass-card rounded-xl p-8">
+<span class="material-symbols-outlined text-tertiary text-3xl mb-4" data-icon="rocket_launch">rocket_launch</span>
+<h4 class="text-lg font-bold text-white mb-2">Rapid Onboarding</h4>
+<p class="text-on-surface-variant text-sm">Reduced engineer time-to-first-commit by 60% through structured documentation and automated environments.</p>
+</div>
+<!-- Systems Thinking -->
+<div class="md:col-span-8 glass-card rounded-xl p-8 relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="text-lg font-bold text-white mb-2">Systems Thinking</h4>
+<p class="text-on-surface-variant text-sm max-w-md">Orchestrating complex microservices and frontend architectures with a focus on long-term sustainability and developer velocity.</p>
+</div>
+<div class="absolute right-0 top-0 w-1/2 h-full opacity-20 pointer-events-none">
+<div class="w-full h-full bg-gradient-to-l from-primary/20 to-transparent"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Philosophy Section -->
+<section class="max-w-7xl mx-auto px-8 mb-40">
+<div class="flex flex-col md:flex-row gap-16 items-center">
+<div class="w-full md:w-1/2">
+<div class="font-mono-label text-primary mb-4 text-[12px] tracking-[0.3em] uppercase">Core Tenets</div>
+<h2 class="font-headline-lg text-headline-md text-white mb-10">Leadership Philosophy</h2>
+<div class="space-y-8">
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 glass-card rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="psychology">psychology</span>
+</div>
+<div>
+<h4 class="text-white font-bold mb-1">Mentorship First</h4>
+<p class="text-on-surface-variant text-sm">Treating individuals as the primary engine of growth. Coaching through radical candor and servant leadership.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 glass-card rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="hub">hub</span>
+</div>
+<div>
+<h4 class="text-white font-bold mb-1">Systems Thinking</h4>
+<p class="text-on-surface-variant text-sm">Viewing technical debt as a management failure and architecture as a social contract between teams.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 glass-card rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="speed">speed</span>
+</div>
+<div>
+<h4 class="text-white font-bold mb-1">Agile Mastery</h4>
+<p class="text-on-surface-variant text-sm">Moving beyond 'Ceremonies' to actual agility. Prioritizing iterative delivery and rapid feedback loops.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/2 relative">
+<div class="aspect-square glass-card rounded-2xl p-2 relative overflow-hidden group">
+<img class="w-full h-full object-cover rounded-xl opacity-60 grayscale hover:grayscale-0 transition-all duration-700" data-alt="Professional high-end office environment with sleek glass walls, warm ambient lighting, and developers collaborating in a focused atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFoH9iWFauK0NL3lYBKm25Lx4pTHgj3JsKUfpMnik4kdki6NWvvGLQQ8L57jKxoFcfMPrOl6cpcABhXpROy4pathrxcYnVjgehf8zvYCUbcuT57MkSSWSE6yxZzdbvTI_hJ-62YXTWK4krQLbIp64zKnAG2fgnErcDJgMVdDeX_OauzlOQkJTumf0buV6kL__7MNI53FVhLvgOBE03W-Aj3V4iBVE3jHtnWv2awnyieni-5Ikj5zoSycJ5gYtrQ8kvEksFRUJ5qR8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+<!-- Floating UI Element -->
+<div class="absolute -bottom-8 -left-8 glass-card p-6 rounded-xl border-primary/20 shadow-2xl">
+<div class="flex items-center gap-4">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-mono-label text-[10px] text-white tracking-widest uppercase">Lead Status: Active</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Mentorship Focus -->
+<section class="max-w-7xl mx-auto px-8 mb-40">
+<div class="glass-card rounded-3xl p-16 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
+<div>
+<h3 class="font-headline-md text-headline-md text-white mb-6">Empowering the Individual</h3>
+<p class="text-on-surface-variant text-body-md mb-8">
+              Mentorship isn't just about code reviews—it's about career trajectory. I bridge the gap between technical excellence and strategic thinking for engineers at all levels.
+            </p>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-white/5 rounded-lg border border-white/5">
+<div class="text-primary font-bold text-xl mb-1">Junior</div>
+<div class="text-slate-400 text-xs">Foundational logic, best practices, and CI/CD confidence.</div>
+</div>
+<div class="p-4 bg-white/5 rounded-lg border border-white/5">
+<div class="text-secondary font-bold text-xl mb-1">Senior</div>
+<div class="text-slate-400 text-xs">System design, stakeholder mgmt, and technical strategy.</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-center">
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 border-b border-white/10">
+<span class="text-white font-medium">1:1 Strategy Alignment</span>
+<span class="material-symbols-outlined text-slate-500" data-icon="check_circle">check_circle</span>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-white/10">
+<span class="text-white font-medium">Internal Tech Talks</span>
+<span class="material-symbols-outlined text-slate-500" data-icon="check_circle">check_circle</span>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-white/10">
+<span class="text-white font-medium">Open Source Advocacy</span>
+<span class="material-symbols-outlined text-slate-500" data-icon="check_circle">check_circle</span>
+</div>
+<div class="flex items-center justify-between p-4">
+<span class="text-white font-medium">Leadership Workshops</span>
+<span class="material-symbols-outlined text-slate-500" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="bg-slate-950 w-full py-16 border-t border-white/5">
+<div class="flex flex-col items-center gap-8 max-w-7xl mx-auto">
+<div class="flex gap-12 font-mono text-[10px] uppercase tracking-widest">
+<a class="text-slate-600 hover:text-blue-400 transition-colors" href="#">Github</a>
+<a class="text-slate-600 hover:text-blue-400 transition-colors" href="#">LinkedIn</a>
+<a class="text-slate-600 hover:text-blue-400 transition-colors" href="#">RSS</a>
+</div>
+<div class="text-slate-600 font-mono text-[10px] uppercase tracking-widest text-center px-8">
+        © 2024 LEAD_FE_ENGINEER. BUILT WITH PRECISION.
+      </div>
+<div class="h-px w-64 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+</div>
+</footer>
+</body></html>

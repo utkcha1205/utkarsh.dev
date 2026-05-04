@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-primary": "#005ac2",
+            "on-primary-fixed": "#001a42",
+            "on-secondary": "#3f008e",
+            "error-container": "#93000a",
+            "secondary": "#d2bbff",
+            "primary": "#adc6ff",
+            "on-tertiary-container": "#461f00",
+            "tertiary-container": "#df7412",
+            "on-tertiary-fixed": "#311400",
+            "surface-variant": "#32353c",
+            "secondary-fixed-dim": "#d2bbff",
+            "on-surface": "#e1e2ec",
+            "on-secondary-fixed": "#25005a",
+            "on-background": "#e1e2ec",
+            "outline": "#8c909f",
+            "secondary-container": "#6001d1",
+            "on-primary-container": "#00285d",
+            "on-secondary-fixed-variant": "#5a00c6",
+            "on-primary": "#002e6a",
+            "inverse-on-surface": "#2e3038",
+            "surface-container-highest": "#32353c",
+            "on-primary-fixed-variant": "#004395",
+            "error": "#ffb4ab",
+            "primary-fixed": "#d8e2ff",
+            "on-tertiary": "#502400",
+            "inverse-surface": "#e1e2ec",
+            "tertiary": "#ffb786",
+            "on-error-container": "#ffdad6",
+            "surface-container-lowest": "#0b0e15",
+            "on-secondary-container": "#c9aeff",
+            "tertiary-fixed-dim": "#ffb786",
+            "primary-container": "#4d8eff",
+            "on-tertiary-fixed-variant": "#723600",
+            "surface": "#10131a",
+            "surface-container": "#1d2027",
+            "surface-container-low": "#191b23",
+            "tertiary-fixed": "#ffdcc6",
+            "surface-container-high": "#272a31",
+            "primary-fixed-dim": "#adc6ff",
+            "surface-bright": "#363941",
+            "on-surface-variant": "#c2c6d6",
+            "surface-dim": "#10131a",
+            "surface-tint": "#adc6ff",
+            "outline-variant": "#424754",
+            "secondary-fixed": "#eaddff",
+            "on-error": "#690005",
+            "background": "#10131a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "unit": "4px",
+            "section-gap": "160px",
+            "margin-safe": "32px",
+            "gutter": "24px",
+            "container-max": "1200px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "mono-label": ["Space Grotesk"],
+            "headline-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "display-hero": ["Inter"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "headline-md": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "mono-label": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+            "headline-lg": ["64px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+            "display-hero": ["80px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+            "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+    .glass-card:hover {
+      border-color: #adc6ff;
+      box-shadow: 0 0 40px -10px rgba(77, 142, 255, 0.15);
+    }
+    .custom-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(241, 245, 249, 0.2) 50%, transparent 100%);
+    }
+    .inner-glow-border {
+      border-top: 0.5px solid rgba(255, 255, 255, 0.2);
+      border-left: 0.5px solid rgba(255, 255, 255, 0.2);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-blue-500/5">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-xl font-bold tracking-tighter text-white uppercase">
+        ENGINEER_LEAD
+      </div>
+<div class="hidden md:flex items-center gap-10">
+<a class="font-sans tracking-tight text-sm font-medium text-slate-400 hover:text-white transition-colors" href="#">Leadership</a>
+<a class="font-sans tracking-tight text-sm font-medium text-slate-400 hover:text-white transition-colors" href="#">Blog</a>
+<a class="font-sans tracking-tight text-sm font-medium text-slate-400 hover:text-white transition-colors" href="#">About</a>
+<a class="font-sans tracking-tight text-sm font-medium text-blue-400 border-b-2 border-blue-500 pb-1" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-white transition-all active:scale-95" data-icon="terminal">terminal</span>
+<button class="bg-primary text-on-primary px-6 py-2 font-mono-label text-xs uppercase tracking-widest inner-glow-border hover:bg-primary-container transition-all active:scale-95">
+          Resume
+        </button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-40 px-8 max-w-7xl mx-auto">
+<!-- Hero Section -->
+<section class="mb-24 text-center">
+<h1 class="font-display-hero text-display-hero text-white mb-6">
+        Let's build something <span class="text-primary">remarkable.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+        Currently open to high-impact opportunities in frontend architecture, systems design, and creative engineering.
+      </p>
+</section>
+<!-- Bento Layout Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Contact Form -->
+<div class="col-span-12 lg:col-span-7 glass-card p-10 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] -z-10"></div>
+<h2 class="font-headline-md text-headline-md text-white mb-8">Send a Message</h2>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-mono-label text-mono-label text-secondary uppercase">Full Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline/50" placeholder="John Doe" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-mono-label text-mono-label text-secondary uppercase">Email Address</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline/50" placeholder="john@example.com" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-mono-label text-mono-label text-secondary uppercase">Project Brief</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline/50 resize-none" placeholder="Tell me about what you're building..." rows="5"></textarea>
+</div>
+<button class="w-full md:w-auto px-10 py-4 bg-primary text-on-primary font-mono-label text-mono-label uppercase tracking-widest inner-glow-border hover:brightness-110 active:scale-95 transition-all" type="submit">
+            Transmit Signal
+          </button>
+</form>
+</div>
+<!-- Contact Info Sidebar -->
+<div class="col-span-12 lg:col-span-5 flex flex-col gap-6">
+<!-- Social Links -->
+<div class="glass-card p-8 rounded-xl flex-grow">
+<h3 class="font-mono-label text-mono-label text-secondary uppercase mb-6">Direct Channels</h3>
+<div class="grid grid-cols-1 gap-4">
+<a class="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all group" href="mailto:utkcha1205@gmail.com">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="mail">mail</span>
+<span class="font-body-md text-on-surface">utkcha1205@gmail.com</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all group" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="link">link</span>
+<span class="font-body-md text-on-surface">LinkedIn</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all group" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="code">code</span>
+<span class="font-body-md text-on-surface">GitHub</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all group" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="share">share</span>
+<span class="font-body-md text-on-surface">Twitter</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Location/Map -->
+<div class="glass-card rounded-xl overflow-hidden h-[240px] relative group">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-50 grayscale group-hover:scale-105 transition-transform duration-700" data-alt="Dark stylized satellite map of Gurgaon India with glowing city lights and blue tech overlays" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI8T4tQkeIKCMody8LTU___Wp3bVnkNK9SFXxTEimzpLxG6EzgcYCmp3-AeJ2m-4pWfvRca5ZzBqy_5dKS2O1xI-Z0wJcCe4ViieNIth7YV3nxMjaYcc_OzB2WsSm5ve4rX-M0SkxXErZK5ydtnBlRNye0AwArzSsHiY5pDlXb8iefhqEVtYW7qkldjReIlHE-DDd_bB10VuBtfng3lyqdzrh-otQO-4A-Jk1-BRV1IbAGKwj9mIfHGYMiebec7NUXGPI1qJCzvOQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+</div>
+<div class="absolute bottom-6 left-6 z-10">
+<p class="font-mono-label text-xs text-primary uppercase mb-1 tracking-tighter">Current Base</p>
+<p class="font-headline-md text-2xl text-white">Gurgaon, India</p>
+</div>
+<div class="absolute top-6 right-6 z-10">
+<div class="w-3 h-3 bg-primary rounded-full animate-pulse shadow-[0_0_15px_rgba(173,198,255,0.8)]"></div>
+</div>
+<div class="hidden" data-location="Gurgaon, India" style=""></div>
+</div>
+</div>
+</div>
+<!-- Minimal Separator -->
+<div class="mt-40 mb-20 custom-divider"></div>
+<!-- Quick Tech Section -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+<div class="space-y-2">
+<p class="font-mono-label text-mono-label text-secondary uppercase">Availability</p>
+<p class="text-on-surface">Q3 2024</p>
+</div>
+<div class="space-y-2">
+<p class="font-mono-label text-mono-label text-secondary uppercase">Local Time</p>
+<p class="text-on-surface">IST (UTC +5:30)</p>
+</div>
+<div class="space-y-2">
+<p class="font-mono-label text-mono-label text-secondary uppercase">Language</p>
+<p class="text-on-surface">English, Hindi</p>
+</div>
+<div class="space-y-2">
+<p class="font-mono-label text-mono-label text-secondary uppercase">Status</p>
+<p class="text-on-surface">Digital Nomad</p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 border-t border-white/5 bg-slate-950">
+<div class="flex flex-col items-center gap-8 max-w-7xl mx-auto">
+<div class="flex gap-12">
+<a class="font-mono text-[10px] uppercase tracking-widest text-slate-600 hover:text-blue-400 transition-colors" href="#">Github</a>
+<a class="font-mono text-[10px] uppercase tracking-widest text-slate-600 hover:text-blue-400 transition-colors" href="#">LinkedIn</a>
+<a class="font-mono text-[10px] uppercase tracking-widest text-slate-600 hover:text-blue-400 transition-colors" href="#">RSS</a>
+</div>
+<div class="w-48 h-[1px]" style="background: linear-gradient(90deg,transparent,rgba(255,255,255,0.1)50%,transparent)"></div>
+<p class="font-mono text-[10px] uppercase tracking-widest text-slate-600">
+        © 2024 LEAD_FE_ENGINEER. BUILT WITH PRECISION.
+      </p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "inverse-primary": "#005ac2",
+                  "on-primary-fixed": "#001a42",
+                  "on-secondary": "#3f008e",
+                  "error-container": "#93000a",
+                  "secondary": "#d2bbff",
+                  "primary": "#adc6ff",
+                  "on-tertiary-container": "#461f00",
+                  "tertiary-container": "#df7412",
+                  "on-tertiary-fixed": "#311400",
+                  "surface-variant": "#32353c",
+                  "secondary-fixed-dim": "#d2bbff",
+                  "on-surface": "#e1e2ec",
+                  "on-secondary-fixed": "#25005a",
+                  "on-background": "#e1e2ec",
+                  "outline": "#8c909f",
+                  "secondary-container": "#6001d1",
+                  "on-primary-container": "#00285d",
+                  "on-secondary-fixed-variant": "#5a00c6",
+                  "on-primary": "#002e6a",
+                  "inverse-on-surface": "#2e3038",
+                  "surface-container-highest": "#32353c",
+                  "on-primary-fixed-variant": "#004395",
+                  "error": "#ffb4ab",
+                  "primary-fixed": "#d8e2ff",
+                  "on-tertiary": "#502400",
+                  "inverse-surface": "#e1e2ec",
+                  "tertiary": "#ffb786",
+                  "on-error-container": "#ffdad6",
+                  "surface-container-lowest": "#0b0e15",
+                  "on-secondary-container": "#c9aeff",
+                  "tertiary-fixed-dim": "#ffb786",
+                  "primary-container": "#4d8eff",
+                  "on-tertiary-fixed-variant": "#723600",
+                  "surface": "#10131a",
+                  "surface-container": "#1d2027",
+                  "surface-container-low": "#191b23",
+                  "tertiary-fixed": "#ffdcc6",
+                  "surface-container-high": "#272a31",
+                  "primary-fixed-dim": "#adc6ff",
+                  "surface-bright": "#363941",
+                  "on-surface-variant": "#c2c6d6",
+                  "surface-dim": "#10131a",
+                  "surface-tint": "#adc6ff",
+                  "outline-variant": "#424754",
+                  "secondary-fixed": "#eaddff",
+                  "on-error": "#690005",
+                  "background": "#10131a"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.125rem",
+                  "lg": "0.25rem",
+                  "xl": "0.5rem",
+                  "full": "0.75rem"
+          },
+          "spacing": {
+                  "unit": "4px",
+                  "section-gap": "160px",
+                  "margin-safe": "32px",
+                  "gutter": "24px",
+                  "container-max": "1200px"
+          },
+          "fontFamily": {
+                  "headline-md": ["Inter"],
+                  "mono-label": ["Space Grotesk"],
+                  "headline-lg": ["Inter"],
+                  "body-lg": ["Inter"],
+                  "display-hero": ["Inter"],
+                  "body-md": ["Inter"]
+          },
+          "fontSize": {
+                  "headline-md": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                  "mono-label": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                  "headline-lg": ["64px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                  "display-hero": ["80px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                  "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #10131a;
+      background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.03) 1px, transparent 0);
+      background-size: 40px 40px;
+    }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .glass-card:hover {
+      border-color: #adc6ff;
+      box-shadow: 0 0 40px -10px rgba(173, 198, 255, 0.1);
+    }
+    .divider-glow {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(241, 245, 249, 0.2) 50%, transparent 100%);
+    }
+  </style>
+</head>
+<body class="text-on-surface font-body-md antialiased">
+<!-- TopNavBar from JSON -->
+<header class="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-blue-500/5">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-xl font-bold tracking-tighter text-white uppercase">ENGINEER_LEAD</div>
+<nav class="hidden md:flex items-center gap-8 font-sans tracking-tight text-sm font-medium">
+<a class="text-slate-400 hover:text-white transition-colors cursor-pointer active:scale-95" href="#">Leadership</a>
+<a class="text-blue-400 border-b-2 border-blue-500 pb-1 cursor-pointer active:scale-95" href="#">Blog</a>
+<a class="text-slate-400 hover:text-white transition-colors cursor-pointer active:scale-95" href="#">About</a>
+<a class="text-slate-400 hover:text-white transition-colors cursor-pointer active:scale-95" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-all" data-icon="terminal">terminal</span>
+<button class="bg-primary text-on-primary-container px-5 py-2 text-sm font-bold uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all">Resume</button>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-section-gap max-w-7xl mx-auto px-8">
+<!-- Hero Section -->
+<section class="mb-24">
+<div class="inline-block px-3 py-1 bg-surface-container-highest border border-outline-variant mb-6">
+<span class="font-mono-label text-mono-label text-secondary uppercase">Latest Insights</span>
+</div>
+<h1 class="font-display-hero text-display-hero mb-6 text-white">Engineering Log.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+        Deep dives into React, real-time systems, and frontend architecture. Reflections on the intersection of craft and scale.
+      </p>
+</section>
+<div class="divider-glow mb-24"></div>
+<!-- Featured Post -->
+<section class="mb-section-gap">
+<div class="glass-card group relative grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden rounded-xl cursor-pointer">
+<div class="p-12 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-4 mb-8">
+<span class="font-mono-label text-mono-label text-secondary px-2 py-1 bg-secondary-container/20 rounded">CASE STUDY</span>
+<span class="font-mono-label text-mono-label text-outline uppercase tracking-widest">March 2024</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-white mb-6 leading-tight group-hover:text-primary transition-colors">
+              Scaling Real-time Flight Tracking with WebSockets and Mapbox.
+            </h2>
+<p class="text-on-surface-variant text-body-lg mb-8">
+              An architectural breakdown of handling 50,000+ concurrent state updates per second with zero frame drops on the main thread.
+            </p>
+</div>
+<div class="flex items-center gap-2 text-primary font-bold tracking-widest uppercase text-sm">
+<span>Read full deep dive</span>
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+<div class="relative min-h-[400px] overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700 scale-105 group-hover:scale-100" data-alt="Modern dark tech dashboard interface showing complex map visualizations and data streams in blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRukY-Rvz92i7atA6Qxg3kusdo67dAYXQGtn67qFBcFj5Tztzt1efCW9_aHebfeFaD9RFwu62pkha_nT0KRFqjF3j9o6WIvyTs2CVQCjDIXzTUVbUvcewNMlrkW04PgWgD6ykeof17FlS8EnwVhKhc5JmwoWjRHA8c42BQSoM2VgVkV90rTB-oEHCbzgLQHqEMLgGMobrJs7Tn0ogzzqKyDg07_oOFV45q7tJg_l0waQ3Yg-o2eT5sGSdjlDTgV8iDSB1LRYo0R5c"/>
+<div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-transparent to-transparent"></div>
+</div>
+</div>
+</section>
+<!-- Recent Articles Grid -->
+<section>
+<div class="flex justify-between items-end mb-12">
+<h3 class="font-headline-md text-headline-md text-white">Recent Artifacts</h3>
+<span class="font-mono-label text-mono-label text-outline mb-2">PAGE 01 / 04</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<article class="glass-card p-8 flex flex-col justify-between min-h-[380px] rounded-xl transition-all duration-300">
+<div>
+<span class="font-mono-label text-mono-label text-secondary mb-6 block">DESIGN SYSTEMS</span>
+<h4 class="font-headline-md text-headline-md text-white mb-4 leading-snug">The ROI of a Unified Design System</h4>
+<p class="text-on-surface-variant line-clamp-3">Quantifying the impact of component-driven development on velocity, consistency, and organizational cross-functional communication.</p>
+</div>
+<div class="pt-8 flex justify-between items-center">
+<span class="font-mono-label text-mono-label text-outline uppercase tracking-widest">Feb 14, 2024</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="open_in_new">open_in_new</span>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="glass-card p-8 flex flex-col justify-between min-h-[380px] rounded-xl transition-all duration-300">
+<div>
+<span class="font-mono-label text-mono-label text-secondary mb-6 block">PERFORMANCE</span>
+<h4 class="font-headline-md text-headline-md text-white mb-4 leading-snug">Optimizing React for Low-Latency Dashboards</h4>
+<p class="text-on-surface-variant line-clamp-3">Mastering useMemo, virtualization techniques, and worker threads to keep your UI responsive under heavy computational load.</p>
+</div>
+<div class="pt-8 flex justify-between items-center">
+<span class="font-mono-label text-mono-label text-outline uppercase tracking-widest">Jan 28, 2024</span>
+<span class="material-symbols-outlined text-outline" data-icon="open_in_new">open_in_new</span>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="glass-card p-8 flex flex-col justify-between min-h-[380px] rounded-xl transition-all duration-300">
+<div>
+<span class="font-mono-label text-mono-label text-secondary mb-6 block">LEADERSHIP</span>
+<h4 class="font-headline-md text-headline-md text-white mb-4 leading-snug">Leading Hybrid Engineering Teams</h4>
+<p class="text-on-surface-variant line-clamp-3">Strategies for maintaining high documentation standards and deep work culture in distributed technical environments.</p>
+</div>
+<div class="pt-8 flex justify-between items-center">
+<span class="font-mono-label text-mono-label text-outline uppercase tracking-widest">Jan 05, 2024</span>
+<span class="material-symbols-outlined text-outline" data-icon="open_in_new">open_in_new</span>
+</div>
+</article>
+</div>
+</section>
+<!-- Newsletter CTA -->
+<section class="mt-section-gap">
+<div class="glass-card rounded-xl p-16 text-center border-primary/20 relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 blur-3xl rounded-full translate-y-1/2"></div>
+<div class="relative z-10">
+<span class="font-mono-label text-mono-label text-secondary block mb-4">TRANSMISSIONS</span>
+<h2 class="font-headline-md text-headline-md text-white mb-6">Stay at the cutting edge.</h2>
+<p class="text-on-surface-variant mb-10 max-w-xl mx-auto">Get monthly technical deep dives and architectural blueprints delivered directly to your inbox.</p>
+<form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+<input class="bg-surface-container-lowest border-outline-variant text-white px-6 py-4 rounded-lg flex-1 focus:border-primary focus:ring-0 transition-all outline-none" placeholder="email@example.com" type="email"/>
+<button class="bg-primary text-on-primary-container px-8 py-4 font-bold uppercase tracking-widest rounded-lg hover:brightness-110 active:scale-95 transition-all">Subscribe</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer from JSON -->
+<footer class="bg-slate-950 w-full py-16 border-t border-white/5">
+<div class="flex flex-col items-center gap-8 max-w-7xl mx-auto">
+<div class="flex gap-12 font-mono text-[10px] uppercase tracking-widest">
+<a class="text-slate-600 hover:text-blue-400 transition-colors" href="#">Github</a>
+<a class="text-slate-600 hover:text-blue-400 transition-colors" href="#">LinkedIn</a>
+<a class="text-slate-600 hover:text-blue-400 transition-colors" href="#">RSS</a>
+</div>
+<div class="divider-glow w-64"></div>
+<p class="text-slate-600 font-mono text-[10px] uppercase tracking-widest">© 2024 LEAD_FE_ENGINEER. BUILT WITH PRECISION.</p>
+</div>
+</footer>
+</body></html>
