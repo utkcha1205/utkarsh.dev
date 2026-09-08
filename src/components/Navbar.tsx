@@ -54,6 +54,14 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
+          <Link
+            href="/resumezy"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 hover:border-emerald-400 hover:shadow-lg hover:shadow-emerald-500/10 transition-all"
+          >
+            <span>✨</span>
+            <span>Resumezy AI</span>
+            <span className="bg-emerald-500/20 text-emerald-300 text-[10px] px-1.5 py-0.2 rounded-full uppercase tracking-wider font-bold">New</span>
+          </Link>
           <a
             href="/resume.pdf"
             target="_blank"
@@ -92,6 +100,17 @@ export default function Navbar() {
         className="md:hidden overflow-hidden bg-slate-950/95 backdrop-blur-xl border-b border-white/10"
       >
         <nav className="flex flex-col px-6 py-4 gap-2">
+          <Link
+            href="/resumezy"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 text-sm font-semibold mb-1"
+          >
+            <span className="flex items-center gap-2">
+              <span>✨</span>
+              <span>Resumezy AI (ATS Shield)</span>
+            </span>
+            <span className="bg-emerald-500/20 text-emerald-300 text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">New</span>
+          </Link>
           {navLinks.map((link) => (
             <a
               key={link.label}

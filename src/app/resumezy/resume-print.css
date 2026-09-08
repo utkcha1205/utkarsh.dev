@@ -1,0 +1,280 @@
+/* ATS-Optimized Clean Resume Sheet */
+.resume-sheet-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0.5rem 0;
+  background: transparent;
+}
+
+.resume-paper {
+  background: #ffffff;
+  color: #111827;
+  width: 100%;
+  max-width: 800px;
+  min-height: 980px;
+  padding: 2rem 2.25rem;
+  border-radius: 4px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.45);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.35;
+  font-size: 9.75pt;
+  position: relative;
+  transition: all 0.2s ease;
+  border: none;
+  box-sizing: border-box;
+}
+
+/* Compact Mode (Ensures tight 1-page fit) */
+.resume-paper.compact-mode {
+  padding: 1.5rem 1.85rem;
+  font-size: 9.25pt;
+  line-height: 1.28;
+}
+
+.resume-paper.compact-mode .resume-header {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.45rem;
+}
+
+.resume-paper.compact-mode .candidate-name {
+  font-size: 16pt;
+  margin-bottom: 0.15rem;
+}
+
+.resume-paper.compact-mode .contact-line {
+  font-size: 8.5pt;
+  gap: 0.5rem;
+}
+
+.resume-paper.compact-mode .resume-section {
+  margin-bottom: 0.65rem;
+}
+
+.resume-paper.compact-mode .section-title {
+  font-size: 10pt;
+  margin-bottom: 0.35rem;
+  padding-bottom: 0.15rem;
+}
+
+.resume-paper.compact-mode .experience-item {
+  margin-bottom: 0.5rem;
+}
+
+.resume-paper.compact-mode .bullet-item {
+  margin-bottom: 0.18rem;
+  font-size: 9pt;
+}
+
+/* Standard Header */
+.resume-paper .resume-header {
+  text-align: center;
+  margin-bottom: 0.95rem;
+  border-bottom: 1.5px solid #111827;
+  padding-bottom: 0.6rem;
+}
+
+.resume-paper .candidate-name {
+  font-size: 17pt;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+}
+
+.resume-paper .contact-line {
+  font-size: 9pt;
+  color: #475569;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.resume-paper .contact-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Sections */
+.resume-paper .resume-section {
+  margin-bottom: 0.85rem;
+}
+
+.resume-paper .section-title {
+  font-size: 10.5pt;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid #cbd5e1;
+  padding-bottom: 0.15rem;
+  margin-bottom: 0.45rem;
+}
+
+.resume-paper .section-content {
+  font-size: 9.5pt;
+  color: #1e293b;
+}
+
+/* Role / Company block */
+.resume-paper .experience-item {
+  margin-bottom: 0.65rem;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.resume-paper .role-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 9.75pt;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.resume-paper .company-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 9pt;
+  font-style: italic;
+  color: #475569;
+  margin-bottom: 0.25rem;
+}
+
+/* Bullets */
+.resume-paper .bullet-list {
+  list-style-type: disc;
+  padding-left: 1.15rem;
+  margin: 0.15rem 0;
+}
+
+.resume-paper .bullet-item {
+  margin-bottom: 0.22rem;
+  line-height: 1.32;
+  color: #1e293b;
+  font-size: 9.25pt;
+  position: relative;
+}
+
+/* Skills section styling */
+.resume-paper .skill-category {
+  margin-bottom: 0.2rem;
+  font-size: 9.25pt;
+  line-height: 1.35;
+}
+
+.resume-paper .skill-category strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Interactive Highlights (Only in Web UI) */
+.highlight-diff .bullet-item.modified {
+  background-color: #ecfdf5;
+  border-left: 3px solid #10b981;
+  padding-left: 0.35rem;
+  margin-left: -0.35rem;
+  border-radius: 2px;
+}
+
+.highlight-diff .injected-keyword {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-weight: 600;
+  padding: 0.05rem 0.2rem;
+  border-radius: 2px;
+}
+
+/* PRINT-OPTIMIZED ENGINE */
+@page {
+  size: letter portrait;
+  margin: 0mm !important; /* CRITICAL: Setting margin 0 completely strips browser headers (date/title) and footers (http://localhost...) */
+}
+
+@media print {
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Completely eliminate all web UI components from print output */
+  .app-header,
+  .background-glow,
+  .input-panel-wrapper,
+  .agent-console-wrapper,
+  .score-dashboard-wrapper,
+  .directive-controls,
+  .resume-toolbar,
+  .no-print,
+  button,
+  .badge {
+    display: none !important;
+  }
+
+  /* Reset outer wrapper hierarchy so no card borders, shadows or dark panels print */
+  .app-container,
+  .main-content,
+  .workspace-grid,
+  .glass-card,
+  .panel-body,
+  .resume-sheet-container {
+    display: block !important;
+    background: #ffffff !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .resume-paper {
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border: none !important; /* REMOVES RIGHT SIDE BORDER COMPLETELY */
+    outline: none !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important; /* PREVENTS UNNECESSARY 3-PAGE BLOAT */
+    padding: 10mm 14mm !important; /* Compact ATS page padding */
+    margin: 0 !important;
+    font-size: 9.5pt !important;
+    line-height: 1.28 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Prevent awkward page breaks in the middle of a job or block */
+  .experience-item,
+  .resume-section,
+  .resume-header {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Strip web highlight backgrounds in print */
+  .highlight-diff .bullet-item.modified {
+    background-color: transparent !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .highlight-diff .injected-keyword {
+    background-color: transparent !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+    padding: 0 !important;
+  }
+}
