@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Check, Printer, Eye, Edit3, Sparkles, Layers, Minimize2, Maximize2, Info, FileText } from 'lucide-react';
+import { Copy, Check, Printer, Eye, Edit3, Sparkles, Layers, Minimize2, Maximize2, Info, FileText, GraduationCap } from 'lucide-react';
 import DiffViewer from './DiffViewer';
 
 export default function ResumePreview({
@@ -15,6 +15,7 @@ export default function ResumePreview({
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'diff' | 'raw'
   const [density, setDensity] = useState('compact'); // 'compact' | 'standard'
+  const [templateStyle, setTemplateStyle] = useState('latex'); // 'latex' (Overleaf) | 'modern'
 
   const handleCopyPlainText = () => {
     navigator.clipboard.writeText(resumeText);
@@ -32,12 +33,10 @@ export default function ResumePreview({
     return line.trim().replace(/^[•\*\-\–\—\▪\▫\►\▸\⁃]\s*/, '').replace(/^\d+[\.\)]\s*/, '');
   };
 
-  // Robust check for Section Headers (Case-insensitive & flexible)
+  // Check for Section Headers
   const isSectionHeader = (line) => {
     const trimmed = line.trim();
     if (!trimmed || trimmed.length > 60 || /[.?!]$/.test(trimmed)) return false;
-
-    // Check against standard separator dividers
     if (/^[=\-_*~]{3,}$/.test(trimmed)) return false;
 
     const upper = trimmed.toUpperCase().replace(/[:#]/g, '').trim();
@@ -54,7 +53,7 @@ export default function ResumePreview({
 
     if (knownHeaders.includes(upper)) return true;
 
-    // Short all-caps line that doesn't have sentences or dates
+    // Short all-caps line
     if (trimmed === upper && trimmed.length >= 3 && trimmed.length <= 35 && !trimmed.includes(',') && !trimmed.includes('|')) {
       return true;
     }
@@ -62,19 +61,10 @@ export default function ResumePreview({
     return false;
   };
 
-  // Check if a line is a Role / Company / Timeline header
-  const isRoleOrDateLine = (line) => {
-    const trimmed = line.trim();
-    if (isBulletLine(trimmed)) return false;
+  // Date pattern extractor (e.g., "May 2022 – Present", "2016 – 2020", "Aug 2021 - May 2022")
+  const dateRegex = /\s+((?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*)?(?:\d{4})\s*[\–\—\-]\s*(?:Present|Current|(?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*)?(?:\d{4})))$/i;
 
-    // Must have date markers OR prominent separators like |, —, –
-    const hasDate = /\b(19\d\d|20\d\d|present|current|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b/i.test(trimmed);
-    const hasPipeOrDash = trimmed.includes('|') || trimmed.includes(' — ') || trimmed.includes(' – ');
-
-    return (hasDate && (hasPipeOrDash || trimmed.length < 80)) || (hasPipeOrDash && trimmed.length < 90);
-  };
-
-  // Structure resume lines into intelligent semantic blocks
+  // Structure resume lines into sections
   const parseResumeToElements = (text) => {
     if (!text) return [];
     const lines = text.split(/\r?\n/);
@@ -84,21 +74,14 @@ export default function ResumePreview({
 
     for (const rawLine of lines) {
       const trimmed = rawLine.trim();
-      if (!trimmed) {
-        if (currentSection.lines.length > 0) {
-          currentSection.lines.push(""); // preserve paragraph break
-        }
-        continue;
-      }
-
-      // Ignore decorative divider lines
+      if (!trimmed) continue;
       if (/^[=\-_*~]{3,}$/.test(trimmed)) continue;
 
       if (isSectionHeader(trimmed)) {
         if (currentSection.lines.length > 0 || currentSection.title !== "HEADER") {
           sections.push(currentSection);
         }
-        const cleanTitle = trimmed.toUpperCase().replace(/[:#]/g, '').trim();
+        const cleanTitle = trimmed.replace(/[:#]/g, '').trim();
         currentSection = { title: cleanTitle, lines: [] };
       } else {
         currentSection.lines.push(trimmed);
@@ -142,23 +125,18 @@ export default function ResumePreview({
     });
   };
 
-  // Helper to render section lines grouping consecutive bullet points
+  // Render content with LaTeX / Overleaf 4-corner layout support
   const renderSectionContent = (sec) => {
-    const isExperience = sec.title.includes("EXPERIENCE") || sec.title.includes("EMPLOYMENT") || sec.title.includes("WORK") || sec.title.includes("PROJECT");
-    const isSkills = sec.title.includes("SKILL") || sec.title.includes("COMPETENC") || sec.title.includes("TOOL");
+    const isExperience = sec.title.toUpperCase().includes("EXPERIENCE") || sec.title.toUpperCase().includes("EMPLOYMENT") || sec.title.toUpperCase().includes("WORK");
+    const isEducation = sec.title.toUpperCase().includes("EDUCATION");
+    const isSkills = sec.title.toUpperCase().includes("SKILL") || sec.title.toUpperCase().includes("COMPETENC") || sec.title.toUpperCase().includes("TOOL");
 
-    // Group consecutive bullet points into clusters
     const clusters = [];
     let currentBulletCluster = null;
 
-    for (const line of sec.lines) {
-      if (!line) {
-        if (currentBulletCluster) {
-          clusters.push({ type: 'bullets', items: currentBulletCluster });
-          currentBulletCluster = null;
-        }
-        continue;
-      }
+    const lines = sec.lines;
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
 
       if (isBulletLine(line)) {
         const bulletText = cleanBulletText(line);
@@ -173,8 +151,50 @@ export default function ResumePreview({
           currentBulletCluster = null;
         }
 
-        if (isExperience && isRoleOrDateLine(line)) {
-          clusters.push({ type: 'role-header', text: line });
+        // Overleaf / LaTeX Role Entry Check (Line ends with date or has pipe/dash)
+        const dateMatch = line.match(dateRegex);
+        if ((isExperience || isEducation) && dateMatch) {
+          const dateStr = dateMatch[1];
+          const topLabel = line.slice(0, dateMatch.index).trim();
+          
+          // Check if next line is a subline (Role / Location)
+          let subLeft = '';
+          let subRight = '';
+          if (i + 1 < lines.length && !isBulletLine(lines[i + 1]) && !isSectionHeader(lines[i + 1])) {
+            const nextLine = lines[i + 1];
+            if (nextLine.includes(' — ')) {
+              const parts = nextLine.split(' — ');
+              subLeft = parts[0].trim();
+              subRight = parts.slice(1).join(' — ').trim();
+              i++; // consume subline
+            } else if (nextLine.includes('|')) {
+              const parts = nextLine.split('|');
+              subLeft = parts[0].trim();
+              subRight = parts.slice(1).join(' | ').trim();
+              i++;
+            } else if (nextLine.length < 80) {
+              subLeft = nextLine;
+              i++;
+            }
+          }
+
+          clusters.push({
+            type: 'latex-entry',
+            topLabel,
+            dateStr,
+            subLeft,
+            subRight
+          });
+        } else if (isExperience && (line.includes('|') || line.includes(' — '))) {
+          // Standard pipe/dash role header
+          const parts = line.includes('|') ? line.split('|') : line.split(' — ');
+          clusters.push({
+            type: 'latex-entry',
+            topLabel: parts[0].trim(),
+            dateStr: parts[1] ? parts[1].trim() : '',
+            subLeft: parts[2] ? parts[2].trim() : '',
+            subRight: ''
+          });
         } else if (isSkills && line.includes(':')) {
           const [cat, items] = line.split(/:(.+)/);
           clusters.push({ type: 'skill', category: cat.trim(), items: (items || '').trim() });
@@ -191,25 +211,19 @@ export default function ResumePreview({
     return (
       <div className="section-content">
         {clusters.map((cluster, ci) => {
-          if (cluster.type === 'role-header') {
-            // Split title and company/date if separated by pipe or dash
-            let leftPart = cluster.text;
-            let rightPart = '';
-
-            if (cluster.text.includes('|')) {
-              const parts = cluster.text.split('|');
-              leftPart = parts[0].trim();
-              rightPart = parts.slice(1).join(' | ').trim();
-            } else if (cluster.text.includes(' — ')) {
-              const parts = cluster.text.split(' — ');
-              leftPart = parts[0].trim();
-              rightPart = parts.slice(1).join(' — ').trim();
-            }
-
+          if (cluster.type === 'latex-entry') {
             return (
-              <div key={ci} className="role-header" style={{ marginTop: ci > 0 ? '0.5rem' : '0.1rem', marginBottom: '0.2rem' }}>
-                <span style={{ fontWeight: 700, color: '#0f172a' }}>{leftPart}</span>
-                {rightPart && <span style={{ fontStyle: 'italic', color: '#475569', fontSize: '9pt' }}>{rightPart}</span>}
+              <div key={ci} className="latex-job-block" style={{ marginTop: ci > 0 ? '0.55rem' : '0.15rem', marginBottom: '0.2rem' }}>
+                <div className="role-header-top">
+                  <span className="company-name">{cluster.topLabel}</span>
+                  <span className="timeline-dates">{cluster.dateStr}</span>
+                </div>
+                {(cluster.subLeft || cluster.subRight) && (
+                  <div className="role-header-sub">
+                    <span className="role-title">{cluster.subLeft}</span>
+                    <span className="role-location">{cluster.subRight}</span>
+                  </div>
+                )}
               </div>
             );
           }
@@ -235,7 +249,7 @@ export default function ResumePreview({
           }
 
           return (
-            <p key={ci} style={{ marginBottom: '0.35rem', lineHeight: '1.35' }}>
+            <p key={ci} style={{ marginBottom: '0.35rem', lineHeight: '1.32' }}>
               {renderTextWithHighlights(cluster.text)}
             </p>
           );
@@ -253,10 +267,10 @@ export default function ResumePreview({
             type="button"
             className={`btn btn-sm ${activeTab === 'preview' ? 'btn-primary' : 'btn-ghost'}`}
             onClick={() => setActiveTab('preview')}
-            title="Formatted clean ATS Sheet"
+            title="Formatted resume sheet"
           >
             <Eye size={13} />
-            ATS Resume Sheet
+            Formatted Sheet
           </button>
 
           <button
@@ -276,14 +290,30 @@ export default function ResumePreview({
             title="View exact original template text"
           >
             <FileText size={13} />
-            Original Template
+            Original Verbatim
           </button>
         </div>
 
-        {/* Highlight & Edit & Density Toggles */}
+        {/* Style & Density Toggles */}
         <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
           {activeTab === 'preview' && (
             <>
+              {/* Template Style Toggle: LaTeX (Overleaf) vs Modern */}
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                style={{
+                  fontSize: '0.725rem',
+                  color: templateStyle === 'latex' ? '#a855f7' : '#94a3b8',
+                  borderColor: templateStyle === 'latex' ? 'rgba(168, 85, 247, 0.5)' : 'var(--border-subtle)'
+                }}
+                onClick={() => setTemplateStyle(templateStyle === 'latex' ? 'modern' : 'latex')}
+                title="Toggle between Overleaf/LaTeX style and Modern Sans-Serif ATS style"
+              >
+                <GraduationCap size={13} />
+                {templateStyle === 'latex' ? '🎓 LaTeX / Overleaf' : '💼 Modern ATS'}
+              </button>
+
               {/* Density Toggle (Compact 1-Page vs Standard) */}
               <button
                 type="button"
@@ -363,20 +393,20 @@ export default function ResumePreview({
         </div>
       </div>
 
-      {/* Print Hint Banner (Hidden during print) */}
+      {/* Print Hint Banner */}
       <div className="no-print" style={{
-        background: 'rgba(16, 185, 129, 0.08)',
-        borderBottom: '1px solid rgba(16, 185, 129, 0.2)',
+        background: 'rgba(168, 85, 247, 0.08)',
+        borderBottom: '1px solid rgba(168, 85, 247, 0.2)',
         padding: '0.35rem 1rem',
         display: 'flex',
         alignItems: 'center',
         gap: '0.4rem',
         fontSize: '0.7rem',
-        color: '#a7f3d0'
+        color: '#e9d5ff'
       }}>
-        <Info size={12} style={{ color: '#10b981', flexShrink: 0 }} />
+        <GraduationCap size={13} style={{ color: '#c084fc', flexShrink: 0 }} />
         <span>
-          <strong>Clean PDF Export:</strong> Only your resume paper will be exported. All website navigation, sidebars, and buttons are automatically hidden.
+          <strong>LaTeX / Overleaf Mode Active:</strong> Rendered with Computer Modern serif typography, small-caps section titles, and 4-corner company/timeline alignment. Only the resume paper will be exported.
         </span>
       </div>
 
@@ -384,9 +414,9 @@ export default function ResumePreview({
         {activeTab === 'diff' ? (
           <DiffViewer bulletChanges={bulletChanges} />
         ) : activeTab === 'raw' ? (
-          /* EXACT ORIGINAL TEMPLATE PRESERVED VIEW */
+          /* EXACT ORIGINAL VERBATIM VIEW */
           <div id="resume-printable-area" className="resume-sheet-container">
-            <div className={`resume-paper ${density === 'compact' ? 'compact-mode' : ''} ${highlightDiff ? 'highlight-diff' : ''}`} style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>
+            <div className={`resume-paper ${templateStyle === 'latex' ? 'latex-mode' : ''} ${density === 'compact' ? 'compact-mode' : ''}`} style={{ whiteSpace: 'pre-wrap' }}>
               {renderTextWithHighlights(resumeText)}
             </div>
           </div>
@@ -404,9 +434,9 @@ export default function ResumePreview({
             />
           </div>
         ) : (
-          /* FORMATTED ATS SHEET VIEW */
+          /* FORMATTED SHEET VIEW (LATEX OR MODERN) */
           <div id="resume-printable-area" className="resume-sheet-container">
-            <div className={`resume-paper ${density === 'compact' ? 'compact-mode' : ''} ${highlightDiff ? 'highlight-diff' : ''}`}>
+            <div className={`resume-paper ${templateStyle === 'latex' ? 'latex-mode' : ''} ${density === 'compact' ? 'compact-mode' : ''} ${highlightDiff ? 'highlight-diff' : ''}`}>
               {sections && sections.map((sec, secIdx) => {
                 if (sec.title === "HEADER") {
                   const nonBlank = sec.lines.filter(l => l.trim().length > 0);
@@ -417,11 +447,11 @@ export default function ResumePreview({
                     <div key={secIdx} className="resume-header">
                       <div className="candidate-name">{nameLine}</div>
                       {contactLines.length > 0 && (
-                        <div className="contact-line">
+                        <div className="contact-lines-container" style={{ display: 'flex', flexDirection: 'column', gap: '2px', alignItems: 'center' }}>
                           {contactLines.map((cl, ci) => (
-                            <span key={ci} className="contact-item">
-                              {cl}
-                            </span>
+                            <div key={ci} className="contact-line">
+                              <span className="contact-item">{cl}</span>
+                            </div>
                           ))}
                         </div>
                       )}

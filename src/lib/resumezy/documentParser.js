@@ -1,8 +1,9 @@
 import * as mammoth from 'mammoth';
 
 /**
- * Extracts raw text from uploaded files (PDF, DOCX, TXT, MD)
+ * Extracts raw text from uploaded files (PDF, DOCX, TXT, MD, TEX)
  * Preserves the exact structure, line breaks, and indentation.
+ * Specifically handles LaTeX/Overleaf hyphenation and macros.
  */
 export async function parseUploadedResumeFile(file) {
   if (!file) throw new Error("No file provided");
@@ -10,9 +11,15 @@ export async function parseUploadedResumeFile(file) {
   const fileName = file.name;
   const extension = fileName.split('.').pop().toLowerCase();
 
-  // 1. Plain Text or Markdown
-  if (extension === 'txt' || extension === 'md' || file.type === 'text/plain') {
-    const text = await file.text();
+  // 1. Plain Text, Markdown, or LaTeX (.tex) Source File
+  if (extension === 'txt' || extension === 'md' || extension === 'tex' || file.type === 'text/plain') {
+    let text = await file.text();
+
+    // If LaTeX .tex source from Overleaf, parse macros cleanly
+    if (extension === 'tex') {
+      text = parseLatexSource(text);
+    }
+
     return {
       text,
       fileName,
@@ -40,7 +47,7 @@ export async function parseUploadedResumeFile(file) {
     }
   }
 
-  // 3. PDF Files (.pdf)
+  // 3. PDF Files (.pdf - including Overleaf/LaTeX compiled PDFs)
   if (extension === 'pdf' || file.type === 'application/pdf') {
     try {
       // Dynamic import pdfjs-dist
@@ -75,7 +82,15 @@ export async function parseUploadedResumeFile(file) {
         }
       }
 
-      const fullText = extractedLines.join("\n").trim();
+      let fullText = extractedLines.join("\n").trim();
+
+      // Clean LaTeX / Overleaf artifacts:
+      // 1. Fix line-break hyphenation (e.g. "Re-\nact," -> "React,")
+      fullText = fullText.replace(/(\b[A-Za-z]+)-\s*\n\s*([a-z]+)\b/g, '$1$2');
+
+      // 2. Remove trailing isolated page numbers (e.g., lone "1" or "Page 1 of 1" at the bottom)
+      fullText = fullText.replace(/\n\s*\d+\s*$/g, '').trim();
+
       if (fullText.length > 20) {
         return {
           text: fullText,
@@ -100,7 +115,10 @@ export async function parseUploadedResumeFile(file) {
         .filter(s => /[a-zA-Z]{2,}/.test(s));
 
       if (cleanParts.length > 5) {
-        const recoveredText = cleanParts.join("\n");
+        let recoveredText = cleanParts.join("\n");
+        recoveredText = recoveredText.replace(/(\b[A-Za-z]+)-\s*\n\s*([a-z]+)\b/g, '$1$2');
+        recoveredText = recoveredText.replace(/\n\s*\d+\s*$/g, '').trim();
+
         return {
           text: recoveredText,
           fileName,
@@ -114,8 +132,9 @@ export async function parseUploadedResumeFile(file) {
   }
 
   // Generic fallback if all else fails
-  const rawText = await file.text();
+  let rawText = await file.text();
   if (rawText && rawText.trim().length > 10) {
+    rawText = rawText.replace(/(\b[A-Za-z]+)-\s*\n\s*([a-z]+)\b/g, '$1$2');
     return {
       text: rawText,
       fileName,
@@ -124,5 +143,50 @@ export async function parseUploadedResumeFile(file) {
     };
   }
 
-  throw new Error(`Unable to extract text from ${fileName}. Please paste your resume text or upload as .txt/.docx/.pdf.`);
+  throw new Error(`Unable to extract text from ${fileName}. Please paste your resume text or upload as .txt/.docx/.pdf/.tex.`);
+}
+
+/**
+ * Parses LaTeX (.tex) resume source into clean formatted plain text
+ * Handles standard templates: Jake's Resume, Awesome-CV, ModernCV, Deedy
+ */
+function parseLatexSource(tex) {
+  let cleaned = tex;
+
+  // Remove comments
+  cleaned = cleaned.replace(/%[^\n]*/g, '');
+
+  // Convert \section{...} to section headers
+  cleaned = cleaned.replace(/\\section\*?\{([^}]+)\}/gi, '\n\n$1\n');
+
+  // Convert \resumeSubheading{Role/Company}{Dates}{Company/Role}{Location}
+  cleaned = cleaned.replace(/\\resumeSubheading\s*\{([^}]+)\}\s*\{([^}]+)\}\s*\{([^}]+)\}\s*\{([^}]+)\}/gi, '\n$1 — $2\n$3 — $4');
+
+  // Convert \resumeItem{...} or \item to bullet points
+  cleaned = cleaned.replace(/\\resumeItem\{([^}]+)\}/gi, '• $1\n');
+  cleaned = cleaned.replace(/\\item\s+([^\n]+)/gi, '• $1\n');
+
+  // Remove formatting macros
+  cleaned = cleaned.replace(/\\textbf\{([^}]+)\}/gi, '$1');
+  cleaned = cleaned.replace(/\\textit\{([^}]+)\}/gi, '$1');
+  cleaned = cleaned.replace(/\\underline\{([^}]+)\}/gi, '$1');
+  cleaned = cleaned.replace(/\\href\{[^}]*\}\{([^}]+)\}/gi, '$1');
+  cleaned = cleaned.replace(/\\scshape\s*/gi, '');
+
+  // Strip preamble up to \begin{document}
+  if (cleaned.includes('\\begin{document}')) {
+    cleaned = cleaned.split('\\begin{document}')[1];
+  }
+  if (cleaned.includes('\\end{document}')) {
+    cleaned = cleaned.split('\\end{document}')[0];
+  }
+
+  // Remove remaining commands \command or \command{...}
+  cleaned = cleaned.replace(/\\[a-zA-Z]+\*?(?:\[[^\]]*\])?(?:\{[^}]*\})?/g, ' ');
+
+  // Clean excessive spaces and multiple blank lines
+  cleaned = cleaned.replace(/[ \t]+/g, ' ');
+  cleaned = cleaned.replace(/\n\s*\n\s*\n+/g, '\n\n');
+
+  return cleaned.trim();
 }

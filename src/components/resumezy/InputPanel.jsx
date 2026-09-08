@@ -147,7 +147,7 @@ export default function InputPanel({
               <input
                 type="file"
                 id="resumeFileInput"
-                accept=".pdf,.docx,.txt,.md"
+                accept=".pdf,.docx,.txt,.md,.tex"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) handleFileProcess(file);
@@ -239,6 +239,14 @@ export default function InputPanel({
             </div>
 
             <div className="preset-chips">
+              <button
+                type="button"
+                className={`chip ${selectedResumePreset === 'utkarsh_lead_frontend' ? 'active' : ''}`}
+                onClick={() => handleSelectResumePreset('utkarsh_lead_frontend')}
+                style={{ borderColor: selectedResumePreset === 'utkarsh_lead_frontend' ? 'rgba(168, 85, 247, 0.6)' : undefined, background: selectedResumePreset === 'utkarsh_lead_frontend' ? 'rgba(168, 85, 247, 0.15)' : undefined, color: selectedResumePreset === 'utkarsh_lead_frontend' ? '#c084fc' : undefined }}
+              >
+                🎓 Utkarsh (Overleaf LaTeX)
+              </button>
               <button
                 type="button"
                 className={`chip ${selectedResumePreset === 'software_engineer' ? 'active' : ''}`}

@@ -1,4 +1,6 @@
 /* ATS-Optimized Clean Resume Sheet */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400..700&display=swap');
+
 .resume-sheet-container {
   display: flex;
   justify-content: center;
@@ -25,56 +27,125 @@
   box-sizing: border-box;
 }
 
-/* Compact Mode (Ensures tight 1-page fit) */
-.resume-paper.compact-mode {
+/* ========================================================= */
+/* LATEX / OVERLEAF JAKE'S RESUME CLASSIC STYLING */
+/* ========================================================= */
+.resume-paper.latex-mode {
+  font-family: "EB Garamond", "Computer Modern Roman", "Latin Modern Roman", "CMU Serif", "Times New Roman", Times, serif;
+  font-size: 10pt;
+  line-height: 1.3;
+  color: #000000;
+  padding: 1.5rem 2.25rem;
+}
+
+.resume-paper.latex-mode.compact-mode {
+  padding: 1.15rem 1.65rem;
+  font-size: 9.25pt;
+  line-height: 1.22;
+}
+
+.resume-paper.latex-mode .resume-header {
+  border-bottom: none;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0;
+  text-align: center;
+}
+
+.resume-paper.latex-mode .candidate-name {
+  font-family: inherit;
+  font-size: 20pt;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  margin-bottom: 0.15rem;
+  color: #000000;
+}
+
+.resume-paper.latex-mode .contact-line {
+  font-size: 9.25pt;
+  color: #222222;
+  gap: 0.4rem;
+}
+
+.resume-paper.latex-mode .resume-section {
+  margin-bottom: 0.65rem;
+}
+
+.resume-paper.latex-mode .section-title {
+  font-family: inherit;
+  font-variant: small-caps;
+  font-size: 11.5pt;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  border-bottom: 0.75pt solid #000000;
+  padding-bottom: 1.5pt;
+  margin-bottom: 4pt;
+  margin-top: 6pt;
+  color: #000000;
+}
+
+.resume-paper.latex-mode .role-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: 700;
+  font-size: 10pt;
+  color: #000000;
+}
+
+.resume-paper.latex-mode .role-header-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-style: italic;
+  font-size: 9.5pt;
+  color: #333333;
+  margin-bottom: 2pt;
+}
+
+.resume-paper.latex-mode .bullet-list {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin: 2pt 0 4pt 0;
+}
+
+.resume-paper.latex-mode .bullet-item {
+  font-size: 9.5pt;
+  line-height: 1.28;
+  margin-bottom: 2pt;
+  color: #111111;
+}
+
+.resume-paper.latex-mode .skill-category {
+  margin-bottom: 2pt;
+  font-size: 9.5pt;
+  line-height: 1.32;
+  color: #111111;
+}
+
+.resume-paper.latex-mode .skill-category strong {
+  color: #000000;
+  font-weight: 700;
+}
+
+/* ========================================================= */
+/* MODERN SANS-SERIF ATS STYLING */
+/* ========================================================= */
+.resume-paper.compact-mode:not(.latex-mode) {
   padding: 1.25rem 1.75rem;
   font-size: 9pt;
   line-height: 1.25;
 }
 
-.resume-paper.compact-mode .resume-header {
-  margin-bottom: 0.6rem;
-  padding-bottom: 0.35rem;
-}
-
-.resume-paper.compact-mode .candidate-name {
-  font-size: 15pt;
-  margin-bottom: 0.15rem;
-}
-
-.resume-paper.compact-mode .contact-line {
-  font-size: 8.5pt;
-  gap: 0.5rem;
-}
-
-.resume-paper.compact-mode .resume-section {
-  margin-bottom: 0.55rem;
-}
-
-.resume-paper.compact-mode .section-title {
-  font-size: 9.75pt;
-  margin-bottom: 0.25rem;
-  padding-bottom: 0.1rem;
-}
-
-.resume-paper.compact-mode .experience-item {
-  margin-bottom: 0.45rem;
-}
-
-.resume-paper.compact-mode .bullet-item {
-  margin-bottom: 0.12rem;
-  font-size: 8.75pt;
-}
-
-/* Standard Header */
-.resume-paper .resume-header {
+.resume-paper:not(.latex-mode) .resume-header {
   text-align: center;
   margin-bottom: 0.95rem;
   border-bottom: 1.5px solid #111827;
   padding-bottom: 0.6rem;
 }
 
-.resume-paper .candidate-name {
+.resume-paper:not(.latex-mode) .candidate-name {
   font-size: 17pt;
   font-weight: 800;
   color: #0f172a;
@@ -83,7 +154,7 @@
   text-transform: uppercase;
 }
 
-.resume-paper .contact-line {
+.resume-paper:not(.latex-mode) .contact-line {
   font-size: 9pt;
   color: #475569;
   display: flex;
@@ -92,17 +163,16 @@
   gap: 0.65rem;
 }
 
-.resume-paper .contact-item {
+.resume-paper:not(.latex-mode) .contact-item {
   display: inline-flex;
   align-items: center;
 }
 
-/* Sections */
-.resume-paper .resume-section {
+.resume-paper:not(.latex-mode) .resume-section {
   margin-bottom: 0.85rem;
 }
 
-.resume-paper .section-title {
+.resume-paper:not(.latex-mode) .section-title {
   font-size: 10.5pt;
   font-weight: 800;
   color: #0f172a;
@@ -113,19 +183,12 @@
   margin-bottom: 0.45rem;
 }
 
-.resume-paper .section-content {
+.resume-paper:not(.latex-mode) .section-content {
   font-size: 9.5pt;
   color: #1e293b;
 }
 
-/* Role / Company block */
-.resume-paper .experience-item {
-  margin-bottom: 0.65rem;
-  page-break-inside: avoid;
-  break-inside: avoid;
-}
-
-.resume-paper .role-header {
+.resume-paper:not(.latex-mode) .role-header-top {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -134,7 +197,7 @@
   color: #0f172a;
 }
 
-.resume-paper .company-line {
+.resume-paper:not(.latex-mode) .role-header-sub {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -144,29 +207,26 @@
   margin-bottom: 0.25rem;
 }
 
-/* Bullets */
-.resume-paper .bullet-list {
+.resume-paper:not(.latex-mode) .bullet-list {
   list-style-type: disc;
   padding-left: 1.25rem;
   margin: 0.25rem 0;
 }
 
-.resume-paper .bullet-item {
+.resume-paper:not(.latex-mode) .bullet-item {
   margin-bottom: 0.25rem;
   line-height: 1.35;
   color: #1e293b;
   font-size: 9.25pt;
-  position: relative;
 }
 
-/* Skills section styling */
-.resume-paper .skill-category {
+.resume-paper:not(.latex-mode) .skill-category {
   margin-bottom: 0.25rem;
   font-size: 9.25pt;
   line-height: 1.35;
 }
 
-.resume-paper .skill-category strong {
+.resume-paper:not(.latex-mode) .skill-category strong {
   color: #0f172a;
   font-weight: 700;
 }
@@ -193,11 +253,10 @@
 /* ========================================================= */
 @page {
   size: letter portrait;
-  margin: 0mm !important; /* Strips browser header/footer completely */
+  margin: 0mm !important;
 }
 
 @media print {
-  /* 1. Reset root elements */
   html, body {
     background: #ffffff !important;
     color: #000000 !important;
@@ -210,7 +269,6 @@
     print-color-adjust: exact !important;
   }
 
-  /* 2. Completely hide all non-resume page elements */
   .no-print,
   .app-header,
   .brand-section,
@@ -230,7 +288,6 @@
     visibility: hidden !important;
   }
 
-  /* 3. Reset outer containers so they do not constrain or box the printed paper */
   .resumezy-root,
   .resumezy-wrapper,
   .main-content,
@@ -251,7 +308,6 @@
     overflow: visible !important;
   }
 
-  /* 4. Position the printable resume sheet directly onto the printed page */
   #resume-printable-area,
   .resume-sheet-container {
     display: block !important;
@@ -270,35 +326,30 @@
     background: #ffffff !important;
     color: #000000 !important;
     box-shadow: none !important;
-    border: none !important; /* Absolutely no borders on print */
+    border: none !important;
     outline: none !important;
     border-radius: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     min-height: auto !important;
-    padding: 12mm 16mm !important; /* Perfect standard page margin */
+    padding: 12mm 16mm !important;
     margin: 0 !important;
-    font-size: 9.5pt !important;
-    line-height: 1.3 !important;
     box-sizing: border-box !important;
   }
 
-  /* Compact mode print adjustments */
   .resume-paper.compact-mode {
     padding: 8mm 12mm !important;
     font-size: 8.75pt !important;
     line-height: 1.22 !important;
   }
 
-  /* Prevent page breaks across experience blocks or sections */
-  .experience-item,
+  .latex-job-block,
   .resume-section,
   .resume-header {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
 
-  /* Clean up diff highlights for print */
   .highlight-diff .bullet-item.modified {
     background-color: transparent !important;
     border-left: none !important;

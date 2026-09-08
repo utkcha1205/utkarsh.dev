@@ -1,4 +1,52 @@
 export const sampleResumes = {
+  utkarsh_lead_frontend: {
+    id: "utkarsh_lead_frontend",
+    title: "Utkarsh Chaturvedi - Lead Frontend Engineer (LaTeX Overleaf)",
+    role: "Lead Frontend Engineer",
+    text: `Utkarsh Chaturvedi
+Lead Frontend Engineer — React • Next.js • Real-Time Systems
+Gurgaon, Haryana • utkcha1205@gmail.com • +91 6393977249 • LinkedIn
+
+Professional Summary
+Frontend Engineer with 6+ years of experience delivering scalable aviation and automotive platforms. Specialized in React, Next.js, TypeScript, real-time maps, WebSockets, Node.js, and high-performance UI engineering. Experienced in team leadership, architecting large-scale systems, design systems, and performance optimization.
+
+Experience
+Statusneo  May 2022 – Present
+Lead Frontend Engineer — Gurgaon — Indigo Airlines
+• Leading a 14-member frontend team; responsible for architecture, mentoring, code quality, and delivery of Indigo Airlines’ Aviation Operations Platform.
+• Enabled team growth through technical guidance, conducting code reviews, and implementing best practices in frontend architecture and workflow.
+• Architected 6eEye, a real-time Flight Tracking system using Mapbox, WebSockets, MongoDB, Node.js, and aviation APIs.
+• Built scalable React/Next.js microfrontend architecture with reusable shared UI components.
+• Designed real-time dashboards supporting 100+ concurrent users.
+• Optimized SSR, caching, and route-level strategies (load time 6s → 3s); implemented bundle splitting.
+• Delivered a unified design system reducing UI development effort by 40%.
+• Ensured high code quality and reliability with 80%+ test coverage using Jest, React Testing Library, and Cypress.
+• Collaborated with cross-functional teams including backend, product, and QA to ensure timely delivery of features.
+
+Publicis Sapient  Aug 2021 – May 2022
+Frontend Developer — Gurgaon
+• Developed inventory/booking UIs for premium automotive clients using React.
+• Implemented WCAG accessibility guidelines across UI flows.
+• Integrated REST APIs for multi-brand and multi-region support.
+
+83Incs  Mar 2020 – Aug 2021
+Frontend Developer — Gurgaon
+• Built real-time IoT dashboards using React and Google Maps APIs.
+• Optimized bundle size and load performance by 40%.
+• Delivered reusable table form components with server-side pagination and filters.
+
+Technical Skills
+Frontend/Mobile: React, Next.js, JavaScript, TypeScript, Redux Toolkit, React Query, React Native, Webpack
+Realtime/Backend: WebSockets, Kafka, Node.js, Express, MongoDB
+UI/Styling: Tailwind, Material UI, Shadcn, SCSS
+Tools: GitHub, Jenkins, Figma, Jira
+Practices: Design Systems, Performance, Accessibility (WCAG), Agile
+
+Education
+GLA University — B.Tech Computer Science  2016 – 2020
+Mathura, Uttar Pradesh`
+  },
+
   software_engineer: {
     id: "software_engineer",
     title: "Alex Chen - Senior Full Stack Engineer",
