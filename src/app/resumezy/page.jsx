@@ -247,6 +247,7 @@ export default function ResumezyPage() {
 
   return (
     <div className="resumezy-wrapper">
+      <div className="no-print">
       <Header
         onOpenSettings={() => setIsSettingsOpen(true)}
         onLoadQuickDemo={handleLoadQuickDemo}
@@ -254,11 +255,12 @@ export default function ResumezyPage() {
         hasOptimized={hasOptimized}
         atsScore={scorecard ? scorecard.overallScore : null}
       />
+      </div>
 
       <main className="main-content">
         <div className="workspace-grid">
           {/* LEFT COLUMN: Input Panel & Agent Console */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div className="no-print input-panel-wrapper agent-console-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <InputPanel
               resumeText={resumeText}
               setResumeText={handleResumeUpdate}
@@ -283,16 +285,18 @@ export default function ResumezyPage() {
 
           {/* RIGHT COLUMN: Scorecard & Formatted Resume Preview */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            {scorecard && (
-              <ScoreDashboard
+            <div className="no-print score-dashboard-wrapper">
+              {scorecard && (
+                <ScoreDashboard
                 scorecard={scorecard}
                 jdKeywordsData={jdKeywordsData}
-              />
-            )}
+                />
+              )}
+            </div>
 
             {/* Review Changes Trigger Button if changes pending */}
             {proposedChanges.length > 0 && (
-              <div style={{
+              <div className="no-print" style={{
                 background: 'rgba(16, 185, 129, 0.08)',
                 border: '1px solid rgba(16, 185, 129, 0.3)',
                 borderRadius: 'var(--radius-md)',
