@@ -91,6 +91,10 @@ export async function parseUploadedResumeFile(file) {
       // 2. Remove trailing isolated page numbers (e.g., lone "1" or "Page 1 of 1" at the bottom)
       fullText = fullText.replace(/\n\s*\d+\s*$/g, '').trim();
 
+      // 3. Remove stray LaTeX / FontAwesome glyph characters (e.g. \u0083, #, ï, §) from contact headers
+      fullText = fullText.replace(/[\u0080-\u009F\uF000-\uFFFFï§#\u00A7\u00EF\u0083]/g, ' ');
+      fullText = fullText.split('\n').map(l => l.replace(/\s{2,}/g, ' ').trim()).join('\n');
+
       if (fullText.length > 20) {
         return {
           text: fullText,

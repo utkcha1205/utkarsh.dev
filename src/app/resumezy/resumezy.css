@@ -266,7 +266,7 @@
 /* App Grid Layout */
 .workspace-grid {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
+  grid-template-columns: minmax(420px, 1fr) minmax(830px, 1.12fr);
   gap: 1.5rem;
   align-items: start;
 }

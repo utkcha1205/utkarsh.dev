@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
-import { Copy, Check, Printer, Eye, Edit3, Sparkles, Layers, Minimize2, Maximize2, FileText, GraduationCap, Phone, Mail, ExternalLink } from 'lucide-react';
+import { Copy, Check, Printer, Eye, Edit3, Sparkles, Layers, Minimize2, Maximize2, FileText, GraduationCap, ExternalLink } from 'lucide-react';
 import DiffViewer from './DiffViewer';
 
-// Brand SVGs for LinkedIn and GitHub
+// Authentic FontAwesome solid & brand SVGs matching Overleaf LaTeX template
+const PhoneIcon = () => (
+  <svg width="10" height="10" viewBox="0 0 512 512" fill="currentColor" style={{ display: 'inline', marginRight: '4px', verticalAlign: '-1px' }}>
+    <path d="M497.39 361.8l-112-48a24 24 0 0 0-28 6.9l-49.6 60.6A370.66 370.66 0 0 1 130.6 204.1l60.6-49.6a23.94 23.94 0 0 0 6.9-28l-48-112A24.16 24.16 0 0 0 122.6.61l-104 24A24 24 0 0 0 0 48c0 256.5 207.9 464 464 464a24 24 0 0 0 23.4-18.6l24-104a24.29 24.29 0 0 0-14.01-27.6z"/>
+  </svg>
+);
+
+const EnvelopeIcon = () => (
+  <svg width="10" height="10" viewBox="0 0 512 512" fill="currentColor" style={{ display: 'inline', marginRight: '4px', verticalAlign: '-1px' }}>
+    <path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.5c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.6zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/>
+  </svg>
+);
+
 const LinkedInIcon = () => (
-  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ display: 'inline', marginRight: '3px', verticalAlign: '-1px', color: '#0077b5' }}>
-    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24Z"/>
+  <svg width="10" height="10" viewBox="0 0 448 512" fill="currentColor" style={{ display: 'inline', marginRight: '4px', verticalAlign: '-1px', color: '#000000' }}>
+    <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
   </svg>
 );
 
 const GitHubIcon = () => (
-  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ display: 'inline', marginRight: '3px', verticalAlign: '-1px', color: '#111827' }}>
-    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+  <svg width="10" height="10" viewBox="0 0 496 512" fill="currentColor" style={{ display: 'inline', marginRight: '4px', verticalAlign: '-1px', color: '#000000' }}>
+    <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
   </svg>
 );
 
@@ -23,12 +35,12 @@ export default function ResumePreview({
   onPrint
 }) {
   const [copiedText, setCopiedText] = useState(false);
-  const [highlightDiff, setHighlightDiff] = useState(true);
-  const [highlightKeywords, setHighlightKeywords] = useState(true);
+  const [highlightDiff, setHighlightDiff] = useState(false);
+  const [highlightKeywords, setHighlightKeywords] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'diff' | 'raw'
-  const [density, setDensity] = useState('compact'); // 'compact' | 'standard'
+  const [activeTab, setActiveTab] = useState('sheet'); // 'sheet' | 'diff' | 'raw'
   const [templateStyle, setTemplateStyle] = useState('latex'); // 'latex' | 'modern'
+  const [density, setDensity] = useState('standard'); // 'standard' | 'compact'
 
   const handleCopyPlainText = () => {
     navigator.clipboard.writeText(resumeText);
@@ -36,93 +48,89 @@ export default function ResumePreview({
     setTimeout(() => setCopiedText(false), 2000);
   };
 
-  // Robust check for Bullet points
-  const isBulletLine = (line) => {
-    const trimmed = line.trim();
-    return /^[•\*\-\–\—\▪\▫\►\▸\⁃]\s*/.test(trimmed) || /^\d+[\.\)]\s+/.test(trimmed);
-  };
-
-  const cleanBulletText = (line) => {
-    return line.trim().replace(/^[•\*\-\–\—\▪\▫\►\▸\⁃]\s*/, '').replace(/^\d+[\.\)]\s*/, '');
-  };
-
-  // Check for Section Headers
+  // Section Header Detector
   const isSectionHeader = (line) => {
     const trimmed = line.trim();
-    if (!trimmed || trimmed.length > 60 || /[.?!]$/.test(trimmed)) return false;
-    if (/^[=\-_*~]{3,}$/.test(trimmed)) return false;
-
-    const upper = trimmed.toUpperCase().replace(/[:#]/g, '').trim();
-    const knownHeaders = [
-      "PROFESSIONAL SUMMARY", "SUMMARY", "PROFILE", "ABOUT ME", "ABOUT", "OBJECTIVE", "EXECUTIVE SUMMARY",
-      "WORK EXPERIENCE", "EXPERIENCE", "PROFESSIONAL EXPERIENCE", "EMPLOYMENT HISTORY", "EMPLOYMENT", "WORK HISTORY", "CAREER HISTORY",
-      "PROJECTS", "KEY PROJECTS", "PERSONAL PROJECTS", "NOTABLE WORK", "PORTFOLIO PROJECTS", "ACADEMIC PROJECTS",
-      "TECHNICAL SKILLS", "SKILLS & TOOLS", "SKILLS", "CORE COMPETENCIES", "COMPETENCIES", "AREAS OF EXPERTISE", "TECHNOLOGIES", "TOOLKIT",
-      "EDUCATION", "ACADEMIC BACKGROUND", "ACADEMIC QUALIFICATIONS", "QUALIFICATIONS",
-      "CERTIFICATIONS", "LICENSES & CERTIFICATIONS", "LICENSES", "COURSES",
-      "AWARDS", "ACHIEVEMENTS", "HONORS & AWARDS", "HONORS",
-      "PUBLICATIONS", "VOLUNTEERING", "LEADERSHIP & ACTIVITIES", "LEADERSHIP"
+    if (trimmed.length === 0 || trimmed.length > 40) return false;
+    const clean = trimmed.replace(/^#+\s*/, '').replace(/[:*_-]/g, '').trim().toUpperCase();
+    const commonTitles = [
+      "SUMMARY", "PROFESSIONAL SUMMARY", "EXECUTIVE SUMMARY", "OBJECTIVE",
+      "EXPERIENCE", "WORK EXPERIENCE", "PROFESSIONAL EXPERIENCE", "EMPLOYMENT HISTORY",
+      "EDUCATION", "ACADEMIC BACKGROUND",
+      "TECHNICAL SKILLS", "SKILLS", "CORE COMPETENCIES", "AREAS OF EXPERTISE",
+      "PROJECTS", "PERSONAL PROJECTS", "KEY PROJECTS",
+      "CERTIFICATIONS", "LICENSES", "AWARDS", "PUBLICATIONS"
     ];
-
-    if (knownHeaders.includes(upper)) return true;
-
-    // Short line that matches exact standard header format
-    if (trimmed.length >= 3 && trimmed.length <= 30 && !trimmed.includes(',') && !trimmed.includes('|') && !trimmed.includes('—')) {
-      if (trimmed === upper || /^[A-Z][a-z]+(\s+[A-Z][a-z]+)*$/.test(trimmed)) {
-        return knownHeaders.some(h => upper.includes(h));
-      }
-    }
-
-    return false;
+    return commonTitles.some(title => clean === title || clean.startsWith(title));
   };
 
-  // Date pattern extractor (e.g. "May 2022 – Present", "Jul 2016 – May 2020", "2020 – 2022")
-  const dateRegex = /\s+((?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*)?(?:\d{4})\s*[\–\—\-]\s*(?:Present|Current|(?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*)?(?:\d{4})))$/i;
-
-  // Structure resume lines into sections
-  const parseResumeToElements = (text) => {
+  // Parse raw text into structured sections
+  const parseSections = (text) => {
     if (!text) return [];
-    const lines = text.split(/\r?\n/);
-
+    const rawLines = text.split('\n');
     const sections = [];
     let currentSection = { title: "HEADER", lines: [] };
 
-    for (const rawLine of lines) {
-      const trimmed = rawLine.trim();
-      if (!trimmed) continue;
-      if (/^[=\-_*~]{3,}$/.test(trimmed)) continue;
-
-      if (isSectionHeader(trimmed)) {
+    for (let i = 0; i < rawLines.length; i++) {
+      const line = rawLines[i];
+      if (isSectionHeader(line)) {
         if (currentSection.lines.length > 0 || currentSection.title !== "HEADER") {
           sections.push(currentSection);
         }
-        const cleanTitle = trimmed.replace(/[:#]/g, '').trim();
-        currentSection = { title: cleanTitle, lines: [] };
+        currentSection = {
+          title: line.replace(/^#+\s*/, '').replace(/[:*_-]/g, '').trim(),
+          lines: []
+        };
       } else {
-        currentSection.lines.push(trimmed);
+        currentSection.lines.push(line);
       }
     }
-
     if (currentSection.lines.length > 0) {
       sections.push(currentSection);
     }
-
     return sections;
   };
 
-  const sections = parseResumeToElements(resumeText);
+  const sections = parseSections(resumeText);
 
-  // Keyword highlighter helper
+  const isBulletLine = (line) => {
+    const trimmed = line.trim();
+    return trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('*') || /^\d+[.)]/.test(trimmed);
+  };
+
+  const cleanBulletText = (line) => {
+    return line.trim().replace(/^[•\-*]\s*/, '').replace(/^\d+[.)]\s*/, '');
+  };
+
+  const dateRegex = /((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December|\d{4})\s*(?:\d{4})?\s*[-–—]\s*(?:Present|Current|\d{4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s*\d{4}))/i;
+
+  // Render text with markdown bold support and optional keyword highlights
   const renderTextWithHighlights = (textStr) => {
-    if (!highlightKeywords || !jdKeywordsData?.keywords || !textStr) {
-      return textStr;
+    if (!textStr) return null;
+
+    // Helper to render bold spans for **word** or \textbf{word}
+    const renderMarkdownBold = (str, keyPrefix = 'txt') => {
+      const parts = str.split(/(\*\*[^*]+\*\*|\\textbf\{[^}]+\})/g);
+      return parts.map((part, idx) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={`${keyPrefix}-b-${idx}`} style={{ fontWeight: 700, color: '#000000' }}>{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith('\\textbf{') && part.endsWith('}')) {
+          return <strong key={`${keyPrefix}-tb-${idx}`} style={{ fontWeight: 700, color: '#000000' }}>{part.slice(8, -1)}</strong>;
+        }
+        return part;
+      });
+    };
+
+    if (!highlightKeywords || !jdKeywordsData?.keywords) {
+      return renderMarkdownBold(textStr);
     }
 
     const keywords = jdKeywordsData.keywords.map(k => k.name).filter(Boolean);
-    if (keywords.length === 0) return textStr;
+    if (keywords.length === 0) return renderMarkdownBold(textStr);
 
     const escaped = keywords.slice(0, 30).map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-    if (!escaped) return textStr;
+    if (!escaped) return renderMarkdownBold(textStr);
 
     const regex = new RegExp(`(\\b(?:${escaped})\\b)`, 'gi');
     const parts = textStr.split(regex);
@@ -136,85 +144,83 @@ export default function ResumePreview({
           </mark>
         );
       }
-      return part;
+      return renderMarkdownBold(part, `kw-${i}`);
     });
   };
 
-  // Helper to render Contact Header with icons matching Overleaf screenshot
+  // Helper to render Contact Header matching Overleaf screenshot
   const renderCandidateHeader = (sec) => {
     const lines = sec.lines.filter(l => l.trim().length > 0);
     const candidateName = lines[0] || "UTKARSH CHATURVEDI";
     const sublines = lines.slice(1);
 
-    // Group items by category (Phone, Email, LinkedIn, GitHub, Location)
     let locationStr = "Gurgaon, Haryana";
     let phoneStr = "";
     let emailStr = "";
     let linkedInStr = "";
     let gitHubStr = "";
-    let otherSubtitle = "";
 
+    const fullSubText = sublines.join(' ');
+
+    // 1. Phone extraction
+    const phoneMatch = fullSubText.match(/(\+?\d{1,3}[\s-]?\d{5}[\s-]?\d{5}|\+?\d{10,12})/);
+    if (phoneMatch) phoneStr = phoneMatch[1].trim();
+
+    // 2. Email extraction
+    const emailMatch = fullSubText.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
+    if (emailMatch) emailStr = emailMatch[1].trim();
+
+    // 3. LinkedIn extraction
+    const linkedInMatch = fullSubText.match(/(?:https?:\/\/)?(?:www\.)?(linkedin\.com\/in\/[a-zA-Z0-9_-]+)/i);
+    if (linkedInMatch) linkedInStr = linkedInMatch[1].trim();
+
+    // 4. GitHub extraction
+    const gitHubMatch = fullSubText.match(/(?:https?:\/\/)?(?:www\.)?(github\.com\/[a-zA-Z0-9_-]+)/i);
+    if (gitHubMatch) gitHubStr = gitHubMatch[1].trim();
+
+    // 5. Location extraction
     for (const line of sublines) {
-      // Split on pipes or bullet dots
-      const tokens = line.split(/[|•]/).map(t => t.trim()).filter(Boolean);
-
-      for (const token of tokens) {
-        if (/[\d\s+()-]{9,}/.test(token) && !token.includes('@') && !token.includes('github') && !token.includes('linkedin')) {
-          phoneStr = token;
-        } else if (token.includes('@')) {
-          emailStr = token;
-        } else if (/linkedin\.com/i.test(token)) {
-          linkedInStr = token.replace(/^https?:\/\/(www\.)?/, '');
-        } else if (/github\.com/i.test(token)) {
-          gitHubStr = token.replace(/^https?:\/\/(www\.)?/, '');
-        } else if (/gurgaon|delhi|bangalore|mumbai|san francisco|california|new york|mathura|india/i.test(token)) {
-          locationStr = token;
-        } else if (tokens.length === 1 && !phoneStr && !emailStr) {
-          otherSubtitle = token;
+      const cleanLine = line.replace(/[\u0080-\u009F\uF000-\uFFFFï§#\u00A7\u00EF\u0083|•]/g, ' ').trim();
+      if (/gurgaon|delhi|bangalore|mumbai|san francisco|california|new york|mathura|india/i.test(cleanLine)) {
+        const tokens = cleanLine.split(/\s{2,}|,/);
+        if (tokens.length >= 2) {
+          locationStr = cleanLine.split('|')[0].trim();
         }
       }
     }
 
     return (
       <div className="resume-header">
-        <div className="candidate-name" style={{ letterSpacing: '0.04em' }}>{candidateName}</div>
+        <div className="candidate-name">{candidateName}</div>
         
         {locationStr && (
-          <div className="location-line" style={{ fontSize: '9.75pt', color: '#111827', marginBottom: '2px' }}>
+          <div className="location-line">
             {locationStr}
           </div>
         )}
 
-        {otherSubtitle && (
-          <div style={{ fontSize: '9.5pt', color: '#333333', marginBottom: '3px' }}>
-            {otherSubtitle}
-          </div>
-        )}
-
         {/* Row 1: Phone, Email, LinkedIn */}
-        <div className="contact-line" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '2px' }}>
+        <div className="contact-line">
           {phoneStr && (
-            <span className="contact-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
-              <Phone size={10} style={{ color: '#111827' }} />
-              <a href={`tel:${phoneStr.replace(/\s+/g, '')}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-                {phoneStr}
-              </a>
+            <span className="contact-item">
+              <PhoneIcon />
+              <span>{phoneStr}</span>
             </span>
           )}
 
           {emailStr && (
-            <span className="contact-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
-              <Mail size={10} style={{ color: '#111827' }} />
-              <a href={`mailto:${emailStr}`} style={{ color: '#1d4ed8', textDecoration: 'underline' }}>
+            <span className="contact-item">
+              <EnvelopeIcon />
+              <a href={`mailto:${emailStr}`}>
                 {emailStr}
               </a>
             </span>
           )}
 
           {linkedInStr && (
-            <span className="contact-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+            <span className="contact-item">
               <LinkedInIcon />
-              <a href={`https://${linkedInStr}`} target="_blank" rel="noopener noreferrer" style={{ color: '#1d4ed8', textDecoration: 'underline' }}>
+              <a href={`https://${linkedInStr}`} target="_blank" rel="noopener noreferrer">
                 {linkedInStr}
               </a>
             </span>
@@ -223,10 +229,10 @@ export default function ResumePreview({
 
         {/* Row 2: GitHub */}
         {gitHubStr && (
-          <div className="contact-line" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '3px' }}>
-            <span className="contact-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+          <div className="contact-line">
+            <span className="contact-item">
               <GitHubIcon />
-              <a href={`https://${gitHubStr}`} target="_blank" rel="noopener noreferrer" style={{ color: '#1d4ed8', textDecoration: 'underline' }}>
+              <a href={`https://${gitHubStr}`} target="_blank" rel="noopener noreferrer">
                 {gitHubStr}
               </a>
             </span>
@@ -236,7 +242,6 @@ export default function ResumePreview({
     );
   };
 
-  // Helper to render section content with LaTeX Overleaf 4-corner layout
   const renderSectionContent = (sec) => {
     const isExperience = sec.title.toUpperCase().includes("EXPERIENCE") || sec.title.toUpperCase().includes("EMPLOYMENT") || sec.title.toUpperCase().includes("WORK");
     const isEducation = sec.title.toUpperCase().includes("EDUCATION");
@@ -302,7 +307,6 @@ export default function ResumePreview({
             subRight
           });
         } else if (isProjects && (line.includes('|') || line.includes('–') || line.includes('-'))) {
-          // Project header format: Guidezy – Personal Portfolio ↗ | Next.js, TypeScript, CI/CD
           const parts = line.split('|');
           clusters.push({
             type: 'project-header',
@@ -312,7 +316,7 @@ export default function ResumePreview({
         } else if (isSkills && line.includes(':')) {
           const [cat, items] = line.split(/:(.+)/);
           clusters.push({ type: 'skill', category: cat.trim(), items: (items || '').trim() });
-        } else {
+        } else if (line.trim().length > 0) {
           clusters.push({ type: 'text', text: line });
         }
       }
@@ -329,20 +333,20 @@ export default function ResumePreview({
             const isExternalLinkCompany = /Statusneo|Publicis|83Incs|Sapient|Guidezy/i.test(cluster.topLabel);
 
             return (
-              <div key={ci} className="latex-job-block" style={{ marginTop: ci > 0 ? '0.55rem' : '0.15rem', marginBottom: '0.2rem' }}>
+              <div key={ci} className="latex-job-block" style={{ marginTop: ci > 0 ? '5pt' : '1.5pt', marginBottom: '1.5pt' }}>
                 <div className="role-header-top">
-                  <span className="company-name" style={{ color: isExternalLinkCompany && !cluster.topLabel.includes('Indigo') ? '#1d4ed8' : '#000000' }}>
+                  <span className="company-name" style={{ color: '#000000', fontWeight: 700 }}>
                     {cluster.topLabel}
                     {isExternalLinkCompany && (
-                      <ExternalLink size={9} style={{ display: 'inline', marginLeft: '3px', verticalAlign: 'middle', color: '#1d4ed8' }} />
+                      <ExternalLink size={9} style={{ display: 'inline', marginLeft: '3px', verticalAlign: 'middle', color: '#0000ee' }} />
                     )}
                   </span>
-                  <span className="timeline-dates" style={{ fontWeight: 400, color: '#111827' }}>{cluster.dateStr}</span>
+                  <span className="timeline-dates" style={{ fontWeight: 400, color: '#000000' }}>{cluster.dateStr}</span>
                 </div>
                 {(cluster.subLeft || cluster.subRight) && (
                   <div className="role-header-sub">
-                    <span className="role-title" style={{ fontStyle: 'italic', color: '#111827' }}>{cluster.subLeft}</span>
-                    <span className="role-location" style={{ fontStyle: 'italic', color: '#333333' }}>{cluster.subRight}</span>
+                    <span className="role-title" style={{ fontStyle: 'italic', color: '#000000' }}>{cluster.subLeft}</span>
+                    <span className="role-location" style={{ fontStyle: 'italic', color: '#000000' }}>{cluster.subRight}</span>
                   </div>
                 )}
               </div>
@@ -351,10 +355,10 @@ export default function ResumePreview({
 
           if (cluster.type === 'project-header') {
             return (
-              <div key={ci} style={{ marginTop: ci > 0 ? '0.5rem' : '0.15rem', marginBottom: '0.2rem', fontSize: '9.75pt' }}>
-                <strong style={{ color: '#1d4ed8' }}>{cluster.title}</strong>
-                <ExternalLink size={9} style={{ display: 'inline', marginLeft: '3px', marginRight: '6px', verticalAlign: 'middle', color: '#1d4ed8' }} />
-                {cluster.tech && <span style={{ color: '#333333', fontStyle: 'normal' }}>| {cluster.tech}</span>}
+              <div key={ci} style={{ marginTop: ci > 0 ? '5pt' : '1.5pt', marginBottom: '1.5pt', fontSize: '9.75pt' }}>
+                <strong style={{ color: '#000000', fontWeight: 700 }}>{cluster.title}</strong>
+                <ExternalLink size={9} style={{ display: 'inline', marginLeft: '3px', marginRight: '5px', verticalAlign: 'middle', color: '#0000ee' }} />
+                {cluster.tech && <span style={{ color: '#000000', fontStyle: 'normal' }}>| {cluster.tech}</span>}
               </div>
             );
           }
@@ -373,14 +377,14 @@ export default function ResumePreview({
 
           if (cluster.type === 'skill') {
             return (
-              <div key={ci} className="skill-category" style={{ marginBottom: '2.5pt' }}>
+              <div key={ci} className="skill-category">
                 <strong>{cluster.category}:</strong> {renderTextWithHighlights(cluster.items)}
               </div>
             );
           }
 
           return (
-            <p key={ci} style={{ marginBottom: '0.3rem', lineHeight: '1.32' }}>
+            <p key={ci} style={{ marginBottom: '2.5pt', lineHeight: '1.28' }}>
               {renderTextWithHighlights(cluster.text)}
             </p>
           );
@@ -392,44 +396,41 @@ export default function ResumePreview({
   return (
     <div className="glass-card preview-card-wrapper" style={{ overflow: 'hidden', border: '1px solid var(--border-subtle)' }}>
       {/* Resume View Toolbar (Hidden during Print) */}
-      <div className="panel-header resume-toolbar no-print" style={{ background: 'rgba(10, 16, 30, 0.75)', flexWrap: 'wrap', gap: '0.5rem' }}>
-        <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
+      <div className="panel-header resume-toolbar no-print" style={{ background: 'rgba(15, 23, 42, 0.95)', borderBottom: '1px solid var(--border-subtle)', flexWrap: 'wrap', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <button
             type="button"
-            className={`btn btn-sm ${activeTab === 'preview' ? 'btn-primary' : 'btn-ghost'}`}
-            onClick={() => setActiveTab('preview')}
-            title="Formatted resume sheet"
+            className={`btn btn-sm ${activeTab === 'sheet' ? 'btn-primary' : 'btn-ghost'}`}
+            style={{ fontSize: '0.725rem' }}
+            onClick={() => setActiveTab('sheet')}
           >
-            <Eye size={13} />
+            <Eye size={12} />
             Formatted Sheet
           </button>
-
           <button
             type="button"
             className={`btn btn-sm ${activeTab === 'diff' ? 'btn-primary' : 'btn-ghost'}`}
+            style={{ fontSize: '0.725rem' }}
             onClick={() => setActiveTab('diff')}
-            title="View side-by-side bullet comparisons"
           >
-            <Layers size={13} />
+            <Layers size={12} />
             Bullet Impact Diff ({bulletChanges.length})
           </button>
-
           <button
             type="button"
             className={`btn btn-sm ${activeTab === 'raw' ? 'btn-primary' : 'btn-ghost'}`}
+            style={{ fontSize: '0.725rem' }}
             onClick={() => setActiveTab('raw')}
-            title="View exact original template text"
           >
-            <FileText size={13} />
+            <FileText size={12} />
             Original Verbatim
           </button>
         </div>
 
-        {/* Style & Density Toggles */}
-        <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
-          {activeTab === 'preview' && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+          {activeTab === 'sheet' && (
             <>
-              {/* Template Style Toggle: LaTeX (Overleaf) vs Modern */}
+              {/* LaTeX / Modern ATS Template Toggle */}
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
@@ -537,11 +538,11 @@ export default function ResumePreview({
       }}>
         <GraduationCap size={13} style={{ color: '#c084fc', flexShrink: 0 }} />
         <span>
-          <strong>LaTeX / Overleaf Mode Active:</strong> Rendered with Computer Modern serif typography, small-caps section titles, GitHub/LinkedIn/Email icons, and 4-corner company/timeline alignment.
+          <strong>LaTeX / Overleaf Mode Active:</strong> Authentic Computer Modern Serif font, exact 0.4in margins, FontAwesome icons, and 4-corner company alignment.
         </span>
       </div>
 
-      <div className="panel-body" style={{ background: 'rgba(8, 12, 22, 0.95)', padding: '1rem' }}>
+      <div className="panel-body" style={{ background: 'rgba(8, 12, 22, 0.95)', padding: '0.75rem 0.5rem', overflowX: 'auto' }}>
         {activeTab === 'diff' ? (
           <DiffViewer bulletChanges={bulletChanges} />
         ) : activeTab === 'raw' ? (
