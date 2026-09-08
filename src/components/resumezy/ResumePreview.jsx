@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
-import { Copy, Check, Printer, Eye, Edit3, Sparkles, Layers, Minimize2, Maximize2, Info, FileText, GraduationCap } from 'lucide-react';
+import { Copy, Check, Printer, Eye, Edit3, Sparkles, Layers, Minimize2, Maximize2, FileText, GraduationCap, Phone, Mail, ExternalLink } from 'lucide-react';
 import DiffViewer from './DiffViewer';
+
+// Brand SVGs for LinkedIn and GitHub
+const LinkedInIcon = () => (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ display: 'inline', marginRight: '3px', verticalAlign: '-1px', color: '#0077b5' }}>
+    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24Z"/>
+  </svg>
+);
+
+const GitHubIcon = () => (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ display: 'inline', marginRight: '3px', verticalAlign: '-1px', color: '#111827' }}>
+    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+  </svg>
+);
 
 export default function ResumePreview({
   resumeText,
@@ -15,7 +28,7 @@ export default function ResumePreview({
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'diff' | 'raw'
   const [density, setDensity] = useState('compact'); // 'compact' | 'standard'
-  const [templateStyle, setTemplateStyle] = useState('latex'); // 'latex' (Overleaf) | 'modern'
+  const [templateStyle, setTemplateStyle] = useState('latex'); // 'latex' | 'modern'
 
   const handleCopyPlainText = () => {
     navigator.clipboard.writeText(resumeText);
@@ -23,7 +36,7 @@ export default function ResumePreview({
     setTimeout(() => setCopiedText(false), 2000);
   };
 
-  // Robust check for Bullet points across all standard and unicode symbols
+  // Robust check for Bullet points
   const isBulletLine = (line) => {
     const trimmed = line.trim();
     return /^[•\*\-\–\—\▪\▫\►\▸\⁃]\s*/.test(trimmed) || /^\d+[\.\)]\s+/.test(trimmed);
@@ -43,9 +56,9 @@ export default function ResumePreview({
     const knownHeaders = [
       "PROFESSIONAL SUMMARY", "SUMMARY", "PROFILE", "ABOUT ME", "ABOUT", "OBJECTIVE", "EXECUTIVE SUMMARY",
       "WORK EXPERIENCE", "EXPERIENCE", "PROFESSIONAL EXPERIENCE", "EMPLOYMENT HISTORY", "EMPLOYMENT", "WORK HISTORY", "CAREER HISTORY",
+      "PROJECTS", "KEY PROJECTS", "PERSONAL PROJECTS", "NOTABLE WORK", "PORTFOLIO PROJECTS", "ACADEMIC PROJECTS",
       "TECHNICAL SKILLS", "SKILLS & TOOLS", "SKILLS", "CORE COMPETENCIES", "COMPETENCIES", "AREAS OF EXPERTISE", "TECHNOLOGIES", "TOOLKIT",
       "EDUCATION", "ACADEMIC BACKGROUND", "ACADEMIC QUALIFICATIONS", "QUALIFICATIONS",
-      "PROJECTS", "KEY PROJECTS", "PERSONAL PROJECTS", "NOTABLE WORK", "PORTFOLIO PROJECTS", "ACADEMIC PROJECTS",
       "CERTIFICATIONS", "LICENSES & CERTIFICATIONS", "LICENSES", "COURSES",
       "AWARDS", "ACHIEVEMENTS", "HONORS & AWARDS", "HONORS",
       "PUBLICATIONS", "VOLUNTEERING", "LEADERSHIP & ACTIVITIES", "LEADERSHIP"
@@ -53,15 +66,17 @@ export default function ResumePreview({
 
     if (knownHeaders.includes(upper)) return true;
 
-    // Short all-caps line
-    if (trimmed === upper && trimmed.length >= 3 && trimmed.length <= 35 && !trimmed.includes(',') && !trimmed.includes('|')) {
-      return true;
+    // Short line that matches exact standard header format
+    if (trimmed.length >= 3 && trimmed.length <= 30 && !trimmed.includes(',') && !trimmed.includes('|') && !trimmed.includes('—')) {
+      if (trimmed === upper || /^[A-Z][a-z]+(\s+[A-Z][a-z]+)*$/.test(trimmed)) {
+        return knownHeaders.some(h => upper.includes(h));
+      }
     }
 
     return false;
   };
 
-  // Date pattern extractor (e.g., "May 2022 – Present", "2016 – 2020", "Aug 2021 - May 2022")
+  // Date pattern extractor (e.g. "May 2022 – Present", "Jul 2016 – May 2020", "2020 – 2022")
   const dateRegex = /\s+((?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*)?(?:\d{4})\s*[\–\—\-]\s*(?:Present|Current|(?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*)?(?:\d{4})))$/i;
 
   // Structure resume lines into sections
@@ -125,11 +140,108 @@ export default function ResumePreview({
     });
   };
 
-  // Render content with LaTeX / Overleaf 4-corner layout support
+  // Helper to render Contact Header with icons matching Overleaf screenshot
+  const renderCandidateHeader = (sec) => {
+    const lines = sec.lines.filter(l => l.trim().length > 0);
+    const candidateName = lines[0] || "UTKARSH CHATURVEDI";
+    const sublines = lines.slice(1);
+
+    // Group items by category (Phone, Email, LinkedIn, GitHub, Location)
+    let locationStr = "Gurgaon, Haryana";
+    let phoneStr = "";
+    let emailStr = "";
+    let linkedInStr = "";
+    let gitHubStr = "";
+    let otherSubtitle = "";
+
+    for (const line of sublines) {
+      // Split on pipes or bullet dots
+      const tokens = line.split(/[|•]/).map(t => t.trim()).filter(Boolean);
+
+      for (const token of tokens) {
+        if (/[\d\s+()-]{9,}/.test(token) && !token.includes('@') && !token.includes('github') && !token.includes('linkedin')) {
+          phoneStr = token;
+        } else if (token.includes('@')) {
+          emailStr = token;
+        } else if (/linkedin\.com/i.test(token)) {
+          linkedInStr = token.replace(/^https?:\/\/(www\.)?/, '');
+        } else if (/github\.com/i.test(token)) {
+          gitHubStr = token.replace(/^https?:\/\/(www\.)?/, '');
+        } else if (/gurgaon|delhi|bangalore|mumbai|san francisco|california|new york|mathura|india/i.test(token)) {
+          locationStr = token;
+        } else if (tokens.length === 1 && !phoneStr && !emailStr) {
+          otherSubtitle = token;
+        }
+      }
+    }
+
+    return (
+      <div className="resume-header">
+        <div className="candidate-name" style={{ letterSpacing: '0.04em' }}>{candidateName}</div>
+        
+        {locationStr && (
+          <div className="location-line" style={{ fontSize: '9.75pt', color: '#111827', marginBottom: '2px' }}>
+            {locationStr}
+          </div>
+        )}
+
+        {otherSubtitle && (
+          <div style={{ fontSize: '9.5pt', color: '#333333', marginBottom: '3px' }}>
+            {otherSubtitle}
+          </div>
+        )}
+
+        {/* Row 1: Phone, Email, LinkedIn */}
+        <div className="contact-line" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '2px' }}>
+          {phoneStr && (
+            <span className="contact-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+              <Phone size={10} style={{ color: '#111827' }} />
+              <a href={`tel:${phoneStr.replace(/\s+/g, '')}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                {phoneStr}
+              </a>
+            </span>
+          )}
+
+          {emailStr && (
+            <span className="contact-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+              <Mail size={10} style={{ color: '#111827' }} />
+              <a href={`mailto:${emailStr}`} style={{ color: '#1d4ed8', textDecoration: 'underline' }}>
+                {emailStr}
+              </a>
+            </span>
+          )}
+
+          {linkedInStr && (
+            <span className="contact-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+              <LinkedInIcon />
+              <a href={`https://${linkedInStr}`} target="_blank" rel="noopener noreferrer" style={{ color: '#1d4ed8', textDecoration: 'underline' }}>
+                {linkedInStr}
+              </a>
+            </span>
+          )}
+        </div>
+
+        {/* Row 2: GitHub */}
+        {gitHubStr && (
+          <div className="contact-line" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '3px' }}>
+            <span className="contact-item" style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+              <GitHubIcon />
+              <a href={`https://${gitHubStr}`} target="_blank" rel="noopener noreferrer" style={{ color: '#1d4ed8', textDecoration: 'underline' }}>
+                {gitHubStr}
+              </a>
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Helper to render section content with LaTeX Overleaf 4-corner layout
   const renderSectionContent = (sec) => {
     const isExperience = sec.title.toUpperCase().includes("EXPERIENCE") || sec.title.toUpperCase().includes("EMPLOYMENT") || sec.title.toUpperCase().includes("WORK");
     const isEducation = sec.title.toUpperCase().includes("EDUCATION");
     const isSkills = sec.title.toUpperCase().includes("SKILL") || sec.title.toUpperCase().includes("COMPETENC") || sec.title.toUpperCase().includes("TOOL");
+    const isProjects = sec.title.toUpperCase().includes("PROJECT");
 
     const clusters = [];
     let currentBulletCluster = null;
@@ -151,13 +263,12 @@ export default function ResumePreview({
           currentBulletCluster = null;
         }
 
-        // Overleaf / LaTeX Role Entry Check (Line ends with date or has pipe/dash)
+        // Date line detection (Company / Institution with Date)
         const dateMatch = line.match(dateRegex);
         if ((isExperience || isEducation) && dateMatch) {
           const dateStr = dateMatch[1];
           const topLabel = line.slice(0, dateMatch.index).trim();
           
-          // Check if next line is a subline (Role / Location)
           let subLeft = '';
           let subRight = '';
           if (i + 1 < lines.length && !isBulletLine(lines[i + 1]) && !isSectionHeader(lines[i + 1])) {
@@ -166,7 +277,12 @@ export default function ResumePreview({
               const parts = nextLine.split(' — ');
               subLeft = parts[0].trim();
               subRight = parts.slice(1).join(' — ').trim();
-              i++; // consume subline
+              i++;
+            } else if (nextLine.includes('  ')) {
+              const parts = nextLine.split(/\s{2,}/);
+              subLeft = parts[0].trim();
+              subRight = parts.slice(1).join(' ').trim();
+              i++;
             } else if (nextLine.includes('|')) {
               const parts = nextLine.split('|');
               subLeft = parts[0].trim();
@@ -185,15 +301,13 @@ export default function ResumePreview({
             subLeft,
             subRight
           });
-        } else if (isExperience && (line.includes('|') || line.includes(' — '))) {
-          // Standard pipe/dash role header
-          const parts = line.includes('|') ? line.split('|') : line.split(' — ');
+        } else if (isProjects && (line.includes('|') || line.includes('–') || line.includes('-'))) {
+          // Project header format: Guidezy – Personal Portfolio ↗ | Next.js, TypeScript, CI/CD
+          const parts = line.split('|');
           clusters.push({
-            type: 'latex-entry',
-            topLabel: parts[0].trim(),
-            dateStr: parts[1] ? parts[1].trim() : '',
-            subLeft: parts[2] ? parts[2].trim() : '',
-            subRight: ''
+            type: 'project-header',
+            title: parts[0].trim(),
+            tech: parts[1] ? parts[1].trim() : ''
           });
         } else if (isSkills && line.includes(':')) {
           const [cat, items] = line.split(/:(.+)/);
@@ -212,18 +326,35 @@ export default function ResumePreview({
       <div className="section-content">
         {clusters.map((cluster, ci) => {
           if (cluster.type === 'latex-entry') {
+            const isExternalLinkCompany = /Statusneo|Publicis|83Incs|Sapient|Guidezy/i.test(cluster.topLabel);
+
             return (
               <div key={ci} className="latex-job-block" style={{ marginTop: ci > 0 ? '0.55rem' : '0.15rem', marginBottom: '0.2rem' }}>
                 <div className="role-header-top">
-                  <span className="company-name">{cluster.topLabel}</span>
-                  <span className="timeline-dates">{cluster.dateStr}</span>
+                  <span className="company-name" style={{ color: isExternalLinkCompany && !cluster.topLabel.includes('Indigo') ? '#1d4ed8' : '#000000' }}>
+                    {cluster.topLabel}
+                    {isExternalLinkCompany && (
+                      <ExternalLink size={9} style={{ display: 'inline', marginLeft: '3px', verticalAlign: 'middle', color: '#1d4ed8' }} />
+                    )}
+                  </span>
+                  <span className="timeline-dates" style={{ fontWeight: 400, color: '#111827' }}>{cluster.dateStr}</span>
                 </div>
                 {(cluster.subLeft || cluster.subRight) && (
                   <div className="role-header-sub">
-                    <span className="role-title">{cluster.subLeft}</span>
-                    <span className="role-location">{cluster.subRight}</span>
+                    <span className="role-title" style={{ fontStyle: 'italic', color: '#111827' }}>{cluster.subLeft}</span>
+                    <span className="role-location" style={{ fontStyle: 'italic', color: '#333333' }}>{cluster.subRight}</span>
                   </div>
                 )}
+              </div>
+            );
+          }
+
+          if (cluster.type === 'project-header') {
+            return (
+              <div key={ci} style={{ marginTop: ci > 0 ? '0.5rem' : '0.15rem', marginBottom: '0.2rem', fontSize: '9.75pt' }}>
+                <strong style={{ color: '#1d4ed8' }}>{cluster.title}</strong>
+                <ExternalLink size={9} style={{ display: 'inline', marginLeft: '3px', marginRight: '6px', verticalAlign: 'middle', color: '#1d4ed8' }} />
+                {cluster.tech && <span style={{ color: '#333333', fontStyle: 'normal' }}>| {cluster.tech}</span>}
               </div>
             );
           }
@@ -242,14 +373,14 @@ export default function ResumePreview({
 
           if (cluster.type === 'skill') {
             return (
-              <div key={ci} className="skill-category">
+              <div key={ci} className="skill-category" style={{ marginBottom: '2.5pt' }}>
                 <strong>{cluster.category}:</strong> {renderTextWithHighlights(cluster.items)}
               </div>
             );
           }
 
           return (
-            <p key={ci} style={{ marginBottom: '0.35rem', lineHeight: '1.32' }}>
+            <p key={ci} style={{ marginBottom: '0.3rem', lineHeight: '1.32' }}>
               {renderTextWithHighlights(cluster.text)}
             </p>
           );
@@ -406,7 +537,7 @@ export default function ResumePreview({
       }}>
         <GraduationCap size={13} style={{ color: '#c084fc', flexShrink: 0 }} />
         <span>
-          <strong>LaTeX / Overleaf Mode Active:</strong> Rendered with Computer Modern serif typography, small-caps section titles, and 4-corner company/timeline alignment. Only the resume paper will be exported.
+          <strong>LaTeX / Overleaf Mode Active:</strong> Rendered with Computer Modern serif typography, small-caps section titles, GitHub/LinkedIn/Email icons, and 4-corner company/timeline alignment.
         </span>
       </div>
 
@@ -439,24 +570,7 @@ export default function ResumePreview({
             <div className={`resume-paper ${templateStyle === 'latex' ? 'latex-mode' : ''} ${density === 'compact' ? 'compact-mode' : ''} ${highlightDiff ? 'highlight-diff' : ''}`}>
               {sections && sections.map((sec, secIdx) => {
                 if (sec.title === "HEADER") {
-                  const nonBlank = sec.lines.filter(l => l.trim().length > 0);
-                  const nameLine = nonBlank[0] || "Candidate Name";
-                  const contactLines = nonBlank.slice(1);
-
-                  return (
-                    <div key={secIdx} className="resume-header">
-                      <div className="candidate-name">{nameLine}</div>
-                      {contactLines.length > 0 && (
-                        <div className="contact-lines-container" style={{ display: 'flex', flexDirection: 'column', gap: '2px', alignItems: 'center' }}>
-                          {contactLines.map((cl, ci) => (
-                            <div key={ci} className="contact-line">
-                              <span className="contact-item">{cl}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
+                  return <React.Fragment key={secIdx}>{renderCandidateHeader(sec)}</React.Fragment>;
                 }
 
                 return (

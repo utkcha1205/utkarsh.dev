@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import "./resumezy.css";
 import "./resume-print.css";
 
@@ -13,8 +13,14 @@ export default function ResumezyLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="resumezy-root">
-      {children}
-    </div>
+    <>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
+      <div className="resumezy-root">
+        {children}
+      </div>
+    </>
   );
 }

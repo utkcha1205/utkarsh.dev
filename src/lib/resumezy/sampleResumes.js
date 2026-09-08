@@ -1,50 +1,75 @@
 export const sampleResumes = {
   utkarsh_lead_frontend: {
     id: "utkarsh_lead_frontend",
-    title: "Utkarsh Chaturvedi - Lead Frontend Engineer (LaTeX Overleaf)",
+    title: "Utkarsh Chaturvedi - Lead Frontend Engineer (Overleaf LaTeX)",
     role: "Lead Frontend Engineer",
-    text: `Utkarsh Chaturvedi
-Lead Frontend Engineer — React • Next.js • Real-Time Systems
-Gurgaon, Haryana • utkcha1205@gmail.com • +91 6393977249 • LinkedIn
+    text: `UTKARSH CHATURVEDI
+Gurgaon, Haryana
++91 6393977249 | utkcha1205@gmail.com | linkedin.com/in/utkarsh-chaturvedi-8b4690150
+github.com/utkcha1205
 
-Professional Summary
-Frontend Engineer with 6+ years of experience delivering scalable aviation and automotive platforms. Specialized in React, Next.js, TypeScript, real-time maps, WebSockets, Node.js, and high-performance UI engineering. Experienced in team leadership, architecting large-scale systems, design systems, and performance optimization.
+Summary
+• Lead Frontend Engineer with 6+ years of experience building large-scale aviation and enterprise applications using React, Next.js, TypeScript, and real-time architectures.
+• Expert in Microfrontend Architecture, Design Systems, WebSockets, SSR, and Core Web Vitals optimization.
+• Led a 14-member engineering team, driving architecture decisions, mentoring engineers, and delivering scalable business-critical platforms.
+• Proven record of reducing page load time by 50%, improving development efficiency by 40%, and shipping high-impact frontend systems.
 
 Experience
-Statusneo  May 2022 – Present
-Lead Frontend Engineer — Gurgaon — Indigo Airlines
-• Leading a 14-member frontend team; responsible for architecture, mentoring, code quality, and delivery of Indigo Airlines’ Aviation Operations Platform.
-• Enabled team growth through technical guidance, conducting code reviews, and implementing best practices in frontend architecture and workflow.
-• Architected 6eEye, a real-time Flight Tracking system using Mapbox, WebSockets, MongoDB, Node.js, and aviation APIs.
-• Built scalable React/Next.js microfrontend architecture with reusable shared UI components.
-• Designed real-time dashboards supporting 100+ concurrent users.
-• Optimized SSR, caching, and route-level strategies (load time 6s → 3s); implemented bundle splitting.
-• Delivered a unified design system reducing UI development effort by 40%.
-• Ensured high code quality and reliability with 80%+ test coverage using Jest, React Testing Library, and Cypress.
-• Collaborated with cross-functional teams including backend, product, and QA to ensure timely delivery of features.
+Statusneo (Client: Indigo Airlines)  May 2022 – Present
+Lead Frontend Engineer / Tech Lead  Gurgaon, Haryana
+• Led a 14-member frontend engineering team across 10+ airline operation modules, owning architecture decisions, the technical roadmap, code quality standards, mentoring, and delivery.
+• Built 6eEye, a real-time flight tracking platform using Next.js, WebSockets, MongoDB, Node.js, Mapbox, and aviation APIs supporting 200+ daily users.
+• Designed and implemented Microfrontend Architecture with shared component libraries, reducing cross-team integration effort by 35%.
+• Optimized Core Web Vitals by reducing LCP from 4.8s to 1.9s, FID from 210ms to 60ms, and CLS from 0.28 to 0.04 through SSR optimization, route-level code splitting, caching, and lazy loading.
+• Built a centralized Design System adopted across 8+ teams, improving UI consistency and reducing development effort by 40%.
+• Achieved 80%+ test coverage using Jest and React Testing Library, reducing production defects by approximately 30%.
+• Integrated GitHub Actions CI/CD pipelines for automated testing, linting, and deployments, improving release reliability and reducing manual effort.
+• Championed AI-assisted development workflows using Claude Code, GitHub Copilot, and Kiro to accelerate code generation, debugging, refactoring, and unit test creation while keeping review quality and consistency intact.
+• Built reusable prompt templates and AI-driven workflows for frontend tasks such as boilerplate generation, documentation drafting, and test-case creation, helping the team reduce repetitive work and improve delivery speed.
+• Collaborated closely with Product, Backend, and QA teams to deliver features per quarter in Agile/Scrum environments.
 
 Publicis Sapient  Aug 2021 – May 2022
-Frontend Developer — Gurgaon
-• Developed inventory/booking UIs for premium automotive clients using React.
-• Implemented WCAG accessibility guidelines across UI flows.
-• Integrated REST APIs for multi-brand and multi-region support.
+Frontend Developer  Gurgaon, Haryana
+• Built inventory management and booking UIs for 3 automotive clients using React, supporting 5+ brands and 4 regional markets.
+• Implemented WCAG 2.1 AA accessibility compliance using Lighthouse audits.
+• Integrated 15+ REST APIs and reusable service hooks, reducing API integration effort by 20%.
+• Worked in Agile teams and delivered sprint commitments with zero critical production incidents.
 
 83Incs  Mar 2020 – Aug 2021
-Frontend Developer — Gurgaon
-• Built real-time IoT dashboards using React and Google Maps APIs.
-• Optimized bundle size and load performance by 40%.
-• Delivered reusable table form components with server-side pagination and filters.
+Frontend Developer  Gurgaon, Haryana
+• Built real-time IoT monitoring dashboards using React and Google Maps APIs for 10+ enterprise clients.
+• Reduced JavaScript bundle size by 40% through code splitting, lazy loading, and dependency optimization.
+• Developed reusable tables and forms with server-side pagination, filters, and sorting adopted across 6 projects.
+• Collaborated with backend teams to design REST APIs and reduce frontend rework.
+• Set up Jenkins CI/CD pipelines, reducing release cycle time by 20%.
+
+Projects
+Guidezy – Personal Portfolio | Next.js, TypeScript, CI/CD
+• Personal portfolio built with Next.js showcasing projects, skills, blogs, and experience with automated CI/CD deployment.
+
+OCCHub – Airline Operations Modernization | Next.js, TypeScript, CI/CD
+• Migrated 120+ legacy airline operation applications into a single Next.js platform with RBAC and centralized authentication.
+• Designed frontend architecture from scratch and led a 15-member engineering team.
+• Built reusable design systems and department-specific workflows.
 
 Technical Skills
-Frontend/Mobile: React, Next.js, JavaScript, TypeScript, Redux Toolkit, React Query, React Native, Webpack
-Realtime/Backend: WebSockets, Kafka, Node.js, Express, MongoDB
-UI/Styling: Tailwind, Material UI, Shadcn, SCSS
-Tools: GitHub, Jenkins, Figma, Jira
-Practices: Design Systems, Performance, Accessibility (WCAG), Agile
+• Frontend: React, Next.js, JavaScript (ES2022+), TypeScript, Redux Toolkit, React Query, React Native, Webpack
+• Real-Time / Backend: WebSockets, Kafka, Node.js, Express.js, MongoDB, REST APIs
+• Styling / UI: Tailwind CSS, Material UI, Shadcn/UI, SCSS, Mapbox GL JS
+• AI Assisted Development: Claude Code, GitHub Copilot, Kiro, Prompt Engineering, AI-assisted Code Review, Test Generation, Documentation Generation, AI Workflows
+• Testing and Accessibility: Jest, React Testing Library, Lighthouse, WCAG 2.1
+• DevOps / Tools: Docker, Jenkins, Git, Jira, Figma
+• Practices: Microfrontend Architecture, Design Systems, SSR, Core Web Vitals, CI/CD, Performance Optimization, Accessibility, Agile/Scrum, Technical Mentoring
 
 Education
-GLA University — B.Tech Computer Science  2016 – 2020
-Mathura, Uttar Pradesh`
+GLA University  Jul 2016 – May 2020
+B.Tech in Computer Science  Mathura, Uttar Pradesh
+
+Certifications
+• Claude Code in Action – Anthropic (2026)
+• JavaScript Algorithms and Data Structures – freeCodeCamp (2024)
+• Certified Node.js – Basic – Cutshort (2024)
+• ReactJS Assessment Certification – Cutshort (2023)`
   },
 
   software_engineer: {
@@ -87,71 +112,37 @@ University of California, Davis | 2016 – 2020`
 
   data_scientist: {
     id: "data_scientist",
-    title: "Maya Patel - Machine Learning & Data Scientist",
+    title: "Maya Patel - AI & Data Scientist",
     role: "Data Scientist",
     text: `Maya Patel
-New York, NY | (555) 714-8832 | maya.patel.ai@gmail.com | linkedin.com/in/mayapatel-ds | github.com/mayapatel-data
+New York, NY | (555) 839-2041 | maya.patel.ai@gmail.com | linkedin.com/in/mayapatel-ml
 
 PROFESSIONAL SUMMARY
-Data Scientist with 4 years of experience analyzing datasets and developing predictive models. Familiar with Python, PyTorch, Scikit-Learn, and SQL. Seeking machine learning roles focused on production AI systems.
+Data Scientist specializing in Machine Learning, predictive modeling, and NLP. 4+ years translating complex datasets into actionable business intelligence using Python, PyTorch, and cloud platforms.
 
 WORK EXPERIENCE
 
-Data Scientist | DataWave Analytics
+Machine Learning Engineer | DataSphere Analytics
 New York, NY | 2022 – Present
-- Built machine learning models to predict customer churn using XGBoost and Scikit-Learn.
-- Wrote SQL queries and Python ETL scripts to process data from Snowflake.
-- Visualized analysis findings in Tableau dashboards for business stakeholders.
-- Researched LLM embeddings for text classification use cases.
+- Built and deployed customer churn prediction models using XGBoost and Scikit-Learn.
+- Processed 10M+ daily records in Apache Spark and Snowflake pipelines.
+- Reduced model inference latency from 140ms to 35ms using TensorRT.
+- Designed A/B testing framework to measure impact of recommendation engine.
 
-Junior Data Analyst | MetricFlow Inc.
-Boston, MA | 2021 – 2022
-- Cleaned and prepared data from various CSV and database sources.
-- Generated monthly analytics reports for marketing campaigns.
-- Created Python automation scripts to replace manual Excel calculations.
+Data Analyst | HealthMetrics Inc
+Boston, MA | 2020 – 2022
+- Created automated reporting dashboards in Tableau and PostgreSQL.
+- Performed cohort retention analysis that identified 15% revenue leakage.
+- Cleaned and normalized clinical trial data using Pandas and NumPy.
 
 TECHNICAL SKILLS
 Languages: Python, R, SQL, Bash
-ML & AI: Scikit-Learn, PyTorch, TensorFlow, Pandas, NumPy, XGBoost, Transformers, HuggingFace
-Data & Cloud: Snowflake, PostgreSQL, BigQuery, AWS (S3, SageMaker)
-Tools: Git, Jupyter, Docker, MLflow, Tableau
+ML & Deep Learning: PyTorch, TensorFlow, Scikit-Learn, Hugging Face, XGBoost
+Data Engineering: Apache Spark, Kafka, Snowflake, Airflow, dbt
+Cloud & Tools: AWS (SageMaker, S3), Docker, Git, MLflow, Tableau
 
 EDUCATION
-Master of Science in Data Science | Columbia University | 2020 – 2021
-Bachelor of Science in Statistics | Boston University | 2016 – 2020`
-  },
-
-  product_manager: {
-    id: "product_manager",
-    title: "Jordan Taylor - Technical Product Manager",
-    role: "Product Manager",
-    text: `Jordan Taylor
-Seattle, WA | (555) 602-9184 | jordan.taylor.pm@gmail.com | linkedin.com/in/jordantaylor-pm
-
-PROFESSIONAL SUMMARY
-Technical Product Manager with 5+ years of experience leading cross-functional teams to build SaaS software. Strong background in Agile delivery, user research, product strategy, and API platform integrations.
-
-WORK EXPERIENCE
-
-Product Manager | SaaSVelocity Labs
-Seattle, WA | 2022 – Present
-- Managed product roadmap for enterprise workflow automation tool.
-- Conducted user interviews and gathered customer feedback to define product requirements.
-- Worked closely with engineering and design teams during two-week sprints.
-- Monitored product analytics in Mixpanel and Google Analytics to track feature adoption.
-
-Associate Product Manager | Nexus Digital
-San Francisco, CA | 2020 – 2022
-- Wrote PRDs (Product Requirements Documents) and user stories in JIRA.
-- Coordinated product release notes and held cross-team demo sessions.
-- Analyzed competitor offerings to support strategic product positioning.
-
-SKILLS
-Product Strategy: Roadmap Planning, PRD Writing, User Journey Mapping, A/B Testing, Feature Prioritization
-Technical: SQL, REST APIs, System Architecture basics, Webhooks
-Tools: JIRA, Confluence, Figma, Mixpanel, Amplitude, Notion, Slack
-
-EDUCATION
-Bachelor of Arts in Economics & Minor in Computer Science | University of Washington | 2016 – 2020`
+Master of Science in Data Science
+Columbia University | 2018 – 2020`
   }
 };
