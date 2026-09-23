@@ -1,0 +1,41 @@
+import type { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'Resumezy ⚡ | Maxx Your Resume & Slay the ATS',
+    short_name: 'Resumezy',
+    description: 'AI-powered ATS screening shield that guarantees your resume passes Workday, Greenhouse & Lever filters.',
+    start_url: '/resumezy',
+    scope: '/',
+    display: 'standalone',
+    orientation: 'any',
+    background_color: '#080c16',
+    theme_color: '#a855f7',
+    icons: [
+      {
+        src: '/icons/icon-192x192.png',
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+      {
+        src: '/icons/icon-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+      {
+        src: '/icons/icon-192x192.png',
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'any',
+      },
+      {
+        src: '/icons/icon-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'any',
+      },
+    ],
+  };
+}

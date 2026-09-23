@@ -30,10 +30,7 @@ export default function ScoreDashboard({ scorecard, jdKeywordsData }) {
 
       <div className="panel-body">
         {/* Main Score Comparison Row */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'auto 1fr auto',
-          gap: '1.5rem',
+        <div className="score-comparison-row" style={{
           alignItems: 'center',
           padding: '1rem',
           background: 'rgba(15, 23, 42, 0.6)',

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Copy, Check, Printer, Eye, Edit3, Sparkles, Layers, Minimize2, Maximize2, FileText, GraduationCap, ExternalLink, Crown } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Copy, Check, Printer, Eye, Edit3, Sparkles, Layers, Minimize2, Maximize2, FileText, GraduationCap, ExternalLink, Crown, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 import DiffViewer from './DiffViewer';
 
 // Authentic FontAwesome solid & brand SVGs matching Overleaf LaTeX template
@@ -51,6 +51,64 @@ export default function ResumePreview({
   const [templateStyle, setTemplateStyle] = useState('latex'); // 'latex' | 'modern'
   const [density, setDensity] = useState('standard'); // 'standard' | 'compact'
 
+  // Mobile Auto-Fit Zoom State
+  const containerRef = useRef(null);
+  const paperRef = useRef(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [paperHeight, setPaperHeight] = useState(1056);
+  const [zoomMode, setZoomMode] = useState('auto'); // 'auto' | 0.45 | 0.6 | 0.8 | 1 | 1.2
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+      if (paperRef.current) {
+        setPaperHeight(paperRef.current.offsetHeight || 1056);
+      }
+    };
+    updateDimensions();
+
+    let ro;
+    if (typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(updateDimensions);
+      if (containerRef.current) ro.observe(containerRef.current);
+      if (paperRef.current) ro.observe(paperRef.current);
+    }
+    window.addEventListener('resize', updateDimensions);
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', updateDimensions);
+    };
+  }, []);
+
+  // Compute effective zoom scale
+  let effectiveScale = 1;
+  if (zoomMode === 'auto') {
+    if (containerWidth > 0 && containerWidth < 850) {
+      // Auto-fit tightly to available viewport on phones and tablets
+      effectiveScale = Math.min(1, Math.max(0.35, (containerWidth - 16) / 816));
+    } else {
+      effectiveScale = 1;
+    }
+  } else {
+    effectiveScale = Number(zoomMode) || 1;
+  }
+
+  const handleZoomIn = () => {
+    const levels = [0.4, 0.5, 0.65, 0.8, 1, 1.25];
+    const current = effectiveScale;
+    const next = levels.find(l => l > current + 0.05);
+    setZoomMode(next || 1.25);
+  };
+
+  const handleZoomOut = () => {
+    const levels = [1.25, 1, 0.8, 0.65, 0.5, 0.4];
+    const current = effectiveScale;
+    const next = levels.find(l => l < current - 0.05);
+    setZoomMode(next || 0.4);
+  };
+
   const handleCopyPlainText = () => {
     navigator.clipboard.writeText(resumeText);
     setCopiedText(true);
@@ -80,7 +138,6 @@ export default function ResumePreview({
     for (const title of SECTION_TITLES) {
       if (clean === title || clean.startsWith(title + ' ') || clean.startsWith(title + ':')) return true;
     }
-    // Generic ALL-CAPS line after header lines
     if (lineIndex > 3 && clean.length >= 4 && clean.length <= 35 && clean === clean.toUpperCase() && /^[A-Z\s&/\\-]+$/.test(clean)) {
       const words = clean.split(/\s+/);
       if (words.length <= 2 && !/EXPERIENCE|PROJECTS|EDUCATION|SKILLS|AWARDS|COMMUNITY|SERVICE|LEADERSHIP|ACTIVITIES/i.test(clean)) {
@@ -91,7 +148,6 @@ export default function ResumePreview({
     return false;
   };
 
-  // Parse raw text into structured sections (fallback when structured JSON is not used)
   const parseSections = (text) => {
     if (!text) return [];
     const rawLines = text.split('\n');
@@ -132,11 +188,9 @@ export default function ResumePreview({
 
   const dateRegex = /((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December|\d{4})\s*(?:\d{0,4})?\s*[-–—]\s*(?:Present|Current|Now|\d{4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December)\s*\d{0,4}))/i;
 
-  // Render text with markdown bold support and optional keyword highlights
   const renderTextWithHighlights = (textStr) => {
     if (!textStr) return null;
 
-    // Helper to render bold spans for **word** or \textbf{word}
     const renderMarkdownBold = (str, keyPrefix = 'txt') => {
       const parts = str.split(/(\*\*[^*]+\*\*|\\textbf\{[^}]+\})/g);
       return parts.map((part, idx) => {
@@ -176,7 +230,6 @@ export default function ResumePreview({
     });
   };
 
-  // Structured Candidate Header (High Fidelity)
   const renderStructuredCandidateHeader = (header) => {
     if (!header) return null;
     const candidateName = header.name || "Candidate Name";
@@ -250,14 +303,12 @@ export default function ResumePreview({
     );
   };
 
-  // Structured Section Rendering
   const renderStructuredSection = (sec, secIdx) => {
     return (
       <div key={secIdx} className="resume-section">
         <div className="section-title">{sec.title}</div>
         <div className="section-content">
           {sec.entries && sec.entries.map((entry, ei) => {
-            // Skills category
             if (sec.type === 'skills') {
               const categoryLabel = entry.role || entry.organization || 'Skills';
               const skillsContent = entry.description || (entry.bullets && entry.bullets.join(', ')) || '';
@@ -268,7 +319,6 @@ export default function ResumePreview({
               );
             }
 
-            // Summary or single-block description
             if (sec.type === 'summary' || (!entry.organization && !entry.role && entry.description)) {
               return (
                 <div key={ei} style={{ marginBottom: '2.5pt' }}>
@@ -293,7 +343,6 @@ export default function ResumePreview({
               );
             }
 
-            // Projects
             if (sec.type === 'projects') {
               const projectTitle = entry.organization || entry.role || 'Project';
               return (
@@ -323,7 +372,6 @@ export default function ResumePreview({
               );
             }
 
-            // Experience, Education, or 4-Corner Layout Entries
             const topTitle = entry.organization || entry.role || '';
             const topDate = entry.dates || '';
             const subLeft = entry.organization ? (entry.role || '') : '';
@@ -382,7 +430,6 @@ export default function ResumePreview({
     );
   };
 
-  // Heuristic Candidate Header Fallback (No Hardcoded Fallbacks)
   const renderCandidateHeader = (sec) => {
     const lines = sec.lines.filter(l => l.trim().length > 0);
     const candidateName = lines[0] || "Candidate Name";
@@ -397,23 +444,18 @@ export default function ResumePreview({
 
     const fullSubText = sublines.join(' ');
 
-    // 1. Phone extraction
     const phoneMatch = fullSubText.match(/(\+?\d{1,3}[\s.-]?\(?\d{2,4}\)?[\s.-]?\d{3,5}[\s.-]?\d{3,5}|\+?\d{10,12})/);
     if (phoneMatch) phoneStr = phoneMatch[1].trim();
 
-    // 2. Email extraction
     const emailMatch = fullSubText.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
     if (emailMatch) emailStr = emailMatch[1].trim();
 
-    // 3. LinkedIn extraction
     const linkedInMatch = fullSubText.match(/(?:https?:\/\/)?(?:www\.)?(linkedin\.com\/in\/[a-zA-Z0-9_-]+)/i);
     if (linkedInMatch) linkedInStr = linkedInMatch[1].trim();
 
-    // 4. GitHub extraction
     const gitHubMatch = fullSubText.match(/(?:https?:\/\/)?(?:www\.)?(github\.com\/[a-zA-Z0-9_-]+)/i);
     if (gitHubMatch) gitHubStr = gitHubMatch[1].trim();
 
-    // 5. Website extraction
     const urlMatches = fullSubText.match(/(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9][a-zA-Z0-9\-]*\.[a-zA-Z]{2,}(?:\/[^\s|]*)?)/gi);
     if (urlMatches) {
       for (const url of urlMatches) {
@@ -426,7 +468,6 @@ export default function ResumePreview({
       }
     }
 
-    // 6. Generic Location extraction: "City, State" or "City, Country"
     for (const line of sublines) {
       const cleanLine = line.replace(/[\u0080-\u009F\uE000-\uF8FF\uFFF0-\uFFFF|•#]/g, ' ').trim();
       const locMatch = cleanLine.match(/\b([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*,\s*[A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*)\b/);
@@ -446,7 +487,6 @@ export default function ResumePreview({
           </div>
         )}
 
-        {/* Row 1: Phone, Email, LinkedIn */}
         <div className="contact-line">
           {phoneStr && (
             <span className="contact-item">
@@ -474,7 +514,6 @@ export default function ResumePreview({
           )}
         </div>
 
-        {/* Row 2: GitHub & Website */}
         {(gitHubStr || websiteStr) && (
           <div className="contact-line">
             {gitHubStr && (
@@ -499,7 +538,6 @@ export default function ResumePreview({
     );
   };
 
-  // Heuristic Section Content Fallback (No Hardcoded Companies)
   const renderSectionContent = (sec) => {
     const isExperience = sec.title.toUpperCase().includes("EXPERIENCE") || sec.title.toUpperCase().includes("EMPLOYMENT") || sec.title.toUpperCase().includes("WORK");
     const isEducation = sec.title.toUpperCase().includes("EDUCATION") || sec.title.toUpperCase().includes("ACADEMIC");
@@ -526,7 +564,6 @@ export default function ResumePreview({
           currentBulletCluster = null;
         }
 
-        // Date line detection (Company / Institution with Date)
         const dateMatch = line.match(dateRegex);
         if ((isExperience || isEducation) && dateMatch) {
           const dateStr = dateMatch[1];
@@ -654,7 +691,7 @@ export default function ResumePreview({
     <div className="glass-card preview-card-wrapper" style={{ overflow: 'hidden', border: '1px solid var(--border-subtle)' }}>
       {/* Resume View Toolbar (Hidden during Print) */}
       <div className="panel-header resume-toolbar no-print" style={{ background: 'rgba(15, 23, 42, 0.95)', borderBottom: '1px solid var(--border-subtle)', flexWrap: 'wrap', gap: '0.5rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
           <button
             type="button"
             className={`btn btn-sm ${activeTab === 'sheet' ? 'btn-primary' : 'btn-ghost'}`}
@@ -671,7 +708,7 @@ export default function ResumePreview({
             onClick={() => setActiveTab('diff')}
           >
             <Layers size={12} />
-            Bullet Impact Diff ({bulletChanges.length})
+            Diff ({bulletChanges.length})
           </button>
           <button
             type="button"
@@ -680,11 +717,11 @@ export default function ResumePreview({
             onClick={() => setActiveTab('raw')}
           >
             <FileText size={12} />
-            Original Verbatim
+            Verbatim
           </button>
         </div>
 
-        <div className="preview-toolbar" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+        <div className="preview-toolbar" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
           {activeTab === 'sheet' && (
             <>
               {/* LaTeX / Modern ATS Template Toggle */}
@@ -700,7 +737,7 @@ export default function ResumePreview({
                 title="Toggle between Overleaf/LaTeX style and Modern Sans-Serif ATS style"
               >
                 <GraduationCap size={13} />
-                {templateStyle === 'latex' ? '🎓 LaTeX / Overleaf' : '💼 Modern ATS'}
+                {templateStyle === 'latex' ? '🎓 LaTeX' : '💼 Modern'}
               </button>
 
               {/* Density Toggle (Compact 1-Page vs Standard) */}
@@ -710,13 +747,13 @@ export default function ResumePreview({
                 style={{
                   fontSize: '0.725rem',
                   color: density === 'compact' ? '#34d399' : 'var(--text-secondary)',
-                  borderColor: density === 'compact' ? 'rgba(168, 85, 247, 0.4)' : 'var(--border-subtle)'
+                  borderColor: density === 'compact' ? 'rgba(16, 185, 129, 0.4)' : 'var(--border-subtle)'
                 }}
                 onClick={() => setDensity(density === 'compact' ? 'standard' : 'compact')}
                 title="Toggle tight 1-page compact fit"
               >
                 {density === 'compact' ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
-                {density === 'compact' ? '1-Page Fit: ON' : 'Standard Spacing'}
+                {density === 'compact' ? 'Compact' : 'Standard'}
               </button>
 
               <button
@@ -731,7 +768,7 @@ export default function ResumePreview({
                 title="Toggle visual diff highlights on rewritten bullet points"
               >
                 <Sparkles size={12} />
-                Diff Highlights
+                Diff
               </button>
 
               <button
@@ -755,9 +792,74 @@ export default function ResumePreview({
                 onClick={() => setIsEditing(!isEditing)}
               >
                 <Edit3 size={12} />
-                {isEditing ? 'View Sheet' : 'Edit Text'}
+                {isEditing ? 'View Sheet' : 'Edit'}
               </button>
             </>
+          )}
+
+          {/* Mobile Auto-Fit & Zoom Controls */}
+          {activeTab !== 'diff' && !isEditing && (
+            <div
+              className="resume-zoom-toolbar"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.15rem',
+                background: 'rgba(255, 255, 255, 0.06)',
+                borderRadius: '6px',
+                padding: '0.15rem 0.35rem',
+                border: '1px solid var(--border-subtle)'
+              }}
+            >
+              <button
+                type="button"
+                onClick={handleZoomOut}
+                title="Zoom Out"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#94a3b8',
+                  cursor: 'pointer',
+                  padding: '0.15rem 0.3rem',
+                  fontSize: '0.8rem',
+                  fontWeight: 700
+                }}
+              >
+                −
+              </button>
+              <button
+                type="button"
+                onClick={() => setZoomMode(zoomMode === 'auto' ? 1 : 'auto')}
+                title="Toggle between Mobile Auto-Fit and 100% full scale"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: zoomMode === 'auto' ? '#c084fc' : '#38bdf8',
+                  cursor: 'pointer',
+                  padding: '0.15rem 0.35rem',
+                  fontSize: '0.68rem',
+                  fontWeight: 600
+                }}
+              >
+                {zoomMode === 'auto' ? `Fit (${Math.round(effectiveScale * 100)}%)` : `${Math.round(effectiveScale * 100)}%`}
+              </button>
+              <button
+                type="button"
+                onClick={handleZoomIn}
+                title="Zoom In"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#94a3b8',
+                  cursor: 'pointer',
+                  padding: '0.15rem 0.3rem',
+                  fontSize: '0.8rem',
+                  fontWeight: 700
+                }}
+              >
+                +
+              </button>
+            </div>
           )}
 
           <button
@@ -767,7 +869,7 @@ export default function ResumePreview({
             title="Copy plain text formatted for online application portals"
           >
             {copiedText ? <Check size={13} style={{ color: '#10b981' }} /> : <Copy size={13} />}
-            {copiedText ? 'Copied' : 'Copy Text'}
+            {copiedText ? 'Copied' : 'Copy'}
           </button>
 
           {/* Watermark / Pro Subscription Toggle Button */}
@@ -784,7 +886,7 @@ export default function ResumePreview({
             title={isPro ? "Pro Member: 100% Watermark-Free Active" : "Subscribe to Pro for a small fee to remove watermark"}
           >
             <Crown size={12} />
-            {isPro ? '👑 Pro: No Watermark' : '⚡ Remove Watermark'}
+            {isPro ? '👑 Pro Active' : '⚡ No Watermark'}
           </button>
 
           <button
@@ -815,7 +917,7 @@ export default function ResumePreview({
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <GraduationCap size={13} style={{ color: '#c084fc', flexShrink: 0 }} />
           <span>
-            <strong>LaTeX / Overleaf Mode Active:</strong> Authentic Computer Modern Serif font & 0.4in margins. Universal parser active for all resume formats.
+            <strong>LaTeX / Overleaf Mode Active:</strong> Computer Modern Serif & 0.4in margins. Mobile auto-fit zoom active.
           </span>
         </div>
 
@@ -848,26 +950,44 @@ export default function ResumePreview({
         </div>
       </div>
 
-      <div className="panel-body" style={{ background: 'rgba(8, 12, 22, 0.95)', padding: '0.75rem 0.5rem', overflowX: 'auto' }}>
+      <div className="panel-body resume-preview-body" style={{ background: 'rgba(8, 12, 22, 0.95)', padding: '0.75rem 0.5rem', overflowX: 'auto' }}>
         {activeTab === 'diff' ? (
           <DiffViewer bulletChanges={bulletChanges} />
         ) : activeTab === 'raw' ? (
           /* EXACT ORIGINAL VERBATIM VIEW */
-          <div id="resume-printable-area" className="resume-sheet-container">
-            <div className={`resume-paper ${templateStyle === 'latex' ? 'latex-mode' : ''} ${density === 'compact' ? 'compact-mode' : ''}`} style={{ whiteSpace: 'pre-wrap' }}>
-              {renderTextWithHighlights(resumeText)}
-              <div className={`resume-watermark-footer ${isPro ? 'pro-hidden' : ''}`}>
-                <span className="resume-watermark-tag">
-                  Built with Resumezy ATS Shield (guidezy.in/resumezy)
-                </span>
-                <button
-                  type="button"
-                  className="no-print resume-watermark-pro-btn"
-                  onClick={onOpenSubscription}
-                  title="Subscribe to Pro to remove this watermark from exported PDFs"
-                >
-                  👑 Remove Watermark (Pro)
-                </button>
+          <div ref={containerRef} id="resume-printable-area" className="resume-sheet-container">
+            <div
+              className="resume-zoom-viewport"
+              style={{
+                width: effectiveScale < 0.99 ? `${Math.round(816 * effectiveScale)}px` : 'auto',
+                overflow: 'visible',
+                transition: 'width 0.15s ease'
+              }}
+            >
+              <div
+                ref={paperRef}
+                className={`resume-paper ${templateStyle === 'latex' ? 'latex-mode' : ''} ${density === 'compact' ? 'compact-mode' : ''}`}
+                style={{
+                  whiteSpace: 'pre-wrap',
+                  transform: effectiveScale !== 1 ? `scale(${effectiveScale})` : 'none',
+                  transformOrigin: 'top center',
+                  marginBottom: effectiveScale < 0.99 ? `-${Math.round((1 - effectiveScale) * paperHeight)}px` : undefined,
+                }}
+              >
+                {renderTextWithHighlights(resumeText)}
+                <div className={`resume-watermark-footer ${isPro ? 'pro-hidden' : ''}`}>
+                  <span className="resume-watermark-tag">
+                    Built with Resumezy ATS Shield (guidezy.in/resumezy)
+                  </span>
+                  <button
+                    type="button"
+                    className="no-print resume-watermark-pro-btn"
+                    onClick={onOpenSubscription}
+                    title="Subscribe to Pro to remove this watermark from exported PDFs"
+                  >
+                    👑 Remove Watermark (Pro)
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -886,39 +1006,56 @@ export default function ResumePreview({
           </div>
         ) : (
           /* FORMATTED SHEET VIEW (STRUCTURED JSON OR HEURISTIC) */
-          <div id="resume-printable-area" className="resume-sheet-container">
-            <div className={`resume-paper ${templateStyle === 'latex' ? 'latex-mode' : ''} ${density === 'compact' ? 'compact-mode' : ''} ${highlightDiff ? 'highlight-diff' : ''}`}>
-              {hasStructuredData ? (
-                <>
-                  {renderStructuredCandidateHeader(structuredResume.header)}
-                  {structuredResume.sections.map((sec, secIdx) => renderStructuredSection(sec, secIdx))}
-                </>
-              ) : (
-                sections && sections.map((sec, secIdx) => {
-                  if (sec.title === "HEADER") {
-                    return <React.Fragment key={secIdx}>{renderCandidateHeader(sec)}</React.Fragment>;
-                  }
+          <div ref={containerRef} id="resume-printable-area" className="resume-sheet-container">
+            <div
+              className="resume-zoom-viewport"
+              style={{
+                width: effectiveScale < 0.99 ? `${Math.round(816 * effectiveScale)}px` : 'auto',
+                overflow: 'visible',
+                transition: 'width 0.15s ease'
+              }}
+            >
+              <div
+                ref={paperRef}
+                className={`resume-paper ${templateStyle === 'latex' ? 'latex-mode' : ''} ${density === 'compact' ? 'compact-mode' : ''} ${highlightDiff ? 'highlight-diff' : ''}`}
+                style={{
+                  transform: effectiveScale !== 1 ? `scale(${effectiveScale})` : 'none',
+                  transformOrigin: 'top center',
+                  marginBottom: effectiveScale < 0.99 ? `-${Math.round((1 - effectiveScale) * paperHeight)}px` : undefined,
+                }}
+              >
+                {hasStructuredData ? (
+                  <>
+                    {renderStructuredCandidateHeader(structuredResume.header)}
+                    {structuredResume.sections.map((sec, secIdx) => renderStructuredSection(sec, secIdx))}
+                  </>
+                ) : (
+                  sections && sections.map((sec, secIdx) => {
+                    if (sec.title === "HEADER") {
+                      return <React.Fragment key={secIdx}>{renderCandidateHeader(sec)}</React.Fragment>;
+                    }
 
-                  return (
-                    <div key={secIdx} className="resume-section">
-                      <div className="section-title">{sec.title}</div>
-                      {renderSectionContent(sec)}
-                    </div>
-                  );
-                })
-              )}
-              <div className={`resume-watermark-footer ${isPro ? 'pro-hidden' : ''}`}>
-                <span className="resume-watermark-tag">
-                  Built with Resumezy ATS Shield (guidezy.in/resumezy)
-                </span>
-                <button
-                  type="button"
-                  className="no-print resume-watermark-pro-btn"
-                  onClick={onOpenSubscription}
-                  title="Subscribe to Pro to remove this watermark from exported PDFs"
-                >
-                  👑 Remove Watermark (Pro)
-                </button>
+                    return (
+                      <div key={secIdx} className="resume-section">
+                        <div className="section-title">{sec.title}</div>
+                        {renderSectionContent(sec)}
+                      </div>
+                    );
+                  })
+                )}
+                <div className={`resume-watermark-footer ${isPro ? 'pro-hidden' : ''}`}>
+                  <span className="resume-watermark-tag">
+                    Built with Resumezy ATS Shield (guidezy.in/resumezy)
+                  </span>
+                  <button
+                    type="button"
+                    className="no-print resume-watermark-pro-btn"
+                    onClick={onOpenSubscription}
+                    title="Subscribe to Pro to remove this watermark from exported PDFs"
+                  >
+                    👑 Remove Watermark (Pro)
+                  </button>
+                </div>
               </div>
             </div>
           </div>

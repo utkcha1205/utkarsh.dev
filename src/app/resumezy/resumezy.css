@@ -564,3 +564,75 @@
   font-weight: 600;
 }
 
+
+
+/* ========================================================= */
+/* MOBILE AUTO-FIT ZOOM & PWA ENHANCEMENTS                  */
+/* ========================================================= */
+.resume-sheet-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0.5rem 0;
+  background: transparent;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.resume-zoom-viewport {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transition: width 0.15s ease;
+  position: relative;
+}
+
+.resume-zoom-toolbar button:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.score-comparison-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .resume-toolbar {
+    padding: 0.5rem 0.5rem !important;
+  }
+
+  .resume-toolbar > div {
+    gap: 0.25rem !important;
+  }
+
+  .resume-toolbar .btn-sm {
+    font-size: 0.68rem !important;
+    padding: 0.25rem 0.45rem !important;
+  }
+
+  .resume-preview-body {
+    padding: 0.5rem 0.25rem !important;
+  }
+
+  .score-comparison-row {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+  .score-comparison-row > div:nth-child(2) {
+    grid-column: 1 / -1 !important;
+    order: 3 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions {
+    justify-content: flex-end;
+  }
+
+  .pwa-install-btn {
+    font-size: 0.65rem !important;
+    padding: 0.2rem 0.4rem !important;
+  }
+}
