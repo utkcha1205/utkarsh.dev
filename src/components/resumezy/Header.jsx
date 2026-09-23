@@ -1,13 +1,15 @@
 ﻿import React from 'react';
 import Link from 'next/link';
-import { ShieldCheck, Settings, Sparkles, Printer, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, Settings, Sparkles, Printer, ArrowLeft, Crown } from 'lucide-react';
 
 export default function Header({
   onOpenSettings,
   onLoadQuickDemo,
   onPrint,
   hasOptimized,
-  atsScore
+  atsScore,
+  isPro,
+  onOpenSubscription
 }) {
   return (
     <header className="app-header">
@@ -70,6 +72,27 @@ export default function Header({
               Export PDF / Print
             </button>
           )}
+
+          <button
+            type="button"
+            className="btn btn-sm"
+            onClick={onOpenSubscription}
+            title={isPro ? "Pro Plan Active (Watermark Removed)" : "Subscribe for fee to remove watermark"}
+            style={{
+              background: isPro
+                ? 'rgba(16, 185, 129, 0.15)'
+                : 'linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(59, 130, 246, 0.25) 100%)',
+              border: isPro ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid rgba(168, 85, 247, 0.4)',
+              color: isPro ? '#34d399' : '#e9d5ff',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontWeight: 600
+            }}
+          >
+            <Crown size={14} style={{ color: isPro ? '#34d399' : '#c084fc' }} />
+            <span>{isPro ? '👑 Pro Active' : '⚡ Pro Plan'}</span>
+          </button>
 
           <button
             type="button"

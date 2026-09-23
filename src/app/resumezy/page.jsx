@@ -9,12 +9,14 @@ import ScoreDashboard from '@/components/resumezy/ScoreDashboard';
 import ResumePreview from '@/components/resumezy/ResumePreview';
 import SettingsModal from '@/components/resumezy/SettingsModal';
 import ConsentModal from '@/components/resumezy/ConsentModal';
+import SubscriptionModal from '@/components/resumezy/SubscriptionModal';
 import { sampleResumes } from '@/lib/resumezy/sampleResumes';
 import { sampleJDs } from '@/lib/resumezy/sampleJDs';
 import { runAgentPipeline } from '@/lib/resumezy/agentPipeline';
 import { auditResumeAgainstJD } from '@/lib/resumezy/atsAuditor';
 import { extractKeywordsFromJD } from '@/lib/resumezy/keywordExtractor';
 import { generateProposedChanges, applyConsentedChanges } from '@/lib/resumezy/consentEngine';
+import { structureResumeWithAI, structureResumeHeuristic } from '@/lib/resumezy/resumeStructurer';
 
 export default function ResumezyPage() {
   // Input States
@@ -22,6 +24,7 @@ export default function ResumezyPage() {
   const [originalResumeBackup, setOriginalResumeBackup] = useState(sampleResumes.software_engineer.text);
   const [jdText, setJdText] = useState(sampleJDs.stripe_backend.text);
   const [uploadedFileInfo, setUploadedFileInfo] = useState(null);
+  const [structuredResume, setStructuredResume] = useState(null);
 
   // Template Lock & Consent States (Default: Strictly Locked)
   const [lockTemplate, setLockTemplate] = useState(true);
@@ -52,13 +55,33 @@ export default function ResumezyPage() {
   const [apiKey, setApiKey] = useState('');
   const [selectedModel, setSelectedModel] = useState('gemini-1.5-flash');
 
+  // Pro Subscription / Watermark Removal State
+  const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
+  const [isPro, setIsPro] = useState(false);
+
+  const handleTogglePro = (status) => {
+    setIsPro(status);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('resumezy_is_pro', status ? 'true' : 'false');
+    }
+    if (status) {
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+  };
+
   // Load API Key from localStorage on mount & initial audit
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedKey = localStorage.getItem('resumezy_api_key');
       const savedModel = localStorage.getItem('resumezy_model');
+      const savedPro = localStorage.getItem('resumezy_is_pro');
       if (savedKey) setApiKey(savedKey);
       if (savedModel) setSelectedModel(savedModel);
+      if (savedPro === 'true') setIsPro(true);
 
       // Baseline audit
       const initialKeywords = extractKeywordsFromJD(sampleJDs.stripe_backend.text);
@@ -70,6 +93,13 @@ export default function ResumezyPage() {
         scoreDelta: 0
       });
       setOptimizedResumeText(sampleResumes.software_engineer.text);
+      const initStruct = structureResumeHeuristic(sampleResumes.software_engineer.text);
+      if (initStruct) setStructuredResume(initStruct);
+      if (savedKey) {
+        structureResumeWithAI(sampleResumes.software_engineer.text, savedKey).then(res => {
+          if (res) setStructuredResume(res);
+        }).catch(() => {});
+      }
     }
   }, []);
 
@@ -81,6 +111,20 @@ export default function ResumezyPage() {
     setHasOptimized(false);
     setBulletChanges([]);
     setProposedChanges([]);
+
+    // Immediately compute heuristic structure for instant rendering with zero delay
+    const initialStruct = structureResumeHeuristic(newText);
+    if (initialStruct) setStructuredResume(initialStruct);
+
+    // If API key is available, enhance with AI in background
+    const currentApiKey = apiKey || (typeof window !== 'undefined' ? localStorage.getItem('resumezy_api_key') : '');
+    if (currentApiKey) {
+      structureResumeWithAI(newText, currentApiKey).then(aiStruct => {
+        if (aiStruct) setStructuredResume(aiStruct);
+      }).catch(err => {
+        console.warn("AI resume structuring background error:", err);
+      });
+    }
 
     if (fileInfo !== undefined) {
       setUploadedFileInfo(fileInfo);
@@ -95,6 +139,12 @@ export default function ResumezyPage() {
         scoreDelta: 0
       });
     }
+  };
+
+  const handleUpdateOptimizedResume = (updatedText) => {
+    setOptimizedResumeText(updatedText);
+    const updatedStruct = structureResumeHeuristic(updatedText);
+    if (updatedStruct) setStructuredResume(updatedStruct);
   };
 
   const handleSaveApiKey = (key) => {
@@ -186,9 +236,13 @@ export default function ResumezyPage() {
       if (lockTemplate) {
         const surgicalResume = applyConsentedChanges(resumeText, initialChanges, true);
         setOptimizedResumeText(surgicalResume);
+        const updatedStruct = structureResumeHeuristic(surgicalResume);
+        if (updatedStruct) setStructuredResume(updatedStruct);
         addLog('PassGuarantor Agent', 'Strict Template Lock: User template structure and ordering 100% preserved.', '#10b981');
       } else {
         setOptimizedResumeText(result.optimizedResumeText);
+        const updatedStruct = structureResumeHeuristic(result.optimizedResumeText);
+        if (updatedStruct) setStructuredResume(updatedStruct);
       }
 
       setScorecard(result.scorecard);
@@ -219,6 +273,8 @@ export default function ResumezyPage() {
     // Surgically apply consented changes to original resume text
     const updated = applyConsentedChanges(originalResumeBackup || resumeText, approvedList, lockTemplate);
     setOptimizedResumeText(updated);
+    const updatedStruct = structureResumeHeuristic(updated);
+    if (updatedStruct) setStructuredResume(updatedStruct);
 
     // Re-audit with updated text
     if (jdKeywordsData) {
@@ -242,7 +298,14 @@ export default function ResumezyPage() {
   };
 
   const handlePrint = () => {
+    const originalTitle = document.title;
+    const currentText = (hasOptimized && optimizedResumeText) ? optimizedResumeText : resumeText;
+    const candidateName = currentText ? currentText.split('\n')[0].trim().replace(/[^\w\s-]/g, '') : 'Resume';
+    document.title = `${candidateName} - Resume`;
     window.print();
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 1500);
   };
 
   return (
@@ -254,6 +317,8 @@ export default function ResumezyPage() {
         onPrint={handlePrint}
         hasOptimized={hasOptimized}
         atsScore={scorecard ? scorecard.overallScore : null}
+        isPro={isPro}
+        onOpenSubscription={() => setIsSubscriptionModalOpen(true)}
       />
       </div>
 
@@ -284,7 +349,7 @@ export default function ResumezyPage() {
           </div>
 
           {/* RIGHT COLUMN: Scorecard & Formatted Resume Preview */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div id="resume-printable-area-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div className="no-print score-dashboard-wrapper">
               {scorecard && (
                 <ScoreDashboard
@@ -320,10 +385,13 @@ export default function ResumezyPage() {
 
             <ResumePreview
               resumeText={optimizedResumeText || resumeText}
-              onUpdateResumeText={setOptimizedResumeText}
+              onUpdateResumeText={handleUpdateOptimizedResume}
               bulletChanges={bulletChanges}
               jdKeywordsData={jdKeywordsData}
               onPrint={handlePrint}
+              isPro={isPro}
+              onOpenSubscription={() => setIsSubscriptionModalOpen(true)}
+              structuredResume={structuredResume}
             />
           </div>
         </div>
@@ -349,6 +417,14 @@ export default function ResumezyPage() {
         onApplyChanges={handleApplyConsentedChanges}
         baselineScore={scorecard?.baselineScore || 48}
         projectedScore={scorecard?.overallScore || 96}
+      />
+
+      {/* Pro Plan & Watermark Removal Modal */}
+      <SubscriptionModal
+        isOpen={isSubscriptionModalOpen}
+        onClose={() => setIsSubscriptionModalOpen(false)}
+        isPro={isPro}
+        onTogglePro={handleTogglePro}
       />
     </div>
   );

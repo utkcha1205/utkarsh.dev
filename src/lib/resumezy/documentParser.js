@@ -85,15 +85,73 @@ export async function parseUploadedResumeFile(file) {
       let fullText = extractedLines.join("\n").trim();
 
       // Clean LaTeX / Overleaf artifacts:
-      // 1. Fix line-break hyphenation (e.g. "Re-\nact," -> "React,")
+      // 1. Strip carriage returns
+      fullText = fullText.replace(/\r/g, '');
+
+      // 2. Fix line-break hyphenation (e.g. "Re-\nact," -> "React,")
       fullText = fullText.replace(/(\b[A-Za-z]+)-\s*\n\s*([a-z]+)\b/g, '$1$2');
 
-      // 2. Remove trailing isolated page numbers (e.g., lone "1" or "Page 1 of 1" at the bottom)
+      // 3. Remove trailing isolated page numbers (e.g., lone "1" or "Page 1 of 1" at the bottom)
       fullText = fullText.replace(/\n\s*\d+\s*$/g, '').trim();
 
-      // 3. Remove stray LaTeX / FontAwesome glyph characters (e.g. \u0083, #, ï, §) from contact headers
-      fullText = fullText.replace(/[\u0080-\u009F\uF000-\uFFFFï§#\u00A7\u00EF\u0083]/g, ' ');
+      // 4. Replace known FontAwesome PUA codepoints and LaTeX Type1 font artifacts with semantic pipe separators
+      const faMap = {
+        '\uF095': ' | ', // phone
+        '\uF0E0': ' | ', // envelope/email
+        '\uF08C': ' | ', // linkedin
+        '\uF09B': ' | ', // github
+        '\uF015': ' | ', // home
+        '\uF0AC': ' | ', // globe
+        '\uF041': ' | ', // map-marker
+        '\uF1D0': ' | ', // mortar-board/graduation
+        '\uF007': ' | ', // user
+        '\uF0B1': ' | ', // briefcase
+        '\uF02B': ' | ', // tag
+        '\uF0C1': ' | ', // link
+        '\uF2C2': ' | ', // address-card
+        '\uF1DA': ' | ', // history
+      };
+      for (const [cp, repl] of Object.entries(faMap)) {
+        fullText = fullText.split(cp).join(repl);
+      }
+
+      // Handle Type1/OT1 FontAwesome encoding artifacts conservatively:
+      // Only replace ï, §, ƒ in header lines or near contact handles so normal body text is preserved
+      const docLines = fullText.split('\n');
+      fullText = docLines.map((line, idx) => {
+        if (idx < 10 || /linkedin|github|@|\+?\d/i.test(line)) {
+          return line
+            .replace(/[\u0083\u0192]/g, ' ')
+            .replace(/\u00EF/g, ' | ')
+            .replace(/\u00A7/g, ' | ');
+        }
+        return line;
+      }).join('\n');
+
+      // Clean # when used as email/contact icon delimiter (e.g. "# user@email.com")
+      // but PRESERVE programming language names like C#, F#, C# .NET
+      fullText = fullText.replace(/(?:^|\s)#\s*(?=[a-zA-Z0-9._%+-]+@|\+?\d|linkedin|github)/gim, ' | ');
+
+      // 5. Remove remaining Private Use Area chars (\uE000-\uF8FF), C0 control (\u0080-\u009F),
+      //    Specials block (\uFFF0-\uFFFF), and stray non-printable characters.
+      //    KEEP # (needed for C#, C++) and normal Latin characters.
+      fullText = fullText.replace(/[\u0080-\u009F\uE000-\uF8FF\uFFF0-\uFFFF\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ' ');
+
+      // 6. Clean up multiple spaces and leading/trailing whitespace per line
       fullText = fullText.split('\n').map(l => l.replace(/\s{2,}/g, ' ').trim()).join('\n');
+
+      // 7. Collapse 3+ blank lines into 2
+      fullText = fullText.replace(/\n{3,}/g, '\n\n');
+
+      // 8. Clean up pipes on each line (leading, trailing, duplicate pipes)
+      fullText = fullText.split('\n').map(l => {
+        return l
+          .replace(/\s*\|\s*/g, ' | ')
+          .replace(/(?:\s*\|\s*){2,}/g, ' | ')
+          .replace(/^\s*\|\s*/, '')
+          .replace(/\s*\|\s*$/, '')
+          .trim();
+      }).join('\n');
 
       if (fullText.length > 20) {
         return {

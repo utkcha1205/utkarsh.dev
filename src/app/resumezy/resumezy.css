@@ -266,7 +266,7 @@
 /* App Grid Layout */
 .workspace-grid {
   display: grid;
-  grid-template-columns: minmax(420px, 1fr) minmax(830px, 1.12fr);
+  grid-template-columns: minmax(380px, 1fr) minmax(600px, 1.12fr);
   gap: 1.5rem;
   align-items: start;
 }
@@ -274,6 +274,122 @@
 @media (max-width: 1100px) {
   .workspace-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================================= */
+/* MOBILE RESPONSIVE OVERRIDES                               */
+/* ========================================================= */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0.75rem 0.5rem 2rem 0.5rem;
+  }
+
+  .app-header {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .brand-logo-badge {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-title {
+    font-size: 1rem;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .header-actions .btn {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .workspace-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .glass-card {
+    border-radius: var(--radius-md);
+  }
+
+  .panel-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .panel-header > div {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .panel-body {
+    padding: 0.75rem;
+  }
+
+  .btn-sm {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .btn-lg {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .preset-chips {
+    gap: 0.3rem;
+  }
+
+  .chip {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0.5rem 0.25rem 1.5rem 0.25rem;
+  }
+
+  .app-header {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .brand-tag {
+    display: none;
+  }
+
+  .panel-header {
+    padding: 0.5rem 0.5rem;
+  }
+
+  .panel-body {
+    padding: 0.5rem;
+  }
+
+  .custom-textarea {
+    font-size: 0.78rem;
+    padding: 0.6rem;
+  }
+
+  .custom-input {
+    font-size: 0.78rem;
+    padding: 0.5rem 0.6rem;
   }
 }
 
